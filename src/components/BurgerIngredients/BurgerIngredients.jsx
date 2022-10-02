@@ -26,7 +26,7 @@ const BurgerIngredients = ({ data }) => {
 					<p className='text text_type_main-medium mb-6'>{Products[current]}</p>
 					<div className='pl-4' style={{ display: 'flex', gap: '24px', flexWrap: 'wrap' }} >
 						{data.map((item) => current === item.type
-							? (<CardItems image={item.image} name={item.name} price={item.price} counter={item.__v} />)
+							? (<CardItems key={item._id} image={item.image} name={item.name} price={item.price} counter={item.__v} />)
 							: null)}
 					</div>
 				</div>
