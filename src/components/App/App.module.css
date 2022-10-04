@@ -1,16 +1,22 @@
 .app {
   width: 100%;
-  /* height: 100%; */
-  padding: 40px;
   box-sizing: border-box;
 }
+
 .main {
   display: flex;
   justify-content: space-between;
   max-width: 1240px;
   margin: 0 auto;
 }
+
 .wrapper {
   width: 100%;
   max-width: 600px;
+}
+.messages {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
 }

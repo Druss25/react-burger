@@ -1,25 +1,25 @@
 import React from 'react'
 import { Button, ConstructorElement, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components'
-
+import BurgerConstructorStyles from './BurgerConstructor.module.css'
 
 const BurgerConstructor = () => {
 
 
 	return (
 		<>
-			<div className='constructor-element__row mt-25' style={{ flexDirection: 'column' }}>
+			<div className={`${BurgerConstructorStyles.wrapper} constructor-element__row mt-25`}>
 				<div className='mb-4'>
 					<ConstructorElement
 						type="top"
-						isLocked={true}
+						isLocked
 						text="Краторная булка N-200i (верх)"
 						price={20}
 						thumbnail={'https://code.s3.yandex.net/react/code/bun-02.png'}
 					/>
 				</div>
 
-				<div className='custom-scroll constructor-element__row pr-4' style={{ flexDirection: 'column', gap: '16px', maxHeight: '464px', overflowY: 'scroll' }}>
-					<div className='constructor-element__row' style={{ gap: 8 }}>
+				<div className={`${BurgerConstructorStyles.list_items} custom-scroll constructor-element__row pr-4`}>
+					<div className={`${BurgerConstructorStyles.item} constructor-element__row`}>
 						<DragIcon type="primary" />
 						<ConstructorElement
 							text="Соус традиционный галактический"
@@ -27,7 +27,7 @@ const BurgerConstructor = () => {
 							thumbnail={'https://code.s3.yandex.net/react/code/sauce-03.png'}
 						/>
 					</div>
-					<div className='constructor-element__row' style={{ gap: 8 }}>
+					<div className={`${BurgerConstructorStyles.item} constructor-element__row`}>
 						<DragIcon type="primary" />
 						<ConstructorElement
 							text="Мясо бессмертных моллюсков Protostomia"
@@ -35,7 +35,7 @@ const BurgerConstructor = () => {
 							thumbnail={'https://code.s3.yandex.net/react/code/meat-02.png'}
 						/>
 					</div>
-					<div className='constructor-element__row' style={{ gap: 8 }}>
+					<div className={`${BurgerConstructorStyles.item} constructor-element__row`}>
 						<DragIcon type="primary" />
 						<ConstructorElement
 							text="Плоды Фалленианского дерева"
@@ -43,7 +43,7 @@ const BurgerConstructor = () => {
 							thumbnail={'https://code.s3.yandex.net/react/code/sp_1.png'}
 						/>
 					</div>
-					<div className='constructor-element__row' style={{ gap: 8 }}>
+					<div className={`${BurgerConstructorStyles.item} constructor-element__row`}>
 						<DragIcon type="primary" />
 						<ConstructorElement
 							text="Хрустящие минеральные кольца"
@@ -51,7 +51,7 @@ const BurgerConstructor = () => {
 							thumbnail={'https://code.s3.yandex.net/react/code/mineral_rings.png'}
 						/>
 					</div>
-					<div className='constructor-element__row' style={{ gap: 8 }}>
+					<div className={`${BurgerConstructorStyles.item} constructor-element__row`}>
 						<DragIcon type="primary" />
 						<ConstructorElement
 							text="Хрустящие минеральные кольца"
@@ -59,7 +59,7 @@ const BurgerConstructor = () => {
 							thumbnail={'https://code.s3.yandex.net/react/code/mineral_rings.png'}
 						/>
 					</div>
-					<div className='constructor-element__row' style={{ gap: 8 }} >
+					<div className={`${BurgerConstructorStyles.item} constructor-element__row`}>
 						<DragIcon type="primary" />
 						<ConstructorElement
 							text="Кристаллы марсианских альфа-сахаридов"
@@ -67,7 +67,7 @@ const BurgerConstructor = () => {
 							thumbnail={'https://code.s3.yandex.net/react/code/core.png'}
 						/>
 					</div>
-					<div className='constructor-element__row' style={{ gap: 8 }}>
+					<div className={`${BurgerConstructorStyles.item} constructor-element__row`}>
 						<DragIcon type="primary" />
 						<ConstructorElement
 							text="Филе Люминесцентного тетраодонтимформа"
@@ -81,7 +81,7 @@ const BurgerConstructor = () => {
 				<div className='mt-4'>
 					<ConstructorElement
 						type="bottom"
-						isLocked={true}
+						isLocked
 						text="Краторная булка N-200i (низ)"
 						price={20}
 						thumbnail={'https://code.s3.yandex.net/react/code/bun-02.png'}
@@ -89,7 +89,7 @@ const BurgerConstructor = () => {
 				</div>
 			</div>
 
-			<div className='constructor-element__row mt-10' style={{ height: '64px', justifyContent: 'end' }}>
+			<div className={`${BurgerConstructorStyles.wrapper_total} constructor-element__row mt-10`}>
 				<div className='constructor-element__row mr-10'>
 					<p className='text text_type_digits-medium mr-2'>610</p>
 					<CurrencyIcon type="primary" />

@@ -1,0 +1,20 @@
+.wrapper {
+  justify-items: center;
+  flex-direction: column;
+  position: relative;
+  width: 100%;
+  max-width: 272px;
+}
+.counter {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.title {
+  width: 100%;
+  text-align: center;
+  height: 48px;
+}
+.wrapper_price {
+  justify-content: center;
+}

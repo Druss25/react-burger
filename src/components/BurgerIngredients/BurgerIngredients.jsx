@@ -1,15 +1,28 @@
 import React from 'react'
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import PropTypes from 'prop-types'
-import CardItems from '../CardItems/CardItems'
-import { MyData, Products } from '../../utils/data'
+import CardItem from '../CardItem/CardItem'
+import BurgerIngredientsStyles from './BurgerIngredients.module.css'
+import { dataPropTypes, typeProducts } from '../../utils/data'
 
 const BurgerIngredients = ({ data }) => {
 	const [current, setCurrent] = React.useState('bun')
 
+	const getProducts = () => {
+		let arr = []
+		for (const name in typeProducts) {
+  		arr.push(name)
+		}
+		arr.pop(arr.length - 1)
+		return arr
+	}
+
+	const arrProducts = getProducts()
+	const className = 'text text_type_main-medium mb-6'
+	
 	return (
 		<>
-			<div className='mt-5 mb-10' style={{ display: 'flex' }}>
+			<div className={`${BurgerIngredientsStyles.wrapper_tab} mt-5 mb-10`}>
 				<Tab value="bun" active={current === 'bun'} onClick={setCurrent}>
 					Булки
 				</Tab>
@@ -21,14 +34,19 @@ const BurgerIngredients = ({ data }) => {
 				</Tab>
 			</div>
 
-			<div className='custom-scroll' style={{ maxHeight: '664px', overflowY: 'auto' }}>
-				<div style={{ height: '100%' }}>
-					<p className='text text_type_main-medium mb-6'>{Products[current]}</p>
-					<div className='pl-4' style={{ display: 'flex', gap: '24px', flexWrap: 'wrap' }} >
-						{data.map((item) => current === item.type
-							? (<CardItems key={item._id} image={item.image} name={item.name} price={item.price} counter={item.__v} />)
-							: null)}
-					</div>
+			<div className={`${BurgerIngredientsStyles.wrapper} custom-scroll`} >
+				<div className={BurgerIngredientsStyles.content}>
+					{ arrProducts.map((product) => (
+					<div key={product} id={product} >
+						<p className={product !== arrProducts[0] ? `${className} mt-10` : `${className}` } >{typeProducts[product]}</p>
+						<div className={`${BurgerIngredientsStyles.wrapper_card} pl-4`}>
+							{data.map((item) =>product === item.type 
+									? (<CardItem key={item._id} image={item.image} name={item.name} price={item.price} />)
+									: null
+							)}	
+						</div>
+					</div>	
+					))}
 				</div>
 			</div>
 		</>
@@ -36,7 +54,7 @@ const BurgerIngredients = ({ data }) => {
 }
 
 BurgerIngredients.propTypes = {
-	data: PropTypes.arrayOf(MyData).isRequired
+	data: PropTypes.arrayOf(dataPropTypes).isRequired
 };
 
 export default BurgerIngredients
