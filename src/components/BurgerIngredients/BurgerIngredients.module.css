@@ -1,0 +1,17 @@
+.wrapper_tab {
+  display: flex;
+}
+.wrapper {
+  max-height: 664px;
+  overflow-y: auto;
+}
+.content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.wrapper_card {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
