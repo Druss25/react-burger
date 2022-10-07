@@ -6,8 +6,7 @@ import ModalStyles from './Modal.module.css'
 
 
 function Modal(props) {
-
-	const handleCloseOverlay = () => {
+	function handleCloseOverlay() {
 		if (props.disableOverlayClick) {
 			return;
 		}

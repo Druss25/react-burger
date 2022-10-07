@@ -23,15 +23,15 @@ const BurgerIngredients = ({ data }) => {
 	return (
 		<>
 			<div className={`${BurgerIngredientsStyles.wrapper_tab} mt-5 mb-10`}>
-				<Tab value="bun" active={current === 'bun'} onClick={setCurrent}>
-					Булки
-				</Tab>
-				<Tab value="sauce" active={current === 'sauce'} onClick={setCurrent}>
-					Соусы
-				</Tab>
-				<Tab value="main" active={current === 'main'} onClick={setCurrent}>
-					Начинки
-				</Tab>
+				{arrProducts.map((product) =>
+					<Tab
+						key={product}
+						value={product}
+						active={current === `${product}`}
+						onClick={setCurrent}
+					>
+						{typeProducts[product]}
+					</Tab>)}
 			</div>
 
 			<div className={`${BurgerIngredientsStyles.wrapper} custom-scroll`} >
@@ -41,7 +41,7 @@ const BurgerIngredients = ({ data }) => {
 							<p className={product !== arrProducts[0] ? `${className} mt-10` : `${className}`} >{typeProducts[product]}</p>
 							<div className={`${BurgerIngredientsStyles.wrapper_card} pl-4`}>
 								{data.map((item) => product === item.type
-									? (<CardItem key={item._id} {...item} />)
+									? <CardItem key={item._id} {...item} />
 									: null
 								)}
 							</div>

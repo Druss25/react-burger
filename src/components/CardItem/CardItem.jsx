@@ -3,12 +3,12 @@ import React from 'react'
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import CardItemStyles from './CardItem.module.css'
 import useModalControls from '../../utils/useModalControls'
-import Modal from '../Modal/Modal'
 import { dataPropTypes } from '../../utils/data'
+import IngredientDetails from '../IngredientDetails/IngredientDetails'
 
 const CardItem = (props) => {
 	const titleModal = 'Детали ингредиента'
-	const modalControls = useModalControls({ titleModal, disableOverlayClick: true });
+	const modalControls = useModalControls({ titleModal });
 	return (
 		<>
 			<div className={`${CardItemStyles.wrapper} constructor-element__row`} onClick={modalControls.open} >
@@ -24,9 +24,9 @@ const CardItem = (props) => {
 					<p className="text text_type_main-default">{props.name}</p>
 				</div>
 			</div>
-			<Modal {...modalControls.modalProps}>
-				<p className='text text_type_main-medium mt-4 mb-8'>{props.name}</p>
-			</Modal>
+
+			{/* IngredientDetails */}
+			<IngredientDetails {...props} {...modalControls.modalProps} />
 		</>
 	)
 }

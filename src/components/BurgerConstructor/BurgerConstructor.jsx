@@ -1,13 +1,12 @@
 import React from 'react'
 import { Button, ConstructorElement, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import useModalControls from '../../utils/useModalControls';
-import Modal from '../Modal/Modal';
 import BurgerConstructorStyles from './BurgerConstructor.module.css'
-import Accept from '../../images/graphics.svg'
+import OrderDetails from '../OrderDetails/OrderDetails';
 
 const BurgerConstructor = () => {
 	// const titleModal = 'Детали ингредиента'
-	const modalControls = useModalControls({ disableOverlayClick: true });
+	const modalControls = useModalControls({});
 
 	return (
 		<>
@@ -95,23 +94,18 @@ const BurgerConstructor = () => {
 
 			<div className={`${BurgerConstructorStyles.wrapper_total} constructor-element__row mt-10`}>
 				<div className='constructor-element__row mr-10'>
-					<p className='text text_type_digits-medium mr-2'>610</p>
+					<p className='text text_type_digits-medium mr-2' id='total'>610</p>
 					<CurrencyIcon type="primary" />
 				</div>
-				<div className="mr-8">
+				<div className='mr-8'>
 					<Button type="primary" size="large" htmlType='button' onClick={modalControls.open}>
 						Оформить заказ
 					</Button>
 				</div>
 			</div>
 
-			<Modal {...modalControls.modalProps}>
-				<p className='text text_type_digits-large mt-4 mb-8'>034536</p>
-				<p className='text text_type_main-medium'>идентификатор заказа</p>
-				<img src={Accept} alt="Accept" className='mt-15 mb-15' width={120} height={120} />
-				<p className='text text_type_main-default mb-2'>Ваш заказ начали готовить</p>
-				<p className='text text_type_main-default mb-30' style={{ color: '#8585AD' }}>дождитесь готовности на орбитальной станции</p>
-			</Modal>
+			{/* OrderDetails  */}
+			<OrderDetails {...modalControls.modalProps} />
 		</>
 	)
 }
