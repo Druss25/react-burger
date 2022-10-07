@@ -15,6 +15,14 @@ export const dataPropTypes = PropTypes.shape({
 	__v: PropTypes.number
 })
 
+export const modalProps = PropTypes.shape({
+	isOpen: PropTypes.bool.isRequired,
+	requestClose: PropTypes.func.isRequired,
+	titleModal: PropTypes.string,
+	disableCloseButton: PropTypes.bool,
+	disableOverlayClick: PropTypes.bool
+})
+
 export const typeProducts = { bun: 'Булка', sauce: 'Соусы', main: 'Начинка' }
 
 typeProducts.propTypes = {

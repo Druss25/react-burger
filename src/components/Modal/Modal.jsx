@@ -2,6 +2,7 @@ import React from 'react'
 import ReactPortal from '../../utils/ReactPortal';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import ModalOverlay from '../ModalOverlay/ModalOverlay';
+import { modalProps } from '../../utils/data';
 import ModalStyles from './Modal.module.css'
 
 
@@ -46,6 +47,10 @@ function Modal(props) {
 			</ReactPortal>
 		)
 	)
+}
+
+Modal.propTypes = {
+	props: modalProps
 }
 
 export default Modal
