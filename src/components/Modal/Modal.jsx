@@ -1,3 +1,4 @@
+import React from 'react'
 import ReactPortal from '../../utils/ReactPortal';
 import ModalOverlay from '../ModalOverlay/ModalOverlay';
 import ModalStyles from './Modal.module.css'
@@ -12,13 +13,13 @@ function Modal(props) {
     props.requestClose && props.requestClose();
   }
 
-	// useEffect(() => {
-  //   const closeOnEscapeKey = e => e.key === "Escape" ? handleClose() : null;
-  //   document.body.addEventListener("keydown", closeOnEscapeKey);
-  //   return () => {
-  //     document.body.removeEventListener("keydown", closeOnEscapeKey);
-  //   };
-  // }, [handleClose]);
+	React.useEffect(() => {
+    const closeOnEscapeKey = e => e.key === "Escape" ? props.requestClose() : null;
+    document.body.addEventListener("keydown", closeOnEscapeKey);
+    return () => {
+      document.body.removeEventListener("keydown", closeOnEscapeKey);
+    };
+  }, []);
 
 	return (
 		props.isOpen &&
