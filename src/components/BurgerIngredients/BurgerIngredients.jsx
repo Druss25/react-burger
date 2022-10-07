@@ -2,10 +2,8 @@ import React from 'react'
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import PropTypes from 'prop-types'
 import CardItem from '../CardItem/CardItem'
-import useModalControls from '../../utils/useModalControls'
 import { dataPropTypes, typeProducts } from '../../utils/data'
 import BurgerIngredientsStyles from './BurgerIngredients.module.css'
-import Modal from '../Modal/Modal'
 
 const BurgerIngredients = ({ data }) => {
 	const [current, setCurrent] = React.useState('bun')
