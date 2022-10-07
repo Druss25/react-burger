@@ -1,9 +1,12 @@
 import React from 'react'
 import { Button, ConstructorElement, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components'
+import useModalControls from '../../utils/useModalControls';
+import Modal from '../Modal/Modal';
 import BurgerConstructorStyles from './BurgerConstructor.module.css'
 
 const BurgerConstructor = () => {
 
+  const modalControls = useModalControls({ disableCloseButton: true, disableOverlayClick: true });
 
 	return (
 		<>
@@ -94,15 +97,22 @@ const BurgerConstructor = () => {
 					<p className='text text_type_digits-medium mr-2'>610</p>
 					<CurrencyIcon type="primary" />
 				</div>
-
 				<div className="mr-8">
-					<Button type="primary" size="large" htmlType='button'>
+					<Button type="primary" size="large" htmlType='button' onClick={modalControls.open}>
 						Оформить заказ
 					</Button>
 				</div>
 			</div>
-		</>
 
+			
+        <Modal {...modalControls.modalProps}>
+          <>
+            <p className='text text_type_main-default p-4'>Modal content</p>
+            <button>1</button>
+            <button>2</button>
+          </>
+        </Modal>
+		</>
 	)
 }
 
