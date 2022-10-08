@@ -1,5 +1,5 @@
 import React from 'react'
-import ReactPortal from '../../utils/ReactPortal';
+import ReactPortal from '../ReactPortal/ReactPortal';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import ModalOverlay from '../ModalOverlay/ModalOverlay';
 import { modalProps } from '../../utils/data';

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button, ConstructorElement, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components'
-import useModalControls from '../../utils/useModalControls';
+import useModalControls from '../../hook/useModalControls';
 import BurgerConstructorStyles from './BurgerConstructor.module.css'
 import OrderDetails from '../OrderDetails/OrderDetails';
 

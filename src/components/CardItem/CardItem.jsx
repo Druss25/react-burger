@@ -1,8 +1,7 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import CardItemStyles from './CardItem.module.css'
-import useModalControls from '../../utils/useModalControls'
+import useModalControls from '../../hook/useModalControls'
 import { dataPropTypes } from '../../utils/data'
 import IngredientDetails from '../IngredientDetails/IngredientDetails'
 
