@@ -1,5 +1,5 @@
 import React from 'react'
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import CardItemStyles from './CardItem.module.css'
 import useModalControls from '../../utils/useModalControls'
@@ -26,7 +26,7 @@ const CardItem = (props) => {
 			</div>
 
 			{/* IngredientDetails */}
-			<IngredientDetails {...props} {...modalControls.modalProps} />
+			<IngredientDetails data={props} modal={modalControls.modalProps} />
 		</>
 	)
 }
