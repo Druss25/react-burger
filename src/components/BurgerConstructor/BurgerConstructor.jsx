@@ -1,9 +1,12 @@
 import React from 'react'
 import { Button, ConstructorElement, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components'
+import useModalControls from '../../hook/useModalControls';
 import BurgerConstructorStyles from './BurgerConstructor.module.css'
+import OrderDetails from '../OrderDetails/OrderDetails';
 
 const BurgerConstructor = () => {
-
+	// const titleModal = 'Детали ингредиента'
+	const modalControls = useModalControls({});
 
 	return (
 		<>
@@ -91,18 +94,19 @@ const BurgerConstructor = () => {
 
 			<div className={`${BurgerConstructorStyles.wrapper_total} constructor-element__row mt-10`}>
 				<div className='constructor-element__row mr-10'>
-					<p className='text text_type_digits-medium mr-2'>610</p>
+					<p className='text text_type_digits-medium mr-2' id='total'>610</p>
 					<CurrencyIcon type="primary" />
 				</div>
-
-				<div className="mr-8">
-					<Button type="primary" size="large" htmlType='button'>
+				<div className='mr-8'>
+					<Button type="primary" size="large" htmlType='button' onClick={modalControls.open}>
 						Оформить заказ
 					</Button>
 				</div>
 			</div>
-		</>
 
+			{/* OrderDetails  */}
+			<OrderDetails {...modalControls.modalProps} />
+		</>
 	)
 }
 

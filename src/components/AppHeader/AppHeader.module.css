@@ -25,25 +25,8 @@
   gap: 8px;
   border-radius: var(--common-border-radius-s);
   cursor: pointer;
-  color: var(--text-inactive-color);
   background: #1C1C21;
   transition: var(--common-transition);
-}
-.menu_items > svg {
-  fill: var(--text-inactive-color);
-}
-.menu_items:hover {
-  color: var(--text-primary-color);
-}
-.menu_items:hover > svg {
-  fill: var(--text-primary-color);
-}
-.menu_items_active {
-  composes: menu_items;
-  color: var(--text-primary-color);
-}
-.menu_items_active > svg {
-  fill: var(--text-primary-color);
 }
 .profile {
   composes: menu_items;

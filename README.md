@@ -1,3 +1,3 @@
 # react-burger
 
-## Sprint-1 Step-1
+## Sprint-1 Step-2
