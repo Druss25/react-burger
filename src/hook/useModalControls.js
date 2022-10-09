@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from 'prop-types'
 
 const useModalControls = ({ titleModal = '', disableCloseButton = false, disableOverlayClick = false } = {}) => {
 	const [isModalOpen, setIsModalOpen] = React.useState(false);
@@ -22,6 +23,12 @@ const useModalControls = ({ titleModal = '', disableCloseButton = false, disable
 			disableOverlayClick
 		}
 	};
+}
+
+useModalControls.propTypes = {
+	titleModal: PropTypes.string,
+	disableCloseButton: PropTypes.bool,
+	disableOverlayClick: PropTypes.bool
 }
 
 export default useModalControls

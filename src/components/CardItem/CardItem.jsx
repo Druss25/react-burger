@@ -1,9 +1,9 @@
 import React from 'react'
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
-import CardItemStyles from './CardItem.module.css'
 import useModalControls from '../../hook/useModalControls'
-import { dataPropTypes } from '../../utils/data'
+import { dataPropTypes } from '../../utils/constants'
 import IngredientDetails from '../IngredientDetails/IngredientDetails'
+import CardItemStyles from './CardItem.module.css'
 
 const CardItem = (props) => {
 	const titleModal = 'Детали ингредиента'

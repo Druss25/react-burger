@@ -2,7 +2,8 @@ import React from 'react'
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import PropTypes from 'prop-types'
 import CardItem from '../CardItem/CardItem'
-import { dataPropTypes, getProducts, typeProducts } from '../../utils/data'
+import { dataPropTypes, typeProducts } from '../../utils/constants'
+import { getProducts } from '../../utils/data'
 import BurgerIngredientsStyles from './BurgerIngredients.module.css'
 
 const BurgerIngredients = ({ data }) => {

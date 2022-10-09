@@ -1,6 +1,6 @@
 import React from 'react'
 import Accept from '../../images/graphics.svg'
-import { modalProps } from '../../utils/data'
+import { modalProps } from '../../utils/constants'
 import Modal from '../Modal/Modal'
 // import OrderDetailsStyles from './OrderDetails.module.css'
 

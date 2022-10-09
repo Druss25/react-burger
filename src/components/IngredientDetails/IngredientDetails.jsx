@@ -1,7 +1,6 @@
 import React from 'react'
-// import PropTypes from 'prop-types'
 import Modal from '../Modal/Modal'
-import { dataPropTypes, modalProps } from '../../utils/data'
+import { dataPropTypes, modalProps } from '../../utils/constants'
 import IngredientDetailsStyles from './IngredientDetails.module.css'
 
 const IngredientDetails = ({ data, modal }) => {

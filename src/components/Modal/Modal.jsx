@@ -2,7 +2,7 @@ import React from 'react'
 import ReactPortal from '../ReactPortal/ReactPortal';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import ModalOverlay from '../ModalOverlay/ModalOverlay';
-import { modalProps } from '../../utils/data';
+import { modalProps } from '../../utils/constants';
 import ModalStyles from './Modal.module.css'
 
 
