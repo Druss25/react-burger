@@ -31,6 +31,7 @@ typeProducts.propTypes = {
 	main: PropTypes.string.isRequired
 }
 
+// При вызове getProducts получаем ['bun', 'saunce', 'main']
 export const getProducts = () => {
 	let arr = []
 	for (const name in typeProducts) {

@@ -31,7 +31,7 @@ function Modal(props) {
 					<ModalOverlay onClick={handleCloseOverlay} />
 					<div className={`${ModalStyles.modal__content} pt-10 pl-10 pr-10`}>
 						{!props.disableCloseButton && (
-							<div className={props.titleModal !== undefined
+							<div className={props.titleModal !== ''
 								? `${ModalStyles.modal__title__yes} text text_type_main-large`
 								: `${ModalStyles.modal__title__not} text text_type_main-large`}
 							>
