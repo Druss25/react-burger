@@ -2,21 +2,11 @@ import React from 'react'
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import PropTypes from 'prop-types'
 import CardItem from '../CardItem/CardItem'
-import { dataPropTypes, typeProducts } from '../../utils/data'
+import { dataPropTypes, getProducts, typeProducts } from '../../utils/data'
 import BurgerIngredientsStyles from './BurgerIngredients.module.css'
 
 const BurgerIngredients = ({ data }) => {
 	const [current, setCurrent] = React.useState('bun')
-
-	const getProducts = () => {
-		let arr = []
-		for (const name in typeProducts) {
-			arr.push(name)
-		}
-		arr.pop(arr.length - 1)
-		return arr
-	}
-
 	const arrProducts = getProducts()
 	const className = 'text text_type_main-medium mb-6'
 
@@ -33,7 +23,6 @@ const BurgerIngredients = ({ data }) => {
 						{typeProducts[product]}
 					</Tab>)}
 			</div>
-
 			<div className={`${BurgerIngredientsStyles.wrapper} custom-scroll`} >
 				<div className={BurgerIngredientsStyles.content}>
 					{arrProducts.map((product) => (

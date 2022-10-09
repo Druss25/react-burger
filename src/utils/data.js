@@ -31,6 +31,15 @@ typeProducts.propTypes = {
 	main: PropTypes.string.isRequired
 }
 
+export const getProducts = () => {
+	let arr = []
+	for (const name in typeProducts) {
+		arr.push(name)
+	}
+	arr.pop(arr.length - 1)
+	return arr
+}
+
 export const dataFake = [
 	{
 		"_id": "60666c42cc7b410027a1a9b1",
