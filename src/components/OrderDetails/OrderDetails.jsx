@@ -5,9 +5,9 @@ import Modal from '../Modal/Modal'
 // import OrderDetailsStyles from './OrderDetails.module.css'
 
 
-const OrderDetails = (props) => {
+const OrderDetails = ({ modalProps }) => {
 	return (
-		<Modal {...props}>
+		<Modal {...modalProps}>
 			<p className='text text_type_digits-large mt-4 mb-8'>034536</p>
 			<p className='text text_type_main-medium'>идентификатор заказа</p>
 			<img src={Accept} alt="Accept" className='mt-15 mb-15' width={120} height={120} />
@@ -18,7 +18,7 @@ const OrderDetails = (props) => {
 }
 
 OrderDetails.propTypes = {
-	props: modalProps
+	modalProps
 }
 
 export default OrderDetails

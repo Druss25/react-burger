@@ -9,6 +9,7 @@
 }
 .item {
   gap: 8px;
+  width: 100%;
 }
 .wrapper_total {
   height: 64px;

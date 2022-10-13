@@ -1,6 +1,5 @@
 import React from 'react'
-import { urlAPI } from '../utils/constants'
-
+import { urlAPI_ingredient } from '../utils/constants'
 
 const useGetData = () => {
 	const [state, setState] = React.useState(
@@ -11,11 +10,19 @@ const useGetData = () => {
 		}
 	)
 
+	const optionsFetch = {
+		method: "GET",
+		headers: {
+			"Access-Control-Allow-Origin": "*",
+			"Content-Type": "application/json; charset=UTF-8"
+		}
+	}
+
 	React.useEffect(() => {
 		const getData = async () => {
 			try {
 				setState({ ...state, hasError: false, isLoading: true });
-				const res = await fetch(urlAPI);
+				const res = await fetch(urlAPI_ingredient, optionsFetch);
 				const { data, success } = await res.json();
 				if (success) {
 					setState({ ...state, data, isLoading: false });
