@@ -12,8 +12,8 @@ function App() {
   const [ingredients, setIngredients] = React.useState([])
 
   return (
-    <DataContext.Provider value={data} >
-      <IngredientContext.Provider value={ingredients} >
+    <DataContext.Provider value={{ data }} >
+      <IngredientContext.Provider value={{ ingredients, setIngredients }} >
         <div className={AppStyles.app}>
           {
             hasError
@@ -26,10 +26,10 @@ function App() {
                     <main className={AppStyles.main}>
                       <section className={AppStyles.wrapper}>
                         <p className="text text_type_main-large mt-10">Соберите бургер</p>
-                        <BurgerIngredients data={data} />
+                        <BurgerIngredients />
                       </section>
                       <section className={AppStyles.wrapper}>
-                        <BurgerConstructor setIngredients={setIngredients} />
+                        <BurgerConstructor />
                       </section>
                     </main>
                   </>

@@ -3,36 +3,46 @@ import { Button, ConstructorElement, CurrencyIcon, DragIcon } from '@ya.praktiku
 import useModalControls from '../../hook/useModalControls';
 import BurgerConstructorStyles from './BurgerConstructor.module.css'
 import OrderDetails from '../OrderDetails/OrderDetails';
-import { dataFake } from '../../utils/data';
+// import { dataFake } from '../../utils/data';
 import { IngredientContext } from '../../services/ingredientContext';
 import { DataContext } from '../../services/dataContext';
 
 const BurgerConstructor = () => {
-	const [ingredients, setIngredients] = React.useContext(IngredientContext)
 	const { data } = React.useContext(DataContext)
+	const { ingredients, setIngredients } = React.useContext(IngredientContext)
+	const [randomIngredient, setRandomIngredient] = React.useState({})
+	const [totalPrice, setTotalPrice] = React.useState(null)
 	const modalControls = useModalControls({})
 
 	const ingredientBun = React.useMemo(
-		() => dataFake.data.filter(item => item.type === 'bun'), []
+		() => data.filter(item => item.type === 'bun'), [data]
 	);
-	const random = Math.floor(Math.random() * ingredientBun.length);
-	const randomIngredientBun = ingredientBun[random]
+
+	const random = () => {
+		const res = Math.floor(Math.random() * ingredientBun.length);
+		return ingredientBun[res]
+	}
 
 	const ingredientAll = React.useMemo(
-		() => dataFake.data.filter(item => item.type !== 'bun'), []
+		() => data.filter(item => item.type !== 'bun'), [data]
 	)
 
-	const totalIngredientPrice = randomIngredientBun.price + ingredientAll.reduce((total, currentValue) => total + currentValue.price, 0);
+	const setTotalAll = React.useMemo(
+		() => ingredients.reduce((prevValue, currentValue) => prevValue + currentValue.price, 0) + randomIngredient.price, [ingredients, randomIngredient]
+	)
 
+	console.log(randomIngredient)
 	React.useEffect(() => {
+		setRandomIngredient(random())
 		setIngredients(ingredientAll)
-		ingredients.unshift(randomIngredientBun)
-		const body = {
-			"ingredients": [ingredients.map(ingredient => ingredient._id)]
-		}
+		// setIngredients(...ingredients, randomIngredient)
+		setTotalPrice(setTotalAll)
 		// eslint-disable-next-line
-	}, [])
+	}, [ingredients])
 
+	// const body = {
+	// 	"ingredients": [ingredients.map(ingredient => ingredient._id)]
+	// }
 
 	return (
 		<>
@@ -41,14 +51,14 @@ const BurgerConstructor = () => {
 					<ConstructorElement
 						type="top"
 						isLocked
-						text={`${randomIngredientBun.name} (верх)`}
-						price={randomIngredientBun.price}
-						thumbnail={randomIngredientBun.image}
+						text={`${randomIngredient.name} (верх)`}
+						price={randomIngredient.price}
+						thumbnail={randomIngredient.image}
 					/>
 				</div>
 
 				<div className={`${BurgerConstructorStyles.list_items} custom-scroll constructor-element__row pr-4`}>
-					{ingredientAll.map((ingredient) => (
+					{ingredients.length && ingredients.map((ingredient) => (
 						<div key={ingredient._id} className={`${BurgerConstructorStyles.item} constructor-element__row`}>
 							<DragIcon type="primary" />
 							<ConstructorElement
@@ -64,16 +74,17 @@ const BurgerConstructor = () => {
 					<ConstructorElement
 						type="bottom"
 						isLocked
-						text={`${randomIngredientBun.name} (низ)`}
-						price={randomIngredientBun.price}
-						thumbnail={randomIngredientBun.image}
+						text={`${randomIngredient.name} (низ)`}
+						price={randomIngredient.price}
+						thumbnail={randomIngredient.image}
 					/>
 				</div>
+
 			</div>
 
 			<div className={`${BurgerConstructorStyles.wrapper_total} constructor-element__row mt-10`}>
 				<div className='constructor-element__row mr-10'>
-					<p className='text text_type_digits-medium mr-2' id='total'>{totalIngredientPrice}</p>
+					{totalPrice > 0 && (<p className='text text_type_digits-medium mr-2' id='total'>{totalPrice}</p>)}
 					<CurrencyIcon type="primary" />
 				</div>
 				<div className='mr-8'>
