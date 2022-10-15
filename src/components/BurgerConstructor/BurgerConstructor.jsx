@@ -10,7 +10,7 @@ import { dataPropTypes } from '../../utils/constants';
 
 const BurgerConstructor = () => {
 	const { data } = React.useContext(DataContext)
-	const { ingredients, setIngredients } = React.useContext(IngredientContext)
+	const { setIngredients } = React.useContext(IngredientContext)
 	const [ingredientList, setIngredientList] = React.useState([])
 	const [randomIngredient, setRandomIngredient] = React.useState({})
 	const [totalPrice, setTotalPrice] = React.useState(null)
@@ -40,10 +40,6 @@ const BurgerConstructor = () => {
 		// eslint-disable-next-line
 	}, [randomIngredient, ingredientAll, ingredientList])
 
-	// const body = {
-	// 	"ingredients": [ingredients.map(ingredient => ingredient._id)]
-	// }
-
 	return (
 		<>
 			<div className={`${BurgerConstructorStyles.wrapper} constructor-element__row mt-25`}>
@@ -56,7 +52,6 @@ const BurgerConstructor = () => {
 						thumbnail={randomIngredient.image}
 					/>
 				</div>
-
 				<div className={`${BurgerConstructorStyles.list_items} custom-scroll constructor-element__row pr-4`}>
 					{ingredientList.length && ingredientList.map((ingredient, index) => (
 						<div key={index} className={`${BurgerConstructorStyles.item} constructor-element__row`}>
@@ -69,7 +64,6 @@ const BurgerConstructor = () => {
 						</div>
 					))}
 				</div>
-
 				<div className='mt-4'>
 					<ConstructorElement
 						type="bottom"
@@ -79,9 +73,7 @@ const BurgerConstructor = () => {
 						thumbnail={randomIngredient.image}
 					/>
 				</div>
-
 			</div>
-
 			<div className={`${BurgerConstructorStyles.wrapper_total} constructor-element__row mt-10`}>
 				<div className='constructor-element__row mr-10'>
 					<p className='text text_type_digits-medium mr-2' id='total'>{totalPrice > 0 ? totalPrice : `0`}</p>
@@ -95,7 +87,7 @@ const BurgerConstructor = () => {
 			</div>
 
 			{/* OrderDetails  */}
-			<OrderDetails modalProps={modalControls.modalProps} />
+			{modalControls.modalProps.isOpen && (<OrderDetails modalProps={modalControls.modalProps} />)}
 		</>
 	)
 }

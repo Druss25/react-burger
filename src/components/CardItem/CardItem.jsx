@@ -25,7 +25,7 @@ const CardItem = (props) => {
 			</div>
 
 			{/* IngredientDetails */}
-			<IngredientDetails data={props} modal={modalControls.modalProps} />
+			{modalControls.modalProps.isOpen && (<IngredientDetails data={props} modal={modalControls.modalProps} />)}
 		</>
 	)
 }
