@@ -18,7 +18,7 @@ export const dataPropTypes = PropTypes.shape({
 })
 
 export const modalProps = PropTypes.shape({
-	children: PropTypes.element,
+	children: PropTypes.elementType,
 	isOpen: PropTypes.bool.isRequired,
 	requestClose: PropTypes.func.isRequired,
 	titleModal: PropTypes.string.isRequired,

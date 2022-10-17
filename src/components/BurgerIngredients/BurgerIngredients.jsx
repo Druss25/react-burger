@@ -39,7 +39,7 @@ const BurgerIngredients = () => {
 							<p className={product !== arrProducts[0] ? `${className} mt-10` : `${className}`} >{typeProducts[product]}</p>
 							<div className={`${BurgerIngredientsStyles.wrapper_card} pl-4`}>
 								{data.map(item => item.type === product
-									? <CardItem key={item._id} ingredient={item} counter={ingredients.filter(count => count._id === item._id).length} />
+									? <CardItem key={item._id} currentIngredient={item} counter={ingredients.filter(count => count._id === item._id).length} />
 									: null
 								)}
 							</div>

@@ -1,11 +1,10 @@
 import React from 'react'
 import Accept from '../../images/graphics.svg'
-import { baseUrl, modalProps } from '../../utils/constants'
-import Modal from '../Modal/Modal'
+import { baseUrl } from '../../utils/constants'
 import { IngredientContext } from '../../services/ingredientContext'
 // import OrderDetailsStyles from './OrderDetails.module.css'
 
-const OrderDetails = ({ modalProps }) => {
+const OrderDetails = () => {
 	const { ingredients } = React.useContext(IngredientContext)
 		
 	const [state, setState] = React.useState({
@@ -49,18 +48,14 @@ const OrderDetails = ({ modalProps }) => {
 	}, [])
 
 	return (
-		<Modal {...modalProps}>
+		<>
 			<p className='text text_type_digits-large mt-4 mb-8'>{state.order.number}</p>
 			<p className='text text_type_main-medium'>идентификатор заказа</p>
 			<img src={Accept} alt="Accept" className='mt-15 mb-15' width={120} height={120} />
 			<p className='text text_type_main-default mb-2'>Ваш заказ начали готовить</p>
 			<p className='text text_type_main-default text_color_inactive mb-30'>дождитесь готовности на орбитальной станции</p>
-		</Modal>
+		</>
 	)
-}
-
-OrderDetails.propTypes = {
-	modalProps: modalProps.isRequired
 }
 
 export default OrderDetails

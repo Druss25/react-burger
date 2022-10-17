@@ -1,10 +1,11 @@
 import React from 'react'
 import { Button, ConstructorElement, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import useModalControls from '../../hook/useModalControls';
-import BurgerConstructorStyles from './BurgerConstructor.module.css'
+import Modal from '../Modal/Modal';
 import OrderDetails from '../OrderDetails/OrderDetails';
 import { IngredientContext } from '../../services/ingredientContext';
 import { DataContext } from '../../services/dataContext';
+import BurgerConstructorStyles from './BurgerConstructor.module.css'
 
 const BurgerConstructor = () => {
 	const { data } = React.useContext(DataContext)
@@ -84,8 +85,9 @@ const BurgerConstructor = () => {
 				</div>
 			</div>
 
-			{/* OrderDetails  */}
-			{modalControls.modalProps.isOpen && (<OrderDetails modalProps={modalControls.modalProps} />)}
+			<Modal {...modalControls.modalProps} >
+				<OrderDetails />
+			</Modal>
 		</>
 	)
 }
