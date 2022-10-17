@@ -1,12 +1,10 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { Button, ConstructorElement, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import useModalControls from '../../hook/useModalControls';
 import BurgerConstructorStyles from './BurgerConstructor.module.css'
 import OrderDetails from '../OrderDetails/OrderDetails';
 import { IngredientContext } from '../../services/ingredientContext';
 import { DataContext } from '../../services/dataContext';
-import { dataPropTypes } from '../../utils/constants';
 
 const BurgerConstructor = () => {
 	const { data } = React.useContext(DataContext)
@@ -91,7 +89,5 @@ const BurgerConstructor = () => {
 		</>
 	)
 }
-
-BurgerConstructor.propTypes = PropTypes.arrayOf(dataPropTypes).isRequired
 
 export default BurgerConstructor

@@ -3,12 +3,13 @@ import AppHeader from "../AppHeader/AppHeader";
 import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
 import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
 import useGetData from "../../hook/useGetData";
-import AppStyles from './App.module.css'
 import { DataContext } from "../../services/dataContext";
 import { IngredientContext } from "../../services/ingredientContext";
+import AppStyles from './App.module.css'
 
 function App() {
-  const { isLoading, hasError, data } = useGetData()
+  
+  const { isLoading, hasError, data } = useGetData('/ingredients')
   const [ingredients, setIngredients] = React.useState([])
 
   return (

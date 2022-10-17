@@ -1,13 +1,13 @@
 import React from 'react'
 import Accept from '../../images/graphics.svg'
-import { modalProps } from '../../utils/constants'
+import { baseUrl, modalProps } from '../../utils/constants'
 import Modal from '../Modal/Modal'
 import { IngredientContext } from '../../services/ingredientContext'
-import { urlAPI_orders } from '../../utils/constants'
 // import OrderDetailsStyles from './OrderDetails.module.css'
 
 const OrderDetails = ({ modalProps }) => {
 	const { ingredients } = React.useContext(IngredientContext)
+		
 	const [state, setState] = React.useState({
 		isLoading: false,
 		hasError: false,
@@ -28,13 +28,18 @@ const OrderDetails = ({ modalProps }) => {
 		body: JSON.stringify(ingredientsIDs())
 	}
 
+	
 	React.useEffect(() => {
 		const getOrderData = async () => {
 			try {
 				setState({ ...state, hasError: false, isLoading: true });
-				const res = await fetch(urlAPI_orders, optionsFetch);
-				const { success, order } = await res.json();
-				success && setState({ ...state, order, isLoading: false });
+				const res = await fetch(`${baseUrl}/orders`, optionsFetch);
+				if (res.ok) {
+					const { success, order } = await res.json();
+					success && setState({ ...state, order, isLoading: false });
+				} else {
+					setState({ ...state, hasError: true, isLoading: false })
+				}				
 			} catch (error) {
 				setState({ ...state, hasError: true, isLoading: false })
 			}
@@ -55,7 +60,7 @@ const OrderDetails = ({ modalProps }) => {
 }
 
 OrderDetails.propTypes = {
-	modalProps
+	modalProps: modalProps.isRequired
 }
 
 export default OrderDetails

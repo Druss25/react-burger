@@ -33,8 +33,8 @@ const IngredientDetails = ({ data, modal }) => {
 }
 
 IngredientDetails.propTypes = {
-	data: dataPropTypes,
-	modal: modalProps
+	data: dataPropTypes.isRequired,
+	modal: modalProps.isRequired
 }
 
 export default IngredientDetails

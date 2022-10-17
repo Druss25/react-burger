@@ -1,11 +1,7 @@
 import React from 'react'
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
-import PropTypes from 'prop-types'
 import CardItem from '../CardItem/CardItem'
-import {
-	dataPropTypes,
-	typeProducts
-} from '../../utils/constants'
+import { typeProducts } from '../../utils/constants'
 import { DataContext } from '../../services/dataContext'
 import { getProducts } from '../../utils/data'
 import BurgerIngredientsStyles from './BurgerIngredients.module.css'
@@ -42,8 +38,8 @@ const BurgerIngredients = () => {
 						<div key={product} id={product} onClick={() => setCurrent(product)}>
 							<p className={product !== arrProducts[0] ? `${className} mt-10` : `${className}`} >{typeProducts[product]}</p>
 							<div className={`${BurgerIngredientsStyles.wrapper_card} pl-4`}>
-								{data.map((item) => product === item.type
-									? <CardItem key={item._id} counter={ingredients.filter(count => count._id === item._id).length} {...item} />
+								{data.map(item => item.type === product
+									? <CardItem key={item._id} ingredient={item} counter={ingredients.filter(count => count._id === item._id).length} />
 									: null
 								)}
 							</div>
@@ -54,8 +50,6 @@ const BurgerIngredients = () => {
 		</>
 	)
 }
-
-BurgerIngredients.propTypes = PropTypes.arrayOf(dataPropTypes).isRequired
 
 export default BurgerIngredients
 
