@@ -11,8 +11,6 @@ const BurgerIngredients = () => {
 	const { data } = React.useContext(DataContext)
 	const { ingredients } = React.useContext(IngredientContext)
 
-	// counter = { ingredients.filter(current => current._id === item._id).length() }
-
 	const [current, setCurrent] = React.useState('bun')
 
 	const arrProducts = getProducts()
