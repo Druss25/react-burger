@@ -51,10 +51,11 @@ const BurgerConstructor = () => {
 						thumbnail={randomIngredient.image}
 					/>
 				</div>
+
 				<div className={`${BurgerConstructorStyles.list_items} custom-scroll constructor-element__row pr-4`}>
 					{ingredientList.length && ingredientList.map((ingredient, index) => (
 						<div key={index} className={`${BurgerConstructorStyles.item} constructor-element__row`}>
-							<DragIcon type="primary" />
+							<DragIcon />
 							<ConstructorElement
 								text={ingredient.name}
 								price={ingredient.price}
@@ -63,6 +64,7 @@ const BurgerConstructor = () => {
 						</div>
 					))}
 				</div>
+
 				<div className='mt-4'>
 					<ConstructorElement
 						type="bottom"
