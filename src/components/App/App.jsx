@@ -8,8 +8,8 @@ import { IngredientContext } from "../../services/ingredientContext";
 import AppStyles from './App.module.css'
 
 function App() {
-  
-  const { isLoading, hasError, data } = useGetData('/ingredients')
+
+  const { isLoading, hasError, data } = useGetData()
   const [ingredients, setIngredients] = React.useState([])
 
   return (

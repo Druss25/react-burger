@@ -6,7 +6,7 @@ import { IngredientContext } from '../../services/ingredientContext'
 
 const OrderDetails = () => {
 	const { ingredients } = React.useContext(IngredientContext)
-		
+
 	const [state, setState] = React.useState({
 		isLoading: false,
 		hasError: false,
@@ -27,7 +27,6 @@ const OrderDetails = () => {
 		body: JSON.stringify(ingredientsIDs())
 	}
 
-	
 	React.useEffect(() => {
 		const getOrderData = async () => {
 			try {
@@ -38,7 +37,7 @@ const OrderDetails = () => {
 					success && setState({ ...state, order, isLoading: false });
 				} else {
 					setState({ ...state, hasError: true, isLoading: false })
-				}				
+				}
 			} catch (error) {
 				setState({ ...state, hasError: true, isLoading: false })
 			}

@@ -1,7 +1,7 @@
 import React from 'react'
 import { baseUrl } from '../utils/constants'
 
-const useGetData = (url='', method='GET', body ) => {
+const useGetData = () => {
 	const [state, setState] = React.useState(
 		{
 			isLoading: false,
@@ -10,19 +10,11 @@ const useGetData = (url='', method='GET', body ) => {
 		}
 	)
 
-	const options = {
-		method: method,
-		headers: {
-			"Content-Type": "application/json; charset=UTF-8"
-		},
-		body
-	}
-
 	React.useEffect(() => {
 		const getData = async () => {
 			try {
 				setState({ ...state, hasError: false, isLoading: true })
-				const res = await fetch(`${baseUrl}${url}`, options)
+				const res = await fetch(`${baseUrl}/ingredients`)
 				if (res.ok) {
 					const {success, data} = await res.json()
 					success && setState({ ...state, data, isLoading: false })

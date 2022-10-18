@@ -1,9 +1,7 @@
 import React from 'react'
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import CardItem from '../CardItem/CardItem'
-import { typeProducts } from '../../utils/constants'
 import { DataContext } from '../../services/dataContext'
-import { getProducts } from '../../utils/data'
 import BurgerIngredientsStyles from './BurgerIngredients.module.css'
 import { IngredientContext } from '../../services/ingredientContext'
 
@@ -13,41 +11,82 @@ const BurgerIngredients = () => {
 
 	const [current, setCurrent] = React.useState('bun')
 
-	const arrProducts = getProducts()
+  const refBun = React.useRef(null)
+  const refSauce = React.useRef(null)
+  const refMain = React.useRef(null)
 
-	const className = 'text text_type_main-medium mb-6'
+  const onTabClick = (value) => {
+    if (refBun.current.id === value) refBun.current.scrollIntoView({behavior: "smooth"})
+    if (refSauce.current.id === value) refSauce.current.scrollIntoView({behavior: "smooth"})
+    if (refMain.current.id === value) refMain.current.scrollIntoView({behavior: "smooth"})
+    setCurrent(value)
+  }
+
+  const buns = React.useMemo(()=>(data.filter(item => item.type === 'bun')),[data])
+  const sauces = React.useMemo(()=>(data.filter(item => item.type === 'sauce')),[data])
+  const mains = React.useMemo(()=>(data.filter(item => item.type === 'main')),[data])
 
 	return (
 		<>
 			<div className={`${BurgerIngredientsStyles.wrapper_tab} mt-5 mb-10`}>
-				{arrProducts.map((product) =>
-					<Tab
-						key={product}
-						value={product}
-						active={current === `${product}`}
-						onClick={setCurrent}
-					>
-						{typeProducts[product]}
-					</Tab>)}
+				<Tab value='bun' active={current === 'bun'} onClick={onTabClick} >
+						Булки
+				</Tab>
+        <Tab value='sauce' active={current === 'sauce'} onClick={onTabClick} >
+						Соусы
+				</Tab>
+        <Tab value='main' active={current === 'main'} onClick={onTabClick} >
+						Начинки
+				</Tab>
 			</div>
 			<div className={`${BurgerIngredientsStyles.wrapper} custom-scroll`} >
-				<div className={BurgerIngredientsStyles.content}>
-					{arrProducts.map((product) => (
-						<div key={product} id={product} onClick={() => setCurrent(product)}>
-							<p className={product !== arrProducts[0] ? `${className} mt-10` : `${className}`} >{typeProducts[product]}</p>
-							<div className={`${BurgerIngredientsStyles.wrapper_card} pl-4`}>
-								{data.map(item => item.type === product
-									? <CardItem key={item._id} currentIngredient={item} counter={ingredients.filter(count => count._id === item._id).length} />
-									: null
-								)}
-							</div>
-						</div>
-					))}
-				</div>
+
+        <div ref={refBun} id='bun' className={BurgerIngredientsStyles.content}>
+            <p className='text text_type_main-medium mt-10 mb-6' >
+              Булки
+            </p>
+            <div className={`${BurgerIngredientsStyles.wrapper_card} pl-4`}>
+              {buns.map(item =>
+                <CardItem
+                  key={item._id}
+                  currentIngredient={item}
+                  counter={ingredients.filter(count => count._id === item._id).length}
+                />
+              )}
+            </div>
+        </div>
+        <div id='sauce' ref={refSauce} className={BurgerIngredientsStyles.content}>
+            <p className='text text_type_main-medium mt-10 mb-6' >
+              Соусы
+            </p>
+            <div className={`${BurgerIngredientsStyles.wrapper_card} pl-4`}>
+              {sauces.map(item =>
+                <CardItem
+                  key={item._id}
+                  currentIngredient={item}
+                  counter={ingredients.filter(count => count._id === item._id).length}
+                />
+              )}
+            </div>
+        </div>
+        <div id='main' ref={refMain} className={BurgerIngredientsStyles.content}>
+            <p className='text text_type_main-medium mt-10 mb-6' >
+              Начинки
+            </p>
+            <div className={`${BurgerIngredientsStyles.wrapper_card} pl-4`}>
+              {mains.map(item =>
+                <CardItem
+                  key={item._id}
+                  currentIngredient={item}
+                  counter={ingredients.filter(count => count._id === item._id).length}
+                />
+              )}
+            </div>
+        </div>
+
 			</div>
 		</>
 	)
 }
 
 export default BurgerIngredients
-
