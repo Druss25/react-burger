@@ -1,6 +1,5 @@
 import React from 'react'
-import { urlAPI } from '../utils/constants'
-
+import { baseUrl } from '../utils/constants'
 
 const useGetData = () => {
 	const [state, setState] = React.useState(
@@ -14,18 +13,18 @@ const useGetData = () => {
 	React.useEffect(() => {
 		const getData = async () => {
 			try {
-				setState({ ...state, hasError: false, isLoading: true });
-				const res = await fetch(urlAPI);
-				const { data, success } = await res.json();
-				if (success) {
-					setState({ ...state, data, isLoading: false });
+				setState({ ...state, hasError: false, isLoading: true })
+				const res = await fetch(`${baseUrl}/ingredients`)
+				if (res.ok) {
+					const {success, data} = await res.json()
+					success && setState({ ...state, data, isLoading: false })
+				} else {
+					setState({ ...state, hasError: true, isLoading: false })
 				}
-				else console.log(data)
 			} catch (error) {
-				setState({ ...state, hasError: true, isLoading: false });
+				setState({ ...state, hasError: true, isLoading: false })
 			}
-		};
-
+		}
 		getData()
 		// eslint-disable-next-line
 	}, [])

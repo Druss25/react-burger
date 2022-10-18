@@ -1,28 +1,29 @@
 import PropTypes from 'prop-types'
 
-export const urlAPI = "https://norma.nomoreparties.space/api/ingredients";
+export const baseUrl = "https://norma.nomoreparties.space/api"
 
 export const dataPropTypes = PropTypes.shape({
 	_id: PropTypes.string.isRequired,
 	name: PropTypes.string.isRequired,
 	type: PropTypes.string.isRequired,
-	proteins: PropTypes.number,
-	fat: PropTypes.number,
-	carbohydrates: PropTypes.number,
-	calories: PropTypes.number,
-	price: PropTypes.number,
+	proteins: PropTypes.number.isRequired,
+	fat: PropTypes.number.isRequired,
+	carbohydrates: PropTypes.number.isRequired,
+	calories: PropTypes.number.isRequired,
+	price: PropTypes.number.isRequired,
 	image: PropTypes.string.isRequired,
-	image_mobile: PropTypes.string,
-	image_large: PropTypes.string,
-	__v: PropTypes.number
+	image_mobile: PropTypes.string.isRequired,
+	image_large: PropTypes.string.isRequired,
+	__v: PropTypes.number.isRequired
 })
 
 export const modalProps = PropTypes.shape({
+	children: PropTypes.elementType,
 	isOpen: PropTypes.bool.isRequired,
 	requestClose: PropTypes.func.isRequired,
-	titleModal: PropTypes.string,
-	disableCloseButton: PropTypes.bool,
-	disableOverlayClick: PropTypes.bool
+	titleModal: PropTypes.string.isRequired,
+	disableCloseButton: PropTypes.bool.isRequired,
+	disableOverlayClick: PropTypes.bool.isRequired
 })
 
 export const typeProducts = { bun: 'Булка', sauce: 'Соусы', main: 'Начинка' }

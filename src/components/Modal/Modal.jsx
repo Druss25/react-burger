@@ -7,10 +7,9 @@ import ModalStyles from './Modal.module.css'
 
 
 function Modal(props) {
+	
 	function handleCloseOverlay() {
-		if (props.disableOverlayClick) {
-			return;
-		}
+		if (props.disableOverlayClick) return
 		props.requestClose && props.requestClose();
 	}
 

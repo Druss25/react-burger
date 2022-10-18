@@ -1,12 +1,43 @@
 import React from 'react'
 import { Button, ConstructorElement, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import useModalControls from '../../hook/useModalControls';
-import BurgerConstructorStyles from './BurgerConstructor.module.css'
+import Modal from '../Modal/Modal';
 import OrderDetails from '../OrderDetails/OrderDetails';
+import { IngredientContext } from '../../services/ingredientContext';
+import { DataContext } from '../../services/dataContext';
+import BurgerConstructorStyles from './BurgerConstructor.module.css'
 
 const BurgerConstructor = () => {
-	// const titleModal = 'Детали ингредиента'
-	const modalControls = useModalControls({});
+	const { data } = React.useContext(DataContext)
+	const { setIngredients } = React.useContext(IngredientContext)
+	const [ingredientList, setIngredientList] = React.useState([])
+	const [randomIngredient, setRandomIngredient] = React.useState({})
+	const [totalPrice, setTotalPrice] = React.useState(null)
+	const modalControls = useModalControls({})
+
+	const ingredientBun = React.useMemo(
+		() => data.filter(item => item.type === 'bun'), [data]
+	);
+
+	const ingredientAll = React.useMemo(
+		() => data.filter(item => item.type !== 'bun'), [data]
+	)
+
+	const setTotalAll = React.useMemo(
+		() => ingredientAll.reduce((prevValue, currentValue) => prevValue + currentValue.price, 0) + randomIngredient.price, [ingredientAll, randomIngredient]
+	)
+
+	React.useEffect(() => {
+		const random = () => {
+			const res = Math.floor(Math.random() * ingredientBun.length);
+			return ingredientBun[res]
+		}
+		setRandomIngredient(random())
+		setIngredientList(ingredientAll)
+		setIngredients([randomIngredient, ...ingredientAll])
+		setTotalPrice(setTotalAll)
+		// eslint-disable-next-line
+	}, [randomIngredient, ingredientAll, ingredientList])
 
 	return (
 		<>
@@ -15,86 +46,36 @@ const BurgerConstructor = () => {
 					<ConstructorElement
 						type="top"
 						isLocked
-						text="Краторная булка N-200i (верх)"
-						price={20}
-						thumbnail={'https://code.s3.yandex.net/react/code/bun-02.png'}
+						text={`${randomIngredient.name} (верх)`}
+						price={randomIngredient.price}
+						thumbnail={randomIngredient.image}
 					/>
 				</div>
-
 				<div className={`${BurgerConstructorStyles.list_items} custom-scroll constructor-element__row pr-4`}>
-					<div className={`${BurgerConstructorStyles.item} constructor-element__row`}>
-						<DragIcon type="primary" />
-						<ConstructorElement
-							text="Соус традиционный галактический"
-							price={30}
-							thumbnail={'https://code.s3.yandex.net/react/code/sauce-03.png'}
-						/>
-					</div>
-					<div className={`${BurgerConstructorStyles.item} constructor-element__row`}>
-						<DragIcon type="primary" />
-						<ConstructorElement
-							text="Мясо бессмертных моллюсков Protostomia"
-							price={300}
-							thumbnail={'https://code.s3.yandex.net/react/code/meat-02.png'}
-						/>
-					</div>
-					<div className={`${BurgerConstructorStyles.item} constructor-element__row`}>
-						<DragIcon type="primary" />
-						<ConstructorElement
-							text="Плоды Фалленианского дерева"
-							price={80}
-							thumbnail={'https://code.s3.yandex.net/react/code/sp_1.png'}
-						/>
-					</div>
-					<div className={`${BurgerConstructorStyles.item} constructor-element__row`}>
-						<DragIcon type="primary" />
-						<ConstructorElement
-							text="Хрустящие минеральные кольца"
-							price={80}
-							thumbnail={'https://code.s3.yandex.net/react/code/mineral_rings.png'}
-						/>
-					</div>
-					<div className={`${BurgerConstructorStyles.item} constructor-element__row`}>
-						<DragIcon type="primary" />
-						<ConstructorElement
-							text="Хрустящие минеральные кольца"
-							price={80}
-							thumbnail={'https://code.s3.yandex.net/react/code/mineral_rings.png'}
-						/>
-					</div>
-					<div className={`${BurgerConstructorStyles.item} constructor-element__row`}>
-						<DragIcon type="primary" />
-						<ConstructorElement
-							text="Кристаллы марсианских альфа-сахаридов"
-							price={80}
-							thumbnail={'https://code.s3.yandex.net/react/code/core.png'}
-						/>
-					</div>
-					<div className={`${BurgerConstructorStyles.item} constructor-element__row`}>
-						<DragIcon type="primary" />
-						<ConstructorElement
-							text="Филе Люминесцентного тетраодонтимформа"
-							price={80}
-							thumbnail={'https://code.s3.yandex.net/react/code/meat-03.png'}
-						/>
-					</div>
-
+					{ingredientList.length && ingredientList.map((ingredient, index) => (
+						<div key={index} className={`${BurgerConstructorStyles.item} constructor-element__row`}>
+							<DragIcon type="primary" />
+							<ConstructorElement
+								text={ingredient.name}
+								price={ingredient.price}
+								thumbnail={ingredient.image}
+							/>
+						</div>
+					))}
 				</div>
-
 				<div className='mt-4'>
 					<ConstructorElement
 						type="bottom"
 						isLocked
-						text="Краторная булка N-200i (низ)"
-						price={20}
-						thumbnail={'https://code.s3.yandex.net/react/code/bun-02.png'}
+						text={`${randomIngredient.name} (низ)`}
+						price={randomIngredient.price}
+						thumbnail={randomIngredient.image}
 					/>
 				</div>
 			</div>
-
 			<div className={`${BurgerConstructorStyles.wrapper_total} constructor-element__row mt-10`}>
 				<div className='constructor-element__row mr-10'>
-					<p className='text text_type_digits-medium mr-2' id='total'>610</p>
+					<p className='text text_type_digits-medium mr-2' id='total'>{totalPrice > 0 ? totalPrice : `0`}</p>
 					<CurrencyIcon type="primary" />
 				</div>
 				<div className='mr-8'>
@@ -104,8 +85,9 @@ const BurgerConstructor = () => {
 				</div>
 			</div>
 
-			{/* OrderDetails  */}
-			<OrderDetails {...modalControls.modalProps} />
+			<Modal {...modalControls.modalProps} >
+				<OrderDetails />
+			</Modal>
 		</>
 	)
 }
