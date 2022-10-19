@@ -1,15 +1,15 @@
 import React from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import CardItem from "../CardItem/CardItem";
-import { DataContext } from "../../services/dataContext";
-import BurgerIngredientsStyles from "./BurgerIngredients.module.css";
 import { IngredientContext } from "../../services/ingredientContext";
 import Modal from "../Modal/Modal";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import useModalControls from "../../hook/useModalControls";
+import { useAppSelector } from "../../hook/useAppSelector";
+import BurgerIngredientsStyles from "./BurgerIngredients.module.css";
 
 const BurgerIngredients = () => {
-  const { data } = React.useContext(DataContext);
+  const data = useAppSelector(state => state.ingredients.data)
   const { ingredients } = React.useContext(IngredientContext);
   const [isIngredientModal, setIsIngredientModal] = React.useState({});
   const [current, setCurrent] = React.useState("bun");
