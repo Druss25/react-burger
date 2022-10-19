@@ -7,9 +7,11 @@ import { useAppDispatch } from "../../hook/useAppDispatch";
 import { getIngredients } from "../../services/actions/ingredients";
 import { useAppSelector } from "../../hook/useAppSelector";
 import AppStyles from "./App.module.css";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 function App() {
-  const { isLoading, hasError } = useAppSelector(state => state.ingredients)
+  const { isLoading, hasError } = useAppSelector((state) => state.ingredients);
   const [ingredients, setIngredients] = React.useState([]);
 
   const dispatch = useAppDispatch();
@@ -36,17 +38,19 @@ function App() {
         ) : (
           <>
             <AppHeader />
-            <main className={AppStyles.main}>
-              <section className={AppStyles.wrapper}>
-                <p className="text text_type_main-large mt-10">
-                  Соберите бургер
-                </p>
-                <BurgerIngredients />
-              </section>
-              <section className={AppStyles.wrapper}>
-                <BurgerConstructor />
-              </section>
-            </main>
+            <DndProvider backend={HTML5Backend}>
+              <main className={AppStyles.main}>
+                <section className={AppStyles.wrapper}>
+                  <p className="text text_type_main-large mt-10">
+                    Соберите бургер
+                  </p>
+                  <BurgerIngredients />
+                </section>
+                <section className={AppStyles.wrapper}>
+                  <BurgerConstructor />
+                </section>
+              </main>
+            </DndProvider>
           </>
         )}
       </div>

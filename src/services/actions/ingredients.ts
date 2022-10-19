@@ -1,24 +1,23 @@
 import { Dispatch } from "redux";
 import { baseUrl } from "../../utils/constants";
-// import { IIngredients } from "./../models/ingredients";
 
 export enum IngredientsActionTypes {
-  FETCH_INGREDIENT_REQUEST = "FETCH_INGREDIENT_REQUEST",
-  FETCH_INGREDIENT_SUCCESS = "FETCH_INGREDIENT_SUCCESS",
-  FETCH_INGREDIENT_ERROR = "FETCH_INGREDIENT_ERROR",
+  FETCH_INGREDIENTS_REQUEST = "FETCH_INGREDIENTS_REQUEST",
+  FETCH_INGREDIENTS_SUCCESS = "FETCH_INGREDIENTS_SUCCESS",
+  FETCH_INGREDIENTS_ERROR = "FETCH_INGREDIENTS_ERROR",
 }
 
 interface FetchIngredientsAction {
-  type: IngredientsActionTypes.FETCH_INGREDIENT_REQUEST;
+  type: IngredientsActionTypes.FETCH_INGREDIENTS_REQUEST;
 }
 
 interface FetchIngredientsSuccess {
-  type: IngredientsActionTypes.FETCH_INGREDIENT_SUCCESS;
+  type: IngredientsActionTypes.FETCH_INGREDIENTS_SUCCESS;
   payload: [];
 }
 
 interface FetchIngredientsError {
-  type: IngredientsActionTypes.FETCH_INGREDIENT_ERROR;
+  type: IngredientsActionTypes.FETCH_INGREDIENTS_ERROR;
 }
 
 export type IngredientsAction =
@@ -28,23 +27,17 @@ export type IngredientsAction =
 
 export const getIngredients = () => {
   return async (dispatch: Dispatch<IngredientsAction>) => {
-    try {
-      dispatch({ type: IngredientsActionTypes.FETCH_INGREDIENT_REQUEST });
-      const res = await fetch(`${baseUrl}/ingredients`);
-      if (res.ok) {
-        const { data } = await res?.json();
-        dispatch({
-          type: IngredientsActionTypes.FETCH_INGREDIENT_SUCCESS,
-          payload: data,
-        });
-      } else {
-        dispatch({
-          type: IngredientsActionTypes.FETCH_INGREDIENT_ERROR,
-        });
-      }
-    } catch (e: any) {
+    dispatch({ type: IngredientsActionTypes.FETCH_INGREDIENTS_REQUEST });
+    const res = await fetch(`${baseUrl}/ingredients`);
+    if (res && res.ok) {
+      const { data } = await res?.json();
       dispatch({
-        type: IngredientsActionTypes.FETCH_INGREDIENT_ERROR,
+        type: IngredientsActionTypes.FETCH_INGREDIENTS_SUCCESS,
+        payload: data,
+      });
+    } else {
+      dispatch({
+        type: IngredientsActionTypes.FETCH_INGREDIENTS_ERROR,
       });
     }
   };

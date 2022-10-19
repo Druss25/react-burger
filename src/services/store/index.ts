@@ -1,10 +1,13 @@
-import thunk from "redux-thunk";
 import { configureStore } from "@reduxjs/toolkit";
+import thunk from "redux-thunk";
 import { ingredientsReducer } from "../reducers/ingredients";
 
 export const store = configureStore({
   reducer: {
     ingredients: ingredientsReducer,
+    // burger: burgerReducer,
+    // order: orderReducer,
+    // modal: modalReducer
   },
   middleware: [thunk],
 });

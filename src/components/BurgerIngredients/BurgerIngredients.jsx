@@ -8,6 +8,7 @@ import useModalControls from "../../hook/useModalControls";
 import { useAppSelector } from "../../hook/useAppSelector";
 import BurgerIngredientsStyles from "./BurgerIngredients.module.css";
 
+
 const BurgerIngredients = () => {
   const data = useAppSelector(state => state.ingredients.data)
   const { ingredients } = React.useContext(IngredientContext);
@@ -56,6 +57,7 @@ const BurgerIngredients = () => {
           Начинки
         </Tab>
       </div>
+
       <div className={`${BurgerIngredientsStyles.wrapper} custom-scroll`}>
         <div className={BurgerIngredientsStyles.content}>
           <p id="bun" className="text text_type_main-medium mt-10 mb-6">

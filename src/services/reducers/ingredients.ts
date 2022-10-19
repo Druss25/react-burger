@@ -1,4 +1,3 @@
-// import { InitIngredients } from "./../models/ingredients";
 import {
   IngredientsAction,
   IngredientsActionTypes,
@@ -16,11 +15,11 @@ export const ingredientsReducer = (
   action: IngredientsAction
 ): IngredientsState => {
   switch (action.type) {
-    case IngredientsActionTypes.FETCH_INGREDIENT_REQUEST:
+    case IngredientsActionTypes.FETCH_INGREDIENTS_REQUEST:
       return { data: [], isLoading: true, hasError: false };
-    case IngredientsActionTypes.FETCH_INGREDIENT_SUCCESS:
+    case IngredientsActionTypes.FETCH_INGREDIENTS_SUCCESS:
       return { data: action.payload, isLoading: false, hasError: false };
-    case IngredientsActionTypes.FETCH_INGREDIENT_ERROR:
+    case IngredientsActionTypes.FETCH_INGREDIENTS_ERROR:
       return { data: [], isLoading: false, hasError: true };
     default:
       return state;
