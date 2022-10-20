@@ -6,14 +6,21 @@ import OrderDetails from '../OrderDetails/OrderDetails';
 import { IngredientContext } from '../../services/ingredientContext';
 import BurgerConstructorStyles from './BurgerConstructor.module.css'
 import { useAppSelector } from '../../hook/useAppSelector';
+import { AddBurgerBunItems } from '../../services/actions/burger';
+import { useAppDispatch } from '../../hook/useAppDispatch';
 
 const BurgerConstructor = () => {
   const data = useAppSelector(state => state.ingredients.data)
   const { setIngredients } = React.useContext(IngredientContext)
   const [ingredientList, setIngredientList] = React.useState([])
+
+  // const randomIngredient = useAppSelector(state => state.burger.items)
+  // console.log('RandomIngredient: ', randomIngredient)
   const [randomIngredient, setRandomIngredient] = React.useState({})
   const [totalPrice, setTotalPrice] = React.useState(null)
   const modalControls = useModalControls({})
+
+  const dispatch = useAppDispatch()
 
   const ingredientBun = React.useMemo(
     () => data.filter(item => item.type === 'bun'), [data]
@@ -32,12 +39,25 @@ const BurgerConstructor = () => {
       const res = Math.floor(Math.random() * ingredientBun.length);
       return ingredientBun[res]
     }
+
     setRandomIngredient(random())
     setIngredientList(ingredientAll)
     setIngredients([randomIngredient, ...ingredientAll])
     setTotalPrice(setTotalAll)
     // eslint-disable-next-line
-  }, [randomIngredient, ingredientAll, ingredientList])
+  }, [randomIngredient, ingredientAll, ingredientList, ingredientBun])
+
+  React.useEffect(() => {
+    const random = () => {
+      const res = Math.floor(Math.random() * ingredientBun.length);
+      return ingredientBun[res]
+    }
+    const randomItem = random()
+    console.log("randomItem", randomItem)
+    // if (randomItem) dispatch({ type: BurgerActionTypes.ADD_ITEMS, randomItem })
+    if (randomItem !== null) dispatch(AddBurgerBunItems(randomItem))
+    // eslint-disable-next-line
+  }, [dispatch])
 
   return (
     <>

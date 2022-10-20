@@ -4,6 +4,8 @@ import {
 } from "../actions/ingredients";
 import { IngredientsState } from "../models/ingredients";
 
+// const InitIngredients: IIngredients[] = [];
+
 const initialState: IngredientsState = {
   data: [],
   isLoading: false,

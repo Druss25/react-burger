@@ -1,3 +1,9 @@
+export interface BurgerState {
+  items: IIngredients[];
+  itemsRequest: boolean;
+  itemsFailed: boolean;
+}
+
 export interface IngredientsState {
   data: [];
   isLoading: boolean;
