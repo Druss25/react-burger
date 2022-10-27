@@ -59,6 +59,7 @@ const BurgerIngredients = () => {
       </div>
 
       <div className={`${BurgerIngredientsStyles.wrapper} custom-scroll`}>
+
         <div className={BurgerIngredientsStyles.content}>
           <p id="bun" className="text text_type_main-medium mt-10 mb-6">
             Булки
@@ -76,6 +77,7 @@ const BurgerIngredients = () => {
             ))}
           </div>
         </div>
+
         <div className={BurgerIngredientsStyles.content}>
           <p id="sauce" className="text text_type_main-medium mt-10 mb-6">
             Соусы

@@ -6,11 +6,12 @@ import OrderDetails from '../OrderDetails/OrderDetails';
 import { IngredientContext } from '../../services/ingredientContext';
 import BurgerConstructorStyles from './BurgerConstructor.module.css'
 import { useAppSelector } from '../../hook/useAppSelector';
-import { AddBurgerBunItems } from '../../services/actions/burger';
+import { addBurgerBunItems } from '../../services/actions/burger';
 import { useAppDispatch } from '../../hook/useAppDispatch';
+import { dataSelector } from '../../services/ingredients/selectors';
 
 const BurgerConstructor = () => {
-  const data = useAppSelector(state => state.ingredients.data)
+  const data = useAppSelector(dataSelector)
   const { setIngredients } = React.useContext(IngredientContext)
   const [ingredientList, setIngredientList] = React.useState([])
 
@@ -34,28 +35,31 @@ const BurgerConstructor = () => {
     () => ingredientAll.reduce((prevValue, currentValue) => prevValue + currentValue.price, 0) + randomIngredient.price, [ingredientAll, randomIngredient]
   )
 
+  const random = () => {
+    const res = Math.floor(Math.random() * ingredientBun.length);
+    return ingredientBun[res]
+  }
+
+
+
   React.useEffect(() => {
-    const random = () => {
-      const res = Math.floor(Math.random() * ingredientBun.length);
-      return ingredientBun[res]
-    }
+    // const random = () => {
+    //   const res = Math.floor(Math.random() * ingredientBun.length);
+    //   return ingredientBun[res]
+    // }
 
     setRandomIngredient(random())
     setIngredientList(ingredientAll)
     setIngredients([randomIngredient, ...ingredientAll])
     setTotalPrice(setTotalAll)
+
     // eslint-disable-next-line
   }, [randomIngredient, ingredientAll, ingredientList, ingredientBun])
 
   React.useEffect(() => {
-    const random = () => {
-      const res = Math.floor(Math.random() * ingredientBun.length);
-      return ingredientBun[res]
-    }
     const randomItem = random()
-    console.log("randomItem", randomItem)
-    // if (randomItem) dispatch({ type: BurgerActionTypes.ADD_ITEMS, randomItem })
-    if (randomItem !== null) dispatch(AddBurgerBunItems(randomItem))
+    if (randomItem == null) return
+    dispatch(addBurgerBunItems(randomItem))
     // eslint-disable-next-line
   }, [dispatch])
 

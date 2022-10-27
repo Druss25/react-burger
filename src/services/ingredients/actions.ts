@@ -1,4 +1,5 @@
 import { Dispatch } from "redux";
+import { IIngredients } from "../models";
 import { baseUrl } from "../../utils/constants";
 
 export enum IngredientsActionTypes {
@@ -13,7 +14,7 @@ interface FetchIngredientsAction {
 
 interface FetchIngredientsSuccess {
   type: IngredientsActionTypes.FETCH_INGREDIENTS_SUCCESS;
-  payload: [];
+  payload: IIngredients[];
 }
 
 interface FetchIngredientsError {

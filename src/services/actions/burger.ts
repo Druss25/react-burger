@@ -1,4 +1,4 @@
-import { IIngredients } from "./../models/ingredients";
+import { IIngredients } from "../models";
 import { Dispatch } from "redux";
 
 export enum BurgerActionTypes {
@@ -38,7 +38,7 @@ export type BurgerAction =
   | AddItems
   | DeleteItems;
 
-export const AddBurgerBunItems = (item: IIngredients) => {
+export const addBurgerBunItems = (item: IIngredients) => {
   return (dispatch: Dispatch<BurgerAction>) => {
     if (item !== null && item !== undefined)
       dispatch({

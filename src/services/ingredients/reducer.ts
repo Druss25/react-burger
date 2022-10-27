@@ -1,10 +1,5 @@
-import {
-  IngredientsAction,
-  IngredientsActionTypes,
-} from "../actions/ingredients";
-import { IngredientsState } from "../models/ingredients";
-
-// const InitIngredients: IIngredients[] = [];
+import { IngredientsAction, IngredientsActionTypes } from "./actions";
+import { IngredientsState } from "../models";
 
 const initialState: IngredientsState = {
   data: [],

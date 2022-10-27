@@ -4,16 +4,18 @@ import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
 import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
 import { IngredientContext } from "../../services/ingredientContext";
 import { useAppDispatch } from "../../hook/useAppDispatch";
-import { getIngredients } from "../../services/actions/ingredients";
+import { getIngredients } from "../../services/ingredients/actions";
 import { useAppSelector } from "../../hook/useAppSelector";
-import AppStyles from "./App.module.css";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import { errorSelector, loadingSelector } from "../../services/ingredients/selectors";
+import AppStyles from "./App.module.css";
 
 function App() {
-  const { isLoading, hasError } = useAppSelector((state) => state.ingredients);
-  const [ingredients, setIngredients] = React.useState([]);
+  const isLoading = useAppSelector(loadingSelector);
+  const hasError = useAppSelector(errorSelector);
 
+  const [ingredients, setIngredients] = React.useState([]);
   const dispatch = useAppDispatch();
 
   React.useEffect(() => {

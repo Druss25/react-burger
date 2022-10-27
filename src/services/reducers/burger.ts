@@ -2,7 +2,7 @@ import { BurgerAction, BurgerActionTypes } from "../actions/burger";
 import {
   BurgerState,
   // IIngredients
-} from "../models/ingredients";
+} from "../models";
 
 // const InitItems: IIngredients[] = [];
 
