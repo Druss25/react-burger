@@ -3,8 +3,7 @@ import ReactPortal from '../ReactPortal/ReactPortal';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import ModalOverlay from '../ModalOverlay/ModalOverlay';
 import { modalProps } from '../../utils/constants';
-import ModalStyles from './Modal.module.css'
-
+import styles from './Modal.module.css'
 
 function Modal(props) {
 
@@ -26,16 +25,16 @@ function Modal(props) {
     props.isOpen &&
     (
       <ReactPortal wrapperId='modal' >
-        <div className={ModalStyles.modal}>
+        <div className={styles.modal}>
           <ModalOverlay onClick={handleCloseOverlay} />
-          <div className={`${ModalStyles.modal__content} pt-10 pl-10 pr-10`}>
+          <div className={`${styles.modal__content} pt-10 pl-10 pr-10`}>
             {!props.disableCloseButton && (
               <div className={props.titleModal !== ''
-                ? `${ModalStyles.modal__title__yes} text text_type_main-large`
-                : `${ModalStyles.modal__title__not} text text_type_main-large`}
+                ? `${styles.modal__title__yes} text text_type_main-large`
+                : `${styles.modal__title__not} text text_type_main-large`}
               >
                 {props.titleModal}
-                <div className={ModalStyles.modal__close} onClick={() => props.requestClose && props.requestClose()}>
+                <div className={styles.modal__close} onClick={() => props.requestClose && props.requestClose()}>
                   <CloseIcon type="primary" />
                 </div>
               </div>

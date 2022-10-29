@@ -1,119 +1,155 @@
 import React from 'react'
-import { Button, ConstructorElement, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components'
+import { Button, ConstructorElement, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import useModalControls from '../../hook/useModalControls';
 import Modal from '../Modal/Modal';
 import OrderDetails from '../OrderDetails/OrderDetails';
-import { IngredientContext } from '../../services/ingredientContext';
-import BurgerConstructorStyles from './BurgerConstructor.module.css'
-import { useAppSelector } from '../../hook/useAppSelector';
-import { addBurgerBunItems } from '../../services/actions/burger';
+import { useSelector } from 'react-redux';
+import { useDrop } from 'react-dnd';
+import { addToBurger } from '../../services/burger/actions';
+import { getBurgerItems, getPrice } from '../../services/burger/selectors';
+import styles from './BurgerConstructor.module.css'
+import BurgerConstructorElement from '../BurgerConstructorElement/BurgerConstructorElement';
+import { getOrder, OrderActionTypes } from '../../services/order/actions';
 import { useAppDispatch } from '../../hook/useAppDispatch';
-import { dataSelector } from '../../services/ingredients/selectors';
 
 const BurgerConstructor = () => {
-  const data = useAppSelector(dataSelector)
-  const { setIngredients } = React.useContext(IngredientContext)
-  const [ingredientList, setIngredientList] = React.useState([])
-
-  // const randomIngredient = useAppSelector(state => state.burger.items)
-  // console.log('RandomIngredient: ', randomIngredient)
-  const [randomIngredient, setRandomIngredient] = React.useState({})
-  const [totalPrice, setTotalPrice] = React.useState(null)
+  const dispatch = useAppDispatch()
+  const burgerItems = useSelector(getBurgerItems)
+  const totalPrice = useSelector(getPrice)
+  const isLoadingOrder = useSelector((state) => state.order.isLoading)
+  const numberOrder = useSelector((state) => state.order.data?.order.number)
   const modalControls = useModalControls({})
 
-  const dispatch = useAppDispatch()
+  const [, drop] = useDrop(() => ({
+    accept: "ADD_INGREDIENT",
+    drop: (ingredient) => dispatch(addToBurger(ingredient)),
+    collect: (monitor) => ({
+      isOver: monitor.isOver()
+    })
+  }))
 
-  const ingredientBun = React.useMemo(
-    () => data.filter(item => item.type === 'bun'), [data]
-  );
-
-  const ingredientAll = React.useMemo(
-    () => data.filter(item => item.type !== 'bun'), [data]
-  )
-
-  const setTotalAll = React.useMemo(
-    () => ingredientAll.reduce((prevValue, currentValue) => prevValue + currentValue.price, 0) + randomIngredient.price, [ingredientAll, randomIngredient]
-  )
-
-  const random = () => {
-    const res = Math.floor(Math.random() * ingredientBun.length);
-    return ingredientBun[res]
+  const handlerOrderClick = () => {
+    if (!burgerItems.bun || isLoadingOrder) return
+    dispatch(
+      getOrder([
+        burgerItems.bun._id,
+        ...burgerItems.ingredients.map(ingredient => ingredient._id),
+        burgerItems.bun._id,
+      ])
+    )
+    if (numberOrder !== undefined) modalControls.open()
   }
 
-
-
-  React.useEffect(() => {
-    // const random = () => {
-    //   const res = Math.floor(Math.random() * ingredientBun.length);
-    //   return ingredientBun[res]
-    // }
-
-    setRandomIngredient(random())
-    setIngredientList(ingredientAll)
-    setIngredients([randomIngredient, ...ingredientAll])
-    setTotalPrice(setTotalAll)
-
-    // eslint-disable-next-line
-  }, [randomIngredient, ingredientAll, ingredientList, ingredientBun])
+  // eslint-disable-next-line
+  const handlerOrderCloseModal = () => dispatch({ type: OrderActionTypes.ORDER_RESET })
 
   React.useEffect(() => {
-    const randomItem = random()
-    if (randomItem == null) return
-    dispatch(addBurgerBunItems(randomItem))
+    if (numberOrder !== undefined) {
+      modalControls.open()
+    }
+    console.log(numberOrder)
     // eslint-disable-next-line
-  }, [dispatch])
+  }, [numberOrder]);
 
   return (
     <>
-      <div className={`${BurgerConstructorStyles.wrapper} constructor-element__row mt-25`}>
-        <div className='mb-4'>
-          <ConstructorElement
-            type="top"
-            isLocked
-            text={`${randomIngredient.name} (верх)`}
-            price={randomIngredient.price}
-            thumbnail={randomIngredient.image}
-          />
-        </div>
-
-        <div className={`${BurgerConstructorStyles.list_items} custom-scroll constructor-element__row pr-4`}>
-          {ingredientList.length && ingredientList.map((ingredient, index) => (
-            <div key={index} className={`${BurgerConstructorStyles.item} constructor-element__row`}>
-              <DragIcon />
+      <section className={`${styles.wrapper} constructor-element__row mt-25`} ref={drop}>
+        {burgerItems.bun
+          ? (
+            <div className='mb-4'>
               <ConstructorElement
-                text={ingredient.name}
-                price={ingredient.price}
-                thumbnail={ingredient.image}
+                type="top"
+                isLocked
+                text={`${burgerItems.bun.name} (верх)`}
+                price={burgerItems.bun.price}
+                thumbnail={burgerItems.bun.image}
               />
             </div>
-          ))}
+          )
+          :
+          (
+            <div
+              className='constructor-element constructor-element_pos_top constructor-element__row mb-4 '
+              style={{ flexGrow: 0 }}>
+              <p
+                className='text text_type_main-default'
+                style={{ width: '100%', textAlign: 'center' }}
+              >
+                Выберите булку
+              </p>
+            </div>
+          )
+        }
+
+        <div className={`${styles.list_items} custom-scroll constructor-element__row`}>
+          {burgerItems.ingredients.length > 0
+            ? (
+              burgerItems.ingredients.map((ingredient, index) => {
+                return (
+                  <BurgerConstructorElement
+                    ingredient={ingredient}
+                    index={index}
+                    key={ingredient.id}
+                  />
+                )
+              }
+              ))
+            : (
+              <div className='constructor-element constructor-element__row'>
+                <p
+                  className='text text_type_main-default'
+                  style={{ width: '100%', textAlign: 'center' }}
+                >
+                  Выберите соусы и начинку
+                </p>
+              </div>
+            )
+          }
         </div>
 
-        <div className='mt-4'>
-          <ConstructorElement
-            type="bottom"
-            isLocked
-            text={`${randomIngredient.name} (низ)`}
-            price={randomIngredient.price}
-            thumbnail={randomIngredient.image}
-          />
-        </div>
-      </div>
-      <div className={`${BurgerConstructorStyles.wrapper_total} constructor-element__row mt-10`}>
-        <div className='constructor-element__row mr-10'>
-          <p className='text text_type_digits-medium mr-2' id='total'>{totalPrice > 0 ? totalPrice : `0`}</p>
-          <CurrencyIcon type="primary" />
-        </div>
-        <div className='mr-8'>
-          <Button type="primary" size="large" htmlType='button' onClick={modalControls.open}>
-            Оформить заказ
-          </Button>
-        </div>
-      </div>
+        {burgerItems.bun
+          ? (
+            <div className='mt-4'>
+              <ConstructorElement
+                type="bottom"
+                isLocked
+                text={`${burgerItems.bun.name} (низ)`}
+                price={burgerItems.bun.price}
+                thumbnail={burgerItems.bun.image}
+              />
+            </div>
+          )
+          : (
+            <div
+              className='constructor-element constructor-element_pos_bottom constructor-element__row mt-4 '
+              style={{ flexGrow: 0 }}>
+              <p
+                className='text text_type_main-default'
+                style={{ width: '100%', textAlign: 'center' }}
+              >
+                Выберите булку
+              </p>
+            </div>
+          )
+        }
 
-      <Modal {...modalControls.modalProps} >
-        <OrderDetails />
-      </Modal>
+        <div className={`${styles.wrapper_total} constructor-element__row mt-10`}>
+          <div className='constructor-element__row'>
+            <p className='text text_type_digits-medium mr-2' id='total'>{totalPrice}</p>
+            <CurrencyIcon type="primary" />
+          </div>
+          <div className='ml-10 mr-4'>
+            <Button type="primary" size="large" htmlType='button' onClick={handlerOrderClick}>
+              Оформить заказ
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {modalControls.modalProps.isOpen && (<Modal {...modalControls.modalProps} >
+        <OrderDetails numberOrder={numberOrder} />
+      </Modal>)
+      }
     </>
   )
 }

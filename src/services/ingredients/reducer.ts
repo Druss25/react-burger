@@ -12,11 +12,11 @@ export const ingredientsReducer = (
   action: IngredientsAction
 ): IngredientsState => {
   switch (action.type) {
-    case IngredientsActionTypes.FETCH_INGREDIENTS_REQUEST:
+    case IngredientsActionTypes.GET_INGREDIENTS_REQUEST:
       return { data: [], isLoading: true, hasError: false };
-    case IngredientsActionTypes.FETCH_INGREDIENTS_SUCCESS:
+    case IngredientsActionTypes.GET_INGREDIENTS_SUCCESS:
       return { data: action.payload, isLoading: false, hasError: false };
-    case IngredientsActionTypes.FETCH_INGREDIENTS_ERROR:
+    case IngredientsActionTypes.GET_INGREDIENTS_ERROR:
       return { data: [], isLoading: false, hasError: true };
     default:
       return state;

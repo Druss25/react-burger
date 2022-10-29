@@ -1,0 +1,6 @@
+.wrapper_card {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  cursor: pointer;
+}

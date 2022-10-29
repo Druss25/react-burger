@@ -1,118 +1,99 @@
 import React from "react";
+import { useInView } from 'react-intersection-observer'
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import CardItem from "../CardItem/CardItem";
-import { IngredientContext } from "../../services/ingredientContext";
 import Modal from "../Modal/Modal";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import useModalControls from "../../hook/useModalControls";
-import { useAppSelector } from "../../hook/useAppSelector";
-import BurgerIngredientsStyles from "./BurgerIngredients.module.css";
-
+import { ingredientsSelector } from "../../services/ingredients/selectors";
+import BurgerIngredientsCategory from "../BurgerIngredientsCategory/BurgerIngredientsCategory";
+import styles from "./BurgerIngredients.module.css";
+import { useSelector } from "react-redux";
 
 const BurgerIngredients = () => {
-  const data = useAppSelector(state => state.ingredients.data)
-  const { ingredients } = React.useContext(IngredientContext);
+  const ingredients = useSelector(ingredientsSelector)
   const [isIngredientModal, setIsIngredientModal] = React.useState({});
-  const [current, setCurrent] = React.useState("bun");
+  const [currentTab, setCurrentTab] = React.useState("bun");
 
   const titleModal = "Детали ингредиента";
   const modalControls = useModalControls({ titleModal });
 
+  const [bunsRef, inBunsView] = useInView({ threshold: 0 })
+  const [mainsRef, inMainsView] = useInView({ threshold: 0 })
+  const [saucesRef, inSaucesView] = useInView({ threshold: 0 })
+
+  React.useEffect(() => {
+    if (inBunsView) {
+      setCurrentTab('bun')
+    } else if (inSaucesView) {
+      setCurrentTab('sauce')
+    } else if (inMainsView) {
+      setCurrentTab('main')
+    }
+  }, [inBunsView, inSaucesView, inMainsView])
+
   const onTabClick = (value) => {
+    setCurrentTab(value)
     const selectTab = document.getElementById(value);
     if (selectTab) selectTab.scrollIntoView({ behavior: "smooth" });
-    setCurrent(value);
   };
 
-  const handleClick = (currentIngredient) => {
+  const onIngredientClick = (currentIngredient) => {
     setIsIngredientModal(currentIngredient);
     modalControls.open();
   };
 
   const buns = React.useMemo(
-    () => data.filter((item) => item.type === "bun"),
-    [data]
+    () => ingredients.filter((item) => item.type === "bun"),
+    [ingredients]
   );
 
   const sauces = React.useMemo(
-    () => data.filter((item) => item.type === "sauce"),
-    [data]
+    () => ingredients.filter((item) => item.type === "sauce"),
+    [ingredients]
   );
 
   const mains = React.useMemo(
-    () => data.filter((item) => item.type === "main"),
-    [data]
+    () => ingredients.filter((item) => item.type === "main"),
+    [ingredients]
   );
 
   return (
     <>
-      <div className={`${BurgerIngredientsStyles.wrapper_tab} mt-5 mb-10`}>
-        <Tab value="bun" active={current === "bun"} onClick={onTabClick}>
+      <div className={`${styles.wrapper_tab} mt-5 mb-10`}>
+        <Tab value="bun" active={currentTab === "bun"} onClick={onTabClick}>
           Булки
         </Tab>
-        <Tab value="sauce" active={current === "sauce"} onClick={onTabClick}>
+        <Tab value="sauce" active={currentTab === "sauce"} onClick={onTabClick}>
           Соусы
         </Tab>
-        <Tab value="main" active={current === "main"} onClick={onTabClick}>
+        <Tab value="main" active={currentTab === "main"} onClick={onTabClick}>
           Начинки
         </Tab>
       </div>
-
-      <div className={`${BurgerIngredientsStyles.wrapper} custom-scroll`}>
-
-        <div className={BurgerIngredientsStyles.content}>
-          <p id="bun" className="text text_type_main-medium mt-10 mb-6">
-            Булки
-          </p>
-          <div className={`${BurgerIngredientsStyles.wrapper_card} pl-4`}>
-            {buns.map((item) => (
-              <CardItem
-                key={item._id}
-                currentIngredient={item}
-                counter={
-                  ingredients.filter((count) => count._id === item._id).length
-                }
-                onClick={handleClick}
-              />
-            ))}
-          </div>
-        </div>
-
-        <div className={BurgerIngredientsStyles.content}>
-          <p id="sauce" className="text text_type_main-medium mt-10 mb-6">
-            Соусы
-          </p>
-          <div className={`${BurgerIngredientsStyles.wrapper_card} pl-4`}>
-            {sauces.map((item) => (
-              <CardItem
-                key={item._id}
-                currentIngredient={item}
-                counter={
-                  ingredients.filter((count) => count._id === item._id).length
-                }
-                onClick={handleClick}
-              />
-            ))}
-          </div>
-        </div>
-        <div className={BurgerIngredientsStyles.content}>
-          <p id="main" className="text text_type_main-medium mt-10 mb-6">
-            Начинки
-          </p>
-          <div className={`${BurgerIngredientsStyles.wrapper_card} pl-4`}>
-            {mains.map((item) => (
-              <CardItem
-                key={item._id}
-                currentIngredient={item}
-                counter={
-                  ingredients.filter((count) => count._id === item._id).length
-                }
-                onClick={handleClick}
-              />
-            ))}
-          </div>
-        </div>
+      <div className={`${styles.wrapper} custom-scroll mb-10`}>
+        <BurgerIngredientsCategory
+          title={'Булки'}
+          titleId={'bun'}
+          ingredients={buns}
+          onIngredientClick={onIngredientClick}
+          ref={bunsRef}
+        />
+        <BurgerIngredientsCategory
+          title={'Соусы'}
+          titleId={'sauce'}
+          ingredients={sauces}
+          onIngredientClick={onIngredientClick}
+          ref={saucesRef}
+        />
+        <BurgerIngredientsCategory
+          title={'Начинки'}
+          titleId={'main'}
+          ingredients={mains}
+          onIngredientClick={onIngredientClick}
+          ref={mainsRef}
+        />
       </div>
+
       {modalControls.modalProps.isOpen && (
         <Modal {...modalControls.modalProps}>
           <IngredientDetails currentIngredient={isIngredientModal} />

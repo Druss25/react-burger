@@ -48,9 +48,7 @@ function App() {
                   </p>
                   <BurgerIngredients />
                 </section>
-                <section className={AppStyles.wrapper}>
-                  <BurgerConstructor />
-                </section>
+                <BurgerConstructor />
               </main>
             </DndProvider>
           </>

@@ -1,15 +1,3 @@
-export interface BurgerState {
-  items: IIngredients[];
-  itemsRequest: boolean;
-  itemsFailed: boolean;
-}
-
-export interface IngredientsState {
-  data: IIngredients[];
-  isLoading: boolean;
-  hasError: boolean;
-}
-
 export interface IIngredients {
   _id: string;
   name: string;
@@ -26,7 +14,25 @@ export interface IIngredients {
   id?: string;
 }
 
+export interface IngredientsState {
+  data: IIngredients[];
+  isLoading: boolean;
+  hasError: boolean;
+}
+
+export interface BurgerState {
+  bun: IIngredients | null;
+  ingredients: IIngredients[];
+}
+
+export interface OrderState {
+  data: any;
+  isLoading: boolean;
+  error: string | null;
+}
+
 export interface StateStoreType {
   ingredients: IngredientsState;
   burger: BurgerState;
+  order: OrderState;
 }
