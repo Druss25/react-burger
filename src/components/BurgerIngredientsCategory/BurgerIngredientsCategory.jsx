@@ -1,8 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-// import PropTypes from 'prop-types'
 import { getIngredientsCounters } from '../../services/reducers/burger/selectors'
-// import { dataPropTypes } from '../../utils/constants'
 import IngredientElement from '../IngredientElement/IngredientElement'
 import styles from './BurgerIngredientsCategory.module.css'
 
@@ -27,12 +25,5 @@ const BurgerIngredientsCategory = React.forwardRef(({ title, titleId, ingredient
     </>
   )
 })
-
-// BurgerIngredientsCategory.propTypes = {
-//   title: PropTypes.string.isRequired,
-//   titleId: PropTypes.string.isRequired,
-//   ingredients: dataPropTypes.isRequired,
-//   onIngredientClick: PropTypes.func.isRequired
-// }
 
 export default BurgerIngredientsCategory

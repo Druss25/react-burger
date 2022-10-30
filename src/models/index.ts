@@ -21,6 +21,12 @@ export interface IResponseOrderApi {
     number?: number;
   };
 }
+
+export interface IRelocatedBurger {
+  from: number;
+  to: number;
+}
+
 export interface IngredientsState {
   data: IIngredients[];
   isLoading: boolean;

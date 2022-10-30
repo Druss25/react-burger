@@ -25,7 +25,7 @@ const IngredientElement = ({ ingredient, counter, onClick }) => {
     <>
       <div ref={dragRef} className={`${styles.wrapper} constructor-element__row`} onClick={handleClick} style={{ opacity }}>
         <div className='constructor-element__row' >
-          <img src={image} alt='img_ingredient' />
+          <img src={image} alt='Инградиент' />
         </div>
         {counter > 0 && (<Counter className={styles.counter} count={counter} size='default' />)}
         <div className={`constructor-element__row ${styles.wrapper_price} mt-1 mb-1`}>

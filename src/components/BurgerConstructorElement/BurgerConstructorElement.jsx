@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import { useDrag, useDrop } from 'react-dnd'
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './BurgerConstructorElement.module.css'
-import { BURGER_DELETE, BURGER_RELOCATION } from '../../services/reducers/burger/actions'
+import { BurgerActionTypes } from '../../services/reducers/burger/actions'
 
 const BurgerConstructorElement = ({ ingredient, index }) => {
   const dispatch = useDispatch()
@@ -17,7 +17,6 @@ const BurgerConstructorElement = ({ ingredient, index }) => {
       }
     },
     hover(item, monitor) {
-      console.log(item.index)
       const dragId = item.index;
       const hoverId = index
       if (dragId === hoverId) {
@@ -35,7 +34,7 @@ const BurgerConstructorElement = ({ ingredient, index }) => {
       }
 
       dispatch({
-        type: BURGER_RELOCATION,
+        type: BurgerActionTypes.BURGER_RELOCATION,
         payload: {
           from: dragId,
           to: hoverId
@@ -72,7 +71,7 @@ const BurgerConstructorElement = ({ ingredient, index }) => {
         thumbnail={ingredient.image}
         handleClose={() =>
           dispatch({
-            type: BURGER_DELETE,
+            type: BurgerActionTypes.BURGER_DELETE,
             payload: index
           })
         }

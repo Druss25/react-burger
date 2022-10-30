@@ -20,15 +20,20 @@ export const getPrice = createSelector(
   (bun, ingredients) => {
     return (
       (bun ? bun.price * 2 : 0) +
-      ingredients.reduce((total: any, value: any) => total + value.price, 0)
+      ingredients.reduce((total: number, value: IIngredients) => total + value.price, 0)
     );
   }
 );
 
+interface ICounter {
+  [key:string]: number
+}
+
 export const getIngredientsCounters = createSelector(
   getBurgerItems,
   ({ bun, ingredients }) => {
-    const counters: any = {};
+    const counters: ICounter = {};
+
     ingredients.forEach((ingredient: IIngredients) => {
       if (!counters[ingredient._id]) counters[ingredient._id] = 0;
       counters[ingredient._id]++;

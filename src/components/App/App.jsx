@@ -2,7 +2,6 @@ import React from "react";
 import AppHeader from "../AppHeader/AppHeader";
 import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
 import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
-import { IngredientContext } from "../../services/ingredientContext";
 import { useAppDispatch } from "../../hook/useAppDispatch";
 import { getIngredients } from "../../services/reducers/ingredients/actions";
 import { useAppSelector } from "../../hook/useAppSelector";
@@ -15,7 +14,6 @@ function App() {
   const isLoading = useAppSelector(loadingSelector);
   const hasError = useAppSelector(errorSelector);
 
-  const [ingredients, setIngredients] = React.useState([]);
   const dispatch = useAppDispatch();
 
   React.useEffect(() => {
@@ -23,7 +21,6 @@ function App() {
   }, [dispatch]);
 
   return (
-    <IngredientContext.Provider value={{ ingredients, setIngredients }}>
       <div className={AppStyles.app}>
         {hasError ? (
           <div className={AppStyles.messages}>
@@ -54,7 +51,6 @@ function App() {
           </>
         )}
       </div>
-    </IngredientContext.Provider>
   );
 }
 

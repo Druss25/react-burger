@@ -25,3 +25,12 @@
   height: 400px;
   overflow: hidden;
 }
+
+.grow_none {
+  flex-grow: 0;
+}
+
+.full_center {
+  text-align: center;
+  width: 100%;
+}

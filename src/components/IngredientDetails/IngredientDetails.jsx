@@ -1,4 +1,3 @@
-import React from 'react'
 import { dataPropTypes } from '../../utils/constants'
 import IngredientDetailsStyles from './IngredientDetails.module.css'
 
@@ -18,15 +17,15 @@ const IngredientDetails = ({ currentIngredient }) => {
         </div>
         <div className={`${IngredientDetailsStyles.item} text text_type_main-default text_color_inactive`}>
           <p className='text-center'>Белки,&nbsp;г</p>
-          <p className='text text_type_main-medium text-center mt-2'>{currentIngredient.calories}</p>
+          <p className='text text_type_main-medium text-center mt-2'>{currentIngredient.proteins}</p>
         </div>
         <div className={`${IngredientDetailsStyles.item} text text_type_main-default text_color_inactive`}>
           <p className='text-center'>Жиры,&nbsp;г</p>
-          <p className='text text_type_main-medium text-center mt-2'>{currentIngredient.calories}</p>
+          <p className='text text_type_main-medium text-center mt-2'>{currentIngredient.fat}</p>
         </div>
         <div className={`${IngredientDetailsStyles.item} text text_type_main-default text_color_inactive`}>
           <p className='text-center'>Углеводы,&nbsp;г</p>
-          <p className='text text_type_main-medium text-center mt-2'>{currentIngredient.calories}</p>
+          <p className='text text_type_main-medium text-center mt-2'>{currentIngredient.carbohydrates}</p>
         </div>
       </div>
     </>

@@ -1,9 +1,6 @@
 import { BurgerState } from "../../../models/index";
 import {
-  BURGER_ADD,
-  BURGER_DELETE,
-  BURGER_RELOCATION,
-  BURGER_RESET,
+  BurgerActionTypes, BurgerAction
 } from "./actions";
 
 const initialState: BurgerState = {
@@ -13,10 +10,10 @@ const initialState: BurgerState = {
 
 export const burgerReducer = (
   state = initialState,
-  action: any
+  action: BurgerAction
 ): BurgerState => {
   switch (action.type) {
-    case BURGER_ADD: {
+    case BurgerActionTypes.BURGER_ADD: {
       if (action.payload.type === "bun") {
         return { ...state, bun: action.payload };
       }
@@ -25,7 +22,7 @@ export const burgerReducer = (
         ingredients: [...state.ingredients, action.payload],
       };
     }
-    case BURGER_DELETE: {
+    case BurgerActionTypes.BURGER_DELETE: {
       return {
         ...state,
         ingredients: [
@@ -34,7 +31,7 @@ export const burgerReducer = (
         ],
       };
     }
-    case BURGER_RELOCATION: {
+    case BurgerActionTypes.BURGER_RELOCATION: {
       const ingredients = [...state.ingredients];
       ingredients.splice(
         action.payload.to,
@@ -46,7 +43,7 @@ export const burgerReducer = (
         ingredients,
       };
     }
-    case BURGER_RESET: {
+    case BurgerActionTypes.BURGER_RESET: {
       return initialState;
     }
     default:

@@ -1,17 +1,19 @@
 .wrapper__center {
-	max-width: 518px;
-	width: 100%;
-	text-align: center;
+  max-width: 518px;
+  width: 100%;
+  text-align: center;
 }
 .items__list {
-	display: flex;
-	flex-direction: row;
-	align-items: space-between;
-	max-width: 518px;
-	width: 100%;
-	gap: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  max-width: 518px;
+  width: 100%;
+  gap: 20px;
 }
 .item {
-	align-items: center;
-	width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 }

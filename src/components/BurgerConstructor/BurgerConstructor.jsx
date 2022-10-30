@@ -29,7 +29,7 @@ const BurgerConstructor = () => {
     })
   }))
 
-  const isOpenModalWindow = () => {
+  const OpenModalWindow = () => {
     if (numberOrder !== undefined) modalControls.open()
   }
 
@@ -42,14 +42,14 @@ const BurgerConstructor = () => {
         burgerItems.bun._id,
       ])
     )
-    isOpenModalWindow()
+    OpenModalWindow()
   }
 
   // eslint-disable-next-line
   const handlerOrderCloseModal = () => dispatch({ type: OrderActionTypes.ORDER_RESET })
 
   React.useEffect(() => {
-    isOpenModalWindow()
+    OpenModalWindow()
     // eslint-disable-next-line
   }, [numberOrder]);
 
@@ -71,12 +71,8 @@ const BurgerConstructor = () => {
           :
           (
             <div
-              className='constructor-element constructor-element_pos_top constructor-element__row mb-4 '
-              style={{ flexGrow: 0 }}>
-              <p
-                className='text text_type_main-default'
-                style={{ width: '100%', textAlign: 'center' }}
-              >
+              className={`${styles.grow_none} constructor-element constructor-element_pos_top constructor-element__row mb-4`}>
+              <p className={`${styles.full_center} text text_type_main-default`}>
                 Выберите булку
               </p>
             </div>
@@ -98,10 +94,7 @@ const BurgerConstructor = () => {
               ))
             : (
               <div className='constructor-element constructor-element__row'>
-                <p
-                  className='text text_type_main-default'
-                  style={{ width: '100%', textAlign: 'center' }}
-                >
+                <p className={`${styles.full_center} text text_type_main-default`}>
                   Выберите соусы и начинку
                 </p>
               </div>
@@ -123,12 +116,8 @@ const BurgerConstructor = () => {
           )
           : (
             <div
-              className='constructor-element constructor-element_pos_bottom constructor-element__row mt-4 '
-              style={{ flexGrow: 0 }}>
-              <p
-                className='text text_type_main-default'
-                style={{ width: '100%', textAlign: 'center' }}
-              >
+              className={`${styles.grow_none} constructor-element constructor-element_pos_bottom constructor-element__row mt-4`}>
+              <p className={`${styles.full_center} text text_type_main-default`}>
                 Выберите булку
               </p>
             </div>
