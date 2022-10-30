@@ -9,6 +9,9 @@
 # testing
 /coverage
 
+# documents
+/src/doc
+
 # production
 /build
 

@@ -1,4 +1,4 @@
-import { OrderState } from "../models";
+import { OrderState } from "../../../models";
 import { OrderAction, OrderActionTypes } from "./actions";
 
 const initialState: OrderState = {
@@ -27,7 +27,7 @@ export const orderReducer = (
         error: null,
       };
     }
-    case OrderActionTypes.ORDER_FAILED: {
+    case OrderActionTypes.ORDER_ERROR: {
       return {
         ...state,
         isLoading: false,

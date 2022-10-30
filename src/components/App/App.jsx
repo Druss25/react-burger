@@ -4,11 +4,11 @@ import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
 import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
 import { IngredientContext } from "../../services/ingredientContext";
 import { useAppDispatch } from "../../hook/useAppDispatch";
-import { getIngredients } from "../../services/ingredients/actions";
+import { getIngredients } from "../../services/reducers/ingredients/actions";
 import { useAppSelector } from "../../hook/useAppSelector";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { errorSelector, loadingSelector } from "../../services/ingredients/selectors";
+import { errorSelector, loadingSelector } from "../../services/reducers/ingredients/selectors";
 import AppStyles from "./App.module.css";
 
 function App() {

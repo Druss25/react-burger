@@ -14,6 +14,13 @@ export interface IIngredients {
   id?: string;
 }
 
+export interface IResponseOrderApi {
+  success: boolean;
+  name: string;
+  order: {
+    number?: number;
+  };
+}
 export interface IngredientsState {
   data: IIngredients[];
   isLoading: boolean;
@@ -26,13 +33,18 @@ export interface BurgerState {
 }
 
 export interface OrderState {
-  data: any;
+  data: IResponseOrderApi | null;
   isLoading: boolean;
   error: string | null;
+}
+
+export interface ModalState {
+  data: IIngredients | null;
 }
 
 export interface StateStoreType {
   ingredients: IngredientsState;
   burger: BurgerState;
   order: OrderState;
+  modal: ModalState;
 }

@@ -1,10 +1,13 @@
 import { Dispatch } from "redux";
-import { baseUrl } from "../../utils/constants";
+import { baseUrl } from "../../../utils/constants";
+import { IResponseOrderApi } from "../../../models";
+
+export const name = "order";
 
 export enum OrderActionTypes {
   ORDER_REQUEST = "ORDER_REQUEST",
   ORDER_SUCCESS = "ORDER_SUCCESS",
-  ORDER_FAILED = "ORDER_FAILED",
+  ORDER_ERROR = "ORDER_ERROR",
   ORDER_RESET = "ORDER_RESET",
 }
 
@@ -14,11 +17,11 @@ interface getOrderAction {
 
 interface getOrderSuccess {
   type: OrderActionTypes.ORDER_SUCCESS;
-  payload: responseApi;
+  payload: IResponseOrderApi;
 }
 
 interface getOrderFailed {
-  type: OrderActionTypes.ORDER_FAILED;
+  type: OrderActionTypes.ORDER_ERROR;
 }
 
 interface OrderReset {
@@ -30,15 +33,6 @@ export type OrderAction =
   | getOrderSuccess
   | getOrderFailed
   | OrderReset;
-
-
-  interface responseApi {
-  success: boolean;
-  name: string;
-  order: {
-    namber: number;
-  };
-}
 
 export const getOrder = (requestData: any) => {
   return async (dispatch: Dispatch<OrderAction>) => {
@@ -55,14 +49,14 @@ export const getOrder = (requestData: any) => {
     });
 
     if (res.ok && res.status === 200) {
-      const results: responseApi = await res?.json();
+      const results: IResponseOrderApi = await res?.json();
       dispatch({
         type: OrderActionTypes.ORDER_SUCCESS,
         payload: results,
       });
     } else {
       dispatch({
-        type: OrderActionTypes.ORDER_FAILED,
+        type: OrderActionTypes.ORDER_ERROR,
         payload: "Ошибка в получение данных с сервера",
       });
     }

@@ -1,4 +1,4 @@
-import { BurgerState } from "./../models/index";
+import { BurgerState } from "../../../models/index";
 import {
   BURGER_ADD,
   BURGER_DELETE,

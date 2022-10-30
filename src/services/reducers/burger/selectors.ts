@@ -1,4 +1,4 @@
-import { IIngredients, StateStoreType } from "./../models/index";
+import { IIngredients, StateStoreType } from "../../../models/index";
 import { createSelector } from "reselect";
 import { name } from "./actions";
 

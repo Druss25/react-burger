@@ -1,6 +1,6 @@
 import { Dispatch } from "redux";
-import { IIngredients } from "../models";
-import { baseUrl } from "../../utils/constants";
+import { IIngredients } from "../../../models";
+import { baseUrl } from "../../../utils/constants";
 
 export const name = "ingredients";
 
@@ -34,7 +34,7 @@ export const getIngredients = () => {
       type: IngredientsActionTypes.GET_INGREDIENTS_REQUEST,
     });
     const res = await fetch(`${baseUrl}/ingredients`);
-    if (res && res.ok) {
+    if (res.ok && res.status === 200) {
       const { data } = await res?.json();
       dispatch({
         type: IngredientsActionTypes.GET_INGREDIENTS_SUCCESS,

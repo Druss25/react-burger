@@ -1,5 +1,5 @@
 import { v4 as uuid } from "uuid";
-import { IIngredients } from "../models";
+import { IIngredients } from "../../../models";
 
 export const BURGER_ADD = "BURGER_ADD";
 export const BURGER_DELETE = "BURGER_DELETE";

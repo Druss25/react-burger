@@ -1,4 +1,4 @@
-import { StateStoreType } from "../models";
+import { StateStoreType } from "../../../models";
 import { name } from "./actions";
 
 export const loadingSelector = (state: StateStoreType) => state[name].isLoading;

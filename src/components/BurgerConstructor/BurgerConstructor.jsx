@@ -5,19 +5,20 @@ import Modal from '../Modal/Modal';
 import OrderDetails from '../OrderDetails/OrderDetails';
 import { useSelector } from 'react-redux';
 import { useDrop } from 'react-dnd';
-import { addToBurger } from '../../services/burger/actions';
-import { getBurgerItems, getPrice } from '../../services/burger/selectors';
-import styles from './BurgerConstructor.module.css'
+import { addToBurger } from '../../services/reducers/burger/actions';
+import { getBurgerItems, getPrice } from '../../services/reducers/burger/selectors';
+import { isLoadingOrderSelector, NumberOrderSelector } from '../../services/reducers/order/selectors';
 import BurgerConstructorElement from '../BurgerConstructorElement/BurgerConstructorElement';
-import { getOrder, OrderActionTypes } from '../../services/order/actions';
+import { getOrder, OrderActionTypes } from '../../services/reducers/order/actions';
 import { useAppDispatch } from '../../hook/useAppDispatch';
+import styles from './BurgerConstructor.module.css'
 
 const BurgerConstructor = () => {
   const dispatch = useAppDispatch()
   const burgerItems = useSelector(getBurgerItems)
   const totalPrice = useSelector(getPrice)
-  const isLoadingOrder = useSelector((state) => state.order.isLoading)
-  const numberOrder = useSelector((state) => state.order.data?.order.number)
+  const isLoadingOrder = useSelector(isLoadingOrderSelector)
+  const numberOrder = useSelector(NumberOrderSelector)
   const modalControls = useModalControls({})
 
   const [, drop] = useDrop(() => ({

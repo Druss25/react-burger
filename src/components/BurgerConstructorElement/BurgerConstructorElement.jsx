@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import { useDrag, useDrop } from 'react-dnd'
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './BurgerConstructorElement.module.css'
-import { BURGER_DELETE, BURGER_RELOCATION } from '../../services/burger/actions'
+import { BURGER_DELETE, BURGER_RELOCATION } from '../../services/reducers/burger/actions'
 
 const BurgerConstructorElement = ({ ingredient, index }) => {
   const dispatch = useDispatch()

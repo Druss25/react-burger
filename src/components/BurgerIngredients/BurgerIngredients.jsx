@@ -4,7 +4,7 @@ import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import Modal from "../Modal/Modal";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import useModalControls from "../../hook/useModalControls";
-import { ingredientsSelector } from "../../services/ingredients/selectors";
+import { ingredientsSelector } from "../../services/reducers/ingredients/selectors";
 import BurgerIngredientsCategory from "../BurgerIngredientsCategory/BurgerIngredientsCategory";
 import styles from "./BurgerIngredients.module.css";
 import { useSelector } from "react-redux";
