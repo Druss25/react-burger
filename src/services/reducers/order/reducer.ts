@@ -30,6 +30,7 @@ export const orderReducer = (
     case OrderActionTypes.ORDER_ERROR: {
       return {
         ...state,
+        data: null,
         isLoading: false,
         error: "Ошибка получения данных с сервера",
       };

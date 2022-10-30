@@ -29,6 +29,10 @@ const BurgerConstructor = () => {
     })
   }))
 
+  const isOpenModalWindow = () => {
+    if (numberOrder !== undefined) modalControls.open()
+  }
+
   const handlerOrderClick = () => {
     if (!burgerItems.bun || isLoadingOrder) return
     dispatch(
@@ -38,17 +42,14 @@ const BurgerConstructor = () => {
         burgerItems.bun._id,
       ])
     )
-    if (numberOrder !== undefined) modalControls.open()
+    isOpenModalWindow()
   }
 
   // eslint-disable-next-line
   const handlerOrderCloseModal = () => dispatch({ type: OrderActionTypes.ORDER_RESET })
 
   React.useEffect(() => {
-    if (numberOrder !== undefined) {
-      modalControls.open()
-    }
-    console.log(numberOrder)
+    isOpenModalWindow()
     // eslint-disable-next-line
   }, [numberOrder]);
 
