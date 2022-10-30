@@ -1,7 +1,7 @@
-import { StateStoreType } from "../../../models";
+import { RootStore } from "../../../models";
 import { name } from "./actions";
 
-export const isLoadingOrderSelector = (state: StateStoreType) =>
+export const isLoadingOrderSelector = (state: RootStore) =>
   state[name].isLoading;
-export const NumberOrderSelector = (state: StateStoreType) =>
+export const NumberOrderSelector = (state: RootStore) =>
   state[name].data?.order.number;

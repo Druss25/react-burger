@@ -35,7 +35,7 @@ const BurgerConstructor = () => {
   }
 
   const handlerOrderClick = () => {
-    if (!burgerItems.bun || isLoadingOrder) return
+    if (!burgerItems.bun || burgerItems.ingredients.length === 0 || isLoadingOrder) return
     dispatch(
       getOrder([
         burgerItems.bun._id,

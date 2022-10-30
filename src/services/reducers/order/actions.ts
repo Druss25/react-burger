@@ -1,6 +1,6 @@
 import { Dispatch } from "redux";
-import { baseUrl } from "../../../utils/constants";
 import { IResponseOrderApi } from "../../../models";
+import { requestFetch } from "../../../utils/httpReguest";
 
 export const name = "order";
 
@@ -34,31 +34,22 @@ export type OrderAction =
   | getOrderFailed
   | OrderReset;
 
-export const getOrder = (requestData: string[]) => {
-  return async (dispatch: Dispatch<OrderAction>) => {
+export const getOrder =
+  (requestData: string[]) => (dispatch: Dispatch<OrderAction>) => {
     dispatch({
       type: OrderActionTypes.ORDER_REQUEST,
     });
-
-    const res = await fetch(`${baseUrl}/orders`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json; charset=UTF-8",
-      },
-      body: JSON.stringify({ ingredients: requestData }),
-    });
-
-    if (res.ok && res.status === 200) {
-      const results: IResponseOrderApi = await res?.json();
-      dispatch({
-        type: OrderActionTypes.ORDER_SUCCESS,
-        payload: results,
+    requestFetch("/orders", "POST", { ingredients: requestData })
+      .then((data: IResponseOrderApi) => {
+        dispatch({
+          type: OrderActionTypes.ORDER_SUCCESS,
+          payload: data,
+        });
+      })
+      .catch((err) => {
+        dispatch({
+          type: OrderActionTypes.ORDER_ERROR,
+          payload: err,
+        });
       });
-    } else {
-      dispatch({
-        type: OrderActionTypes.ORDER_ERROR,
-        payload: "Ошибка в получение данных с сервера",
-      });
-    }
   };
-};

@@ -1,9 +1,9 @@
-import { IIngredients, StateStoreType } from "../../../models/index";
+import { IIngredients, RootStore } from "../../../models/index";
 import { createSelector } from "reselect";
 import { name } from "./actions";
 
-const getBun = (store: StateStoreType) => store[name].bun;
-const getIngredients = (store: StateStoreType) => store[name].ingredients;
+const getBun = (store: RootStore) => store[name].bun;
+const getIngredients = (store: RootStore) => store[name].ingredients;
 
 export const getBurgerItems = createSelector(
   getBun,
@@ -20,13 +20,16 @@ export const getPrice = createSelector(
   (bun, ingredients) => {
     return (
       (bun ? bun.price * 2 : 0) +
-      ingredients.reduce((total: number, value: IIngredients) => total + value.price, 0)
+      ingredients.reduce(
+        (total: number, value: IIngredients) => total + value.price,
+        0
+      )
     );
   }
 );
 
 interface ICounter {
-  [key:string]: number
+  [key: string]: number;
 }
 
 export const getIngredientsCounters = createSelector(

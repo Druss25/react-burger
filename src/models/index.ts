@@ -48,9 +48,9 @@ export interface ModalState {
   data: IIngredients | null;
 }
 
-export interface StateStoreType {
+export interface RootStore {
   ingredients: IngredientsState;
   burger: BurgerState;
   order: OrderState;
-  modal: ModalState;
+  ingradientModal: ModalState;
 }

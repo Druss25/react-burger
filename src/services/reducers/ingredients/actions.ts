@@ -1,6 +1,6 @@
 import { Dispatch } from "redux";
 import { IIngredients } from "../../../models";
-import { baseUrl } from "../../../utils/constants";
+import { requestFetch } from "../../../utils/httpReguest";
 
 export const name = "ingredients";
 
@@ -28,22 +28,20 @@ export type IngredientsAction =
   | getIngredientsSuccess
   | getIngredientsError;
 
-export const getIngredients = () => {
-  return async (dispatch: Dispatch<IngredientsAction>) => {
-    dispatch({
-      type: IngredientsActionTypes.GET_INGREDIENTS_REQUEST,
-    });
-    const res = await fetch(`${baseUrl}/ingredients`);
-    if (res.ok && res.status === 200) {
-      const { data } = await res?.json();
+export const getIngredients = () => (dispatch: Dispatch<IngredientsAction>) => {
+  dispatch({
+    type: IngredientsActionTypes.GET_INGREDIENTS_REQUEST,
+  });
+  requestFetch("/ingredients")
+    .then((data) => {
       dispatch({
         type: IngredientsActionTypes.GET_INGREDIENTS_SUCCESS,
-        payload: data as IIngredients[],
+        payload: data.data,
       });
-    } else {
+    })
+    .catch(() => {
       dispatch({
         type: IngredientsActionTypes.GET_INGREDIENTS_ERROR,
       });
-    }
-  };
+    });
 };

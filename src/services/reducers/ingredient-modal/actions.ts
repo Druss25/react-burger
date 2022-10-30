@@ -1,6 +1,6 @@
 import { IIngredients } from "../../../models";
 
-export const name = "modal";
+export const name = "ingradientModal";
 
 export enum ModalActionTypes {
   MODAL_SET = "MODAL_SET",

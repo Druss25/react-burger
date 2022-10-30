@@ -1,14 +1,14 @@
-import { StateStoreType } from "../../../models";
+import { RootStore } from "../../../models";
 import { name } from "./actions";
 
-export const loadingSelector = (state: StateStoreType) => state[name].isLoading;
-export const errorSelector = (state: StateStoreType) => state[name].hasError;
-export const ingredientsSelector = (state: StateStoreType) =>
+export const loadingSelector = (state: RootStore) => state[name].isLoading;
+export const errorSelector = (state: RootStore) => state[name].hasError;
+export const ingredientsSelector = (state: RootStore) =>
   state.ingredients.data;
 
-export const getBun = (state: StateStoreType) =>
+export const getBun = (state: RootStore) =>
   state[name].data.filter((item) => item.type === "bun");
-export const getSauce = (state: StateStoreType) =>
+export const getSauce = (state: RootStore) =>
   state[name].data.filter((item) => item.type === "sauce");
-export const getMain = (state: StateStoreType) =>
+export const getMain = (state: RootStore) =>
   state[name].data.filter((item) => item.type === "main");
