@@ -29,7 +29,7 @@ const BurgerConstructor = () => {
     })
   }))
 
-  const OpenModalWindow = () => {
+  const openModalWindow = () => {
     if (numberOrder !== undefined) modalControls.open()
   }
 
@@ -42,14 +42,14 @@ const BurgerConstructor = () => {
         burgerItems.bun._id,
       ])
     )
-    OpenModalWindow()
+    openModalWindow()
   }
 
   // eslint-disable-next-line
   const handlerOrderCloseModal = () => dispatch({ type: OrderActionTypes.ORDER_RESET })
 
   React.useEffect(() => {
-    OpenModalWindow()
+    openModalWindow()
     // eslint-disable-next-line
   }, [numberOrder]);
 

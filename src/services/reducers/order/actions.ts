@@ -34,7 +34,7 @@ export type OrderAction =
   | getOrderFailed
   | OrderReset;
 
-export const getOrder = (requestData: []) => {
+export const getOrder = (requestData: string[]) => {
   return async (dispatch: Dispatch<OrderAction>) => {
     dispatch({
       type: OrderActionTypes.ORDER_REQUEST,
