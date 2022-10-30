@@ -2,15 +2,16 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import { useDrag, useDrop } from 'react-dnd'
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components'
-import styles from './BurgerConstructorElement.module.css'
 import { BurgerActionTypes } from '../../services/reducers/burger/actions'
+import { TargetDropType } from '../../utils/constants'
+import styles from './BurgerConstructorElement.module.css'
 
 const BurgerConstructorElement = ({ ingredient, index }) => {
   const dispatch = useDispatch()
   const ref = React.useRef(null)
 
   const [{ handlerId }, drop] = useDrop({
-    accept: ["SORTING_INGREDIENT"],
+    accept: [TargetDropType.SORTING_INGREDIENT],
     collect(monitor) {
       return {
         handlerId: monitor.getHandlerId()
@@ -45,7 +46,7 @@ const BurgerConstructorElement = ({ ingredient, index }) => {
   })
 
   const [{ isDragging }, drag] = useDrag({
-    type: "SORTING_INGREDIENT",
+    type: TargetDropType.SORTING_INGREDIENT,
     item: () => {
       return { ingredient, index }
     },

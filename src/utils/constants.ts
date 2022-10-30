@@ -26,6 +26,11 @@ export const modalProps = PropTypes.shape({
   disableOverlayClick: PropTypes.bool.isRequired,
 });
 
+export const enum TargetDropType {
+  ADD_INGREDIENT = "ADD_INGREDIENT",
+  SORTING_INGREDIENT = "SORTING_INGREDIENT",
+}
+
 export const TabOptions = {
   type: {
     BUN: "bun",

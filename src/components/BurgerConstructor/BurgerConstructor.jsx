@@ -11,6 +11,7 @@ import { isLoadingOrderSelector, NumberOrderSelector } from '../../services/redu
 import BurgerConstructorElement from '../BurgerConstructorElement/BurgerConstructorElement';
 import { getOrder, OrderActionTypes } from '../../services/reducers/order/actions';
 import { useAppDispatch } from '../../hook/useAppDispatch';
+import { TargetDropType } from '../../utils/constants'
 import styles from './BurgerConstructor.module.css'
 
 const BurgerConstructor = () => {
@@ -22,7 +23,7 @@ const BurgerConstructor = () => {
   const modalControls = useModalControls({})
 
   const [, drop] = useDrop(() => ({
-    accept: "ADD_INGREDIENT",
+    accept: TargetDropType.ADD_INGREDIENT,
     drop: (ingredient) => dispatch(addToBurger(ingredient)),
     collect: (monitor) => ({
       isOver: monitor.isOver()

@@ -10,6 +10,8 @@ import { useSelector } from "react-redux";
 import { TabOptions } from "../../utils/constants";
 import styles from "./BurgerIngredients.module.css";
 
+const titleModal = "Детали ингредиента";
+
 const BurgerIngredients = () => {
   const [selectedIngredient, setSelectedIngredient] = React.useState({});
   const [currentTab, setCurrentTab] = React.useState(TabOptions.type.BUN);
@@ -17,7 +19,6 @@ const BurgerIngredients = () => {
   const sauces = useSelector(getSauce)
   const mains = useSelector(getMain)
 
-  const titleModal = "Детали ингредиента";
   const modalControls = useModalControls({ titleModal });
 
   const [bunsRef, inBunsView] = useInView({ threshold: 0 })

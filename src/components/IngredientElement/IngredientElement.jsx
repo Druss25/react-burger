@@ -1,13 +1,13 @@
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import PropTypes from 'prop-types'
-import { dataPropTypes } from '../../utils/constants'
+import { dataPropTypes, TargetDropType } from '../../utils/constants'
 import { useDrag } from 'react-dnd'
 import styles from './IngredientElement.module.css'
 
 const IngredientElement = ({ ingredient, counter, onClick }) => {
   const { name, price, image } = ingredient
   const [{ opacity }, dragRef] = useDrag({
-    type: "ADD_INGREDIENT",
+    type: TargetDropType.ADD_INGREDIENT,
     item: { ...ingredient },
     // collect: monitor => ({
     //   isDrag: monitor.isDragging()
