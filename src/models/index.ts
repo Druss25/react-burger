@@ -52,5 +52,5 @@ export interface RootStore {
   ingredients: IngredientsState;
   burger: BurgerState;
   order: OrderState;
-  ingradientModal: ModalState;
+  ingradientDetailModal: ModalState;
 }

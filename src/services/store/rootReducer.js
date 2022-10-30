@@ -8,7 +8,7 @@ const rootReducer = combineReducers({
   ingredients: ingredientsReducer,
   burger: burgerReducer,
   order: orderReducer,
-  modal: ingredientModalReducer,
+  ingradientDetailModal: ingredientModalReducer,
 });
 
 export default rootReducer;

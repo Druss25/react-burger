@@ -6,15 +6,17 @@ import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import useModalControls from "../../hook/useModalControls";
 import { getBun, getMain, getSauce } from "../../services/reducers/ingredients/selectors";
 import BurgerIngredientsCategory from "../BurgerIngredientsCategory/BurgerIngredientsCategory";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { TabOptions } from "../../utils/constants";
+import { ModalActionTypes } from '../../services/reducers/ingredient-modal/actions'
 import styles from "./BurgerIngredients.module.css";
 
 const titleModal = "Детали ингредиента";
 
 const BurgerIngredients = () => {
-  const [selectedIngredient, setSelectedIngredient] = React.useState({});
+  const dispatch = useDispatch();
   const [currentTab, setCurrentTab] = React.useState(TabOptions.type.BUN);
+
   const buns = useSelector(getBun)
   const sauces = useSelector(getSauce)
   const mains = useSelector(getMain)
@@ -41,8 +43,12 @@ const BurgerIngredients = () => {
     if (selectTab) selectTab.scrollIntoView({ behavior: "smooth" });
   };
 
-  const onIngredientClick = (currentIngredient) => {
-    setSelectedIngredient(currentIngredient);
+  // eslint-disable-next-line
+  const closeIngredientModal = () => {
+    dispatch({ type: ModalActionTypes.MODAL_RESET })
+  }
+  const onIngredientClick = (ingredient) => {
+    dispatch({ type: ModalActionTypes.MODAL_SET, payload: ingredient })
     modalControls.open();
   };
 
@@ -85,7 +91,7 @@ const BurgerIngredients = () => {
 
       {modalControls.modalProps.isOpen && (
         <Modal {...modalControls.modalProps}>
-          <IngredientDetails currentIngredient={selectedIngredient} />
+          <IngredientDetails />
         </Modal>
       )}
     </>
