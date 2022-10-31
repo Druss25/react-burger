@@ -1,9 +1,9 @@
-26-28 сентября – теория + тренажер (модули «Основы React» и «Инструментарий») 
+26-28 сентября – теория + тренажер (модули «Основы React» и «Инструментарий»)
 29 сентября - 1 октября – написание промежуточного проекта (вёрстка, заготовка CRA)
-2-4 октября – теория + тренажер (Продвинутый React, Хуки) 
-5 октября – вебинар «Кастомные хуки» 
-5–7 октября – написание проекта (JSX) 
-8-9 октября – ревью и исправление ошибок 
+2-4 октября – теория + тренажер (Продвинутый React, Хуки)
+5 октября – вебинар «Кастомные хуки»
+5–7 октября – написание проекта (JSX)
+8-9 октября – ревью и исправление ошибок
 
 
 Figma - макет
@@ -24,3 +24,34 @@ https://music.yandex.ru/users/music-blog/playlists/2131
 
 Проект. Создать CRA-заготовку и создать структуру папок под компоненты
 https://practicum.yandex.ru/learn/react/courses/8bb9f1d2-104b-4854-a4d5-d5d8766421ec/sprints/35950/topics/1b04cf53-64d6-46a0-ba92-2a857b20f0bd/lessons/a4bdfad8-d4c2-4b5b-aefa-04119daf305d/
+
+
+export const getOrder = (requestData: any) => {
+  return async (dispatch: Dispatch<OrderAction>) => {
+    dispatch({
+      type: OrderActionTypes.ORDER_REQUEST,
+    });
+
+    const res = await fetch(`${baseUrl}/orders`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json; charset=UTF-8",
+      },
+      body: JSON.stringify({ ingredients: requestData }),
+    });
+
+    if (res.ok) {
+      const { order } = await res?.json();
+      console.log(order);
+      dispatch({
+        type: OrderActionTypes.ORDER_SUCCESS,
+        payload: order,
+      });
+    } else {
+      dispatch({
+        type: OrderActionTypes.ORDER_FAILED,
+        payload: "Ошибка в получение данных с сервера",
+      });
+    }
+  };
+};
