@@ -9,9 +9,14 @@ export const requestFetch = async (
   if (params) {
     options = {
       method: method,
+      // mode: "cors",
+      // cache: "no-cache",
+      // credentials: "same-origin",
       headers: {
         "Content-Type": "application/json; charset=UTF-8",
       },
+      // redirect: "follow",
+      // referrerPolicy: "no-referrer",
       body: JSON.stringify(params),
     };
   }
