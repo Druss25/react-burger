@@ -32,7 +32,7 @@ export const getIngredients = () => (dispatch: Dispatch<IngredientsAction>) => {
   dispatch({
     type: IngredientsActionTypes.GET_INGREDIENTS_REQUEST,
   });
-  requestFetch("/ingredients")
+  return requestFetch("/ingredients")
     .then((data) => {
       dispatch({
         type: IngredientsActionTypes.GET_INGREDIENTS_SUCCESS,

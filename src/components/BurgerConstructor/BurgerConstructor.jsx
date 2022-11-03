@@ -3,21 +3,20 @@ import { Button, ConstructorElement, CurrencyIcon } from '@ya.praktikum/react-de
 import useModalControls from '../../hook/useModalControls';
 import Modal from '../Modal/Modal';
 import OrderDetails from '../OrderDetails/OrderDetails';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useDrop } from 'react-dnd';
 import { addToBurger } from '../../services/reducers/burger/actions';
-import { getBurgerItems, getPrice } from '../../services/reducers/burger/selectors';
+import { getBurgerItems, totalBurgerPrice } from '../../services/reducers/burger/selectors';
 import { isLoadingOrderSelector, NumberOrderSelector } from '../../services/reducers/order/selectors';
 import BurgerConstructorElement from '../BurgerConstructorElement/BurgerConstructorElement';
 import { getOrder, OrderActionTypes } from '../../services/reducers/order/actions';
-import { useAppDispatch } from '../../hook/useAppDispatch';
 import { TargetDropType } from '../../utils/constants'
 import styles from './BurgerConstructor.module.css'
 
 const BurgerConstructor = () => {
-  const dispatch = useAppDispatch()
+  const dispatch = useDispatch()
   const burgerItems = useSelector(getBurgerItems)
-  const totalPrice = useSelector(getPrice)
+  const totalPrice = useSelector(totalBurgerPrice)
   const isLoadingOrder = useSelector(isLoadingOrderSelector)
   const numberOrder = useSelector(NumberOrderSelector)
   const modalControls = useModalControls({})
@@ -30,10 +29,6 @@ const BurgerConstructor = () => {
     })
   }))
 
-  const openModalWindow = () => {
-    if (numberOrder !== undefined) modalControls.open()
-  }
-
   const handlerOrderClick = () => {
     if (!burgerItems.bun || burgerItems.ingredients.length === 0 || isLoadingOrder) return
     dispatch(
@@ -43,16 +38,11 @@ const BurgerConstructor = () => {
         burgerItems.bun._id,
       ])
     )
-    openModalWindow()
+    modalControls.open()
   }
 
   // eslint-disable-next-line
   const handlerOrderCloseModal = () => dispatch({ type: OrderActionTypes.ORDER_RESET })
-
-  React.useEffect(() => {
-    openModalWindow()
-    // eslint-disable-next-line
-  }, [numberOrder]);
 
   return (
     <>

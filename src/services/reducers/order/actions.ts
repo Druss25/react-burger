@@ -1,6 +1,6 @@
 import { Dispatch } from "redux";
 import { IResponseOrderApi } from "../../../models";
-import { requestFetch } from "../../../utils/httpReguest";
+import { orderRequest } from "../../../utils/api";
 
 export const name = "order";
 
@@ -22,6 +22,7 @@ interface getOrderSuccess {
 
 interface getOrderFailed {
   type: OrderActionTypes.ORDER_ERROR;
+  payload: string;
 }
 
 interface OrderReset {
@@ -35,21 +36,23 @@ export type OrderAction =
   | OrderReset;
 
 export const getOrder =
-  (requestData: string[]) => (dispatch: Dispatch<OrderAction>) => {
-    dispatch({
-      type: OrderActionTypes.ORDER_REQUEST,
-    });
-    requestFetch("/orders", "POST", { ingredients: requestData })
-      .then((data: IResponseOrderApi) => {
+  (ingredientsList: string[]) => async (dispatch: Dispatch<OrderAction>) => {
+    dispatch({ type: OrderActionTypes.ORDER_REQUEST });
+    await orderRequest(ingredientsList)
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.error && !res.success) {
+          throw res.error;
+        }
         dispatch({
           type: OrderActionTypes.ORDER_SUCCESS,
-          payload: data,
+          payload: res as IResponseOrderApi,
         });
       })
-      .catch((err) => {
+      .catch((error) => {
         dispatch({
           type: OrderActionTypes.ORDER_ERROR,
-          payload: err,
+          payload: error,
         });
       });
   };

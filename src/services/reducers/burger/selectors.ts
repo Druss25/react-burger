@@ -14,7 +14,7 @@ export const getBurgerItems = createSelector(
   })
 );
 
-export const getPrice = createSelector(
+export const totalBurgerPrice = createSelector(
   getBun,
   getIngredients,
   (bun, ingredients) => {
