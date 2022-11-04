@@ -54,13 +54,11 @@ const AppHeader = () => {
             </NavLink>
           </li>
         </ul>
-        <div className='constructor-element__row'>
-          <Logo />
-        </div>
+        <Logo />
         <NavLink
           to='/login'
           className={`${styles.profile} text text_type_main-default text_color_inactive`}
-          activeClassName={styles.active}
+          activeClassName={isLinkProfile ? styles.active : ''}
           onClick={handleClickProfile}
         >
           <ProfileIcon type={isLinkProfile ? "primary" : "secondary"} size={24} />

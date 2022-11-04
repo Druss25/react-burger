@@ -65,7 +65,7 @@ const BurgerIngredients = () => {
           {TabOptions.name.MAIN}
         </Tab>
       </div>
-      <div className={`${styles.wrapper} custom-scroll mb-10`}>
+      <div className={`${styles.wrapper} custom-scroll`}>
         <BurgerIngredientsCategory
           title={TabOptions.name.BUN}
           titleId={TabOptions.type.BUN}

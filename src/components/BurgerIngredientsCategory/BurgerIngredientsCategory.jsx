@@ -12,7 +12,7 @@ const BurgerIngredientsCategory = React.forwardRef(({ title, titleId, ingredient
       <h3 className="text text_type_main-medium mb-6" id={titleId} >
         {title}
       </h3>
-      <div className={`${styles.wrapper_card} pl-4 mb-10`} ref={ref}>
+      <div className={`${styles.wrapper_card} pl-4`} ref={ref}>
         {ingredients.map((ingredient) => (
           <IngredientElement
             key={ingredient._id}

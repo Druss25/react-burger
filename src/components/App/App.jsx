@@ -1,6 +1,5 @@
-import React from "react";
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-import { HomePage, LoginPage } from "../../pages";
+import { ForgotPasswordPage, HomePage, LoginPage, RegisterPage, ResetPasswordPage } from "../../pages";
 import Layout from "../Layout/Layout";
 
 function App() {
@@ -13,6 +12,15 @@ function App() {
           </Route>
           <Route path='/login' >
             <LoginPage />
+          </Route>
+          <Route path='/register' >
+            <RegisterPage />
+          </Route>
+          <Route path='/forgot-password' >
+            <ForgotPasswordPage />
+          </Route>
+          <Route path='/reset-password' >
+            <ResetPasswordPage />
           </Route>
         </Switch>
       </Layout>
