@@ -1,44 +1,39 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components'
+import { Button, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from '../form.module.css'
 
 const ResetPasswordPage = () => {
-  const [password, setPassword] = React.useState('')
-  const [token, setToken] = React.useState('')
-  const [isVisible, setIsVisible] = React.useState(false)
+  const [inputs, setInputs] = React.useState({})
 
-  const onIconPasswordClick = () => {
-    setIsVisible(isVisible => !isVisible)
+  const handleChange = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    setInputs(values => ({ ...values, [name]: value }))
   }
 
-  const onSubmitClick = React.useCallback(
+  const handleSubmit = React.useCallback(
     (e) => {
       e.preventDefault()
     }, [])
 
   return (
     <section className={styles.section_form_container}>
-      <form className={styles.form_wrapper} onSubmit={onSubmitClick}>
+      <form className={styles.form_wrapper} onSubmit={handleSubmit}>
         <h3 className='text text_type_main-medium'>Восстановление пароля</h3>
-        <Input
-          type={isVisible ? 'text' : 'password'}
+        <PasswordInput
           placeholder={'Введите новый пароль'}
-          icon={isVisible ? 'ShowIcon' : 'HideIcon'}
-          size={'default'}
-          onChange={e => setPassword(e.target.value)}
-          value={password}
+          onChange={handleChange}
+          value={inputs.password}
           name={'password'}
-          onIconClick={onIconPasswordClick}
-          error={false}
           extraClass='mt-6 mb-6'
         />
         <Input
           type="text"
           placeholder={'Введите код из письма'}
           size={'default'}
-          onChange={e => setToken(e.target.value)}
-          value={token}
+          onChange={handleChange}
+          value={inputs.token}
           name={'token'}
           error={false}
           extraClass='mb-6'

@@ -35,15 +35,8 @@ const HomePage = () => {
         </div>
       ) : (
         <DndProvider backend={HTML5Backend}>
-          <main className={styles.main}>
-            <section className={styles.wrapper}>
-              <p className="text text_type_main-large mt-10">
-                Соберите бургер
-              </p>
-              <BurgerIngredients />
-            </section>
-            <BurgerConstructor />
-          </main>
+          <BurgerIngredients />
+          <BurgerConstructor />
         </DndProvider>
       )}
     </>

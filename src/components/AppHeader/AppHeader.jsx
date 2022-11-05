@@ -56,7 +56,7 @@ const AppHeader = () => {
         </ul>
         <Logo />
         <NavLink
-          to='/login'
+          to='/profile'
           className={`${styles.profile} text text_type_main-default text_color_inactive`}
           activeClassName={isLinkProfile ? styles.active : ''}
           onClick={handleClickProfile}

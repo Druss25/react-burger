@@ -54,40 +54,45 @@ const BurgerIngredients = () => {
 
   return (
     <>
-      <div className={`${styles.wrapper_tab} mt-5 mb-10`}>
-        <Tab value={TabOptions.type.BUN} active={currentTab === TabOptions.type.BUN} onClick={onTabClick}>
-          {TabOptions.name.BUN}
-        </Tab>
-        <Tab value={TabOptions.type.SAUCE} active={currentTab === TabOptions.type.SAUCE} onClick={onTabClick}>
-          {TabOptions.name.SAUCE}
-        </Tab>
-        <Tab value={TabOptions.type.MAIN} active={currentTab === TabOptions.type.MAIN} onClick={onTabClick}>
-          {TabOptions.name.MAIN}
-        </Tab>
-      </div>
-      <div className={`${styles.wrapper} custom-scroll`}>
-        <BurgerIngredientsCategory
-          title={TabOptions.name.BUN}
-          titleId={TabOptions.type.BUN}
-          ingredients={buns}
-          onIngredientClick={onIngredientClick}
-          ref={bunsRef}
-        />
-        <BurgerIngredientsCategory
-          title={TabOptions.name.SAUCE}
-          titleId={TabOptions.type.SAUCE}
-          ingredients={sauces}
-          onIngredientClick={onIngredientClick}
-          ref={saucesRef}
-        />
-        <BurgerIngredientsCategory
-          title={TabOptions.name.MAIN}
-          titleId={TabOptions.type.MAIN}
-          ingredients={mains}
-          onIngredientClick={onIngredientClick}
-          ref={mainsRef}
-        />
-      </div>
+      <section className={styles.section}>
+        <h2 className="text text_type_main-large mt-10">
+          Соберите бургер
+        </h2>
+        <div className={`${styles.wrapper_tab} mt-5 mb-10`}>
+          <Tab value={TabOptions.type.BUN} active={currentTab === TabOptions.type.BUN} onClick={onTabClick}>
+            {TabOptions.name.BUN}
+          </Tab>
+          <Tab value={TabOptions.type.SAUCE} active={currentTab === TabOptions.type.SAUCE} onClick={onTabClick}>
+            {TabOptions.name.SAUCE}
+          </Tab>
+          <Tab value={TabOptions.type.MAIN} active={currentTab === TabOptions.type.MAIN} onClick={onTabClick}>
+            {TabOptions.name.MAIN}
+          </Tab>
+        </div>
+        <div className={`${styles.wrapper} custom-scroll`}>
+          <BurgerIngredientsCategory
+            title={TabOptions.name.BUN}
+            titleId={TabOptions.type.BUN}
+            ingredients={buns}
+            onIngredientClick={onIngredientClick}
+            ref={bunsRef}
+          />
+          <BurgerIngredientsCategory
+            title={TabOptions.name.SAUCE}
+            titleId={TabOptions.type.SAUCE}
+            ingredients={sauces}
+            onIngredientClick={onIngredientClick}
+            ref={saucesRef}
+          />
+          <BurgerIngredientsCategory
+            title={TabOptions.name.MAIN}
+            titleId={TabOptions.type.MAIN}
+            ingredients={mains}
+            onIngredientClick={onIngredientClick}
+            ref={mainsRef}
+          />
+        </div>
+      </section>
 
       {modalControls.modalProps.isOpen && (
         <Modal {...modalControls.modalProps}>

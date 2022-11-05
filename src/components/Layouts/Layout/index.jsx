@@ -1,12 +1,14 @@
 import PropTypes from 'prop-types'
-import AppHeader from '../AppHeader/AppHeader'
+import AppHeader from '../../AppHeader/AppHeader'
 import styles from './Layout.module.css'
 
 const Layout = ({ children }) => {
   return (
     <div className={styles.wrapper}>
       <AppHeader />
-      {children}
+      <main className={styles.main}>
+        {children}
+      </main>
     </div>
   )
 }
