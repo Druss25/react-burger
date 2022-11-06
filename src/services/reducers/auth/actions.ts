@@ -7,6 +7,7 @@ import {
   LogoutRequest,
   RegisterRequest,
   saveTokens,
+  TokenRequest,
 } from "../../../utils/api";
 
 export const name = "auth";
@@ -86,18 +87,53 @@ export const register =
       });
   };
 
-export const logout = async () => {
-  await LogoutRequest().then((res) => {
-    if (res.ok && res.status === 200) localStorage.clear();
-    return res.json();
-  });
+export const logout = () => async (dispatch: Dispatch<AuthAction>) => {
+  await LogoutRequest()
+    .then((res) => {
+      if (!res.ok && res.status !== 200)
+        return new Error("Что-то пошло не так !!!");
+      return res.json();
+    })
+    .then((res) => {
+      if (res.success) {
+        dispatch({
+          type: AuthActionTypes.AUTH_USER_LOGOUT,
+        });
+        localStorage.clear();
+      }
+    })
+    .catch((error) => console.log(error));
 };
 
-export const getToken = async () => {};
+export const getRefreshToken = async (refreshToken: string) => {
+  if (refreshToken) {
+    return await TokenRequest(refreshToken)
+      .then((res) => {
+        if (res.ok && res.status === 200) {
+          return res.json();
+        } else new Error("Ошибка обновления токена");
+      })
+      .then((res) => {
+        if (res.success) saveTokens(res.accessToken, res.refreshToken);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+};
 
 export const getUser = () => async (dispatch: Dispatch<AuthAction>) => {
   await getUserRequest()
-    .then((res) => res.json())
+    .then((res) => {
+      if (!res.ok && res.status === 403) {
+        const refreshToken = localStorage.getItem("refreshToken");
+        if (refreshToken) {
+          getRefreshToken(refreshToken);
+          return getUserRequest();
+        }
+      }
+      return res.json();
+    })
     .then((res: IResponseLogin) => {
       if (res.success) {
         dispatch({

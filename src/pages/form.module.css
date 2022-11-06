@@ -1,7 +1,7 @@
 .section_form_container {
   display: flex;
   width: 100%;
-  height: calc(100% - 88px);
+  height: calc(100vh - 88px);
 }
 .form_wrapper {
   display: flex;

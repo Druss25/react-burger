@@ -29,7 +29,7 @@ function App() {
               <ProfilePage />
             </LayoutProfile>
           </ProtectedRoute>
-          <ProtectedRoute exact path='/profile/orders' >
+          <ProtectedRoute exact strict path='/profile/orders' >
             <LayoutProfile>
               <OrdersHistoryPage />
             </LayoutProfile>

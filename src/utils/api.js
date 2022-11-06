@@ -57,8 +57,7 @@ export const LogoutRequest = async () => {
     cache: 'no-cache',
     credentials: 'same-origin',
     headers: {
-      'Content-Type': 'application/json',
-      'Authorization': localStorage.getItem('accessToken')
+      'Content-Type': 'application/json'
     },
     redirect: 'follow',
     referrerPolicy: 'no-referrer',
@@ -66,16 +65,14 @@ export const LogoutRequest = async () => {
   });
 };
 
-// !! 'Bearer ' + refreshToken
-export const TokenRequest = async refreshToken => {
+export const TokenRequest = async (refreshToken) => {
   return await fetch(`${baseUrl}/auth/token`, {
     method: 'POST',
     mode: 'cors',
     cache: 'no-cache',
     credentials: 'same-origin',
     headers: {
-      'Content-Type': 'application/json',
-      'Authorization': refreshToken
+      'Content-Type': 'application/json'
     },
     redirect: 'follow',
     referrerPolicy: 'no-referrer',
@@ -84,6 +81,7 @@ export const TokenRequest = async refreshToken => {
 };
 
 export const getUserRequest = async () => {
+
   return await fetch(`${baseUrl}/auth/user`, {
     method: 'GET',
     mode: 'cors',

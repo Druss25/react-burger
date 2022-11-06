@@ -1,14 +1,15 @@
+import { useDispatch } from 'react-redux'
 import { NavLink, useHistory } from 'react-router-dom'
 import { logout } from '../../services/reducers/auth/actions'
 import styles from './ProfileMenu.module.css'
 
 const ProfileNavigate = () => {
   const history = useHistory()
+  const dispatch = useDispatch()
 
-  const handleClick = async () => {
-    await logout()
+  const handleClick = () => {
+    dispatch(logout())
     history.replace({ pathname: '/' })
-
   }
 
   return (

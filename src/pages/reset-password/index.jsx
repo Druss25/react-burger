@@ -4,7 +4,12 @@ import { Button, Input, PasswordInput } from '@ya.praktikum/react-developer-burg
 import styles from '../form.module.css'
 
 const ResetPasswordPage = () => {
-  const [inputs, setInputs] = React.useState({})
+  const [inputs, setInputs] = React.useState(
+    {
+      password: '',
+      token: ''
+    }
+  )
 
   const handleChange = (event) => {
     const name = event.target.name;
@@ -26,6 +31,7 @@ const ResetPasswordPage = () => {
           onChange={handleChange}
           value={inputs.password}
           name={'password'}
+          autoComplete='false'
           extraClass='mt-6 mb-6'
         />
         <Input

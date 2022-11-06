@@ -13,13 +13,12 @@ const LoginPage = () => {
   const isAuth = useSelector(isAuthSelector)
   const [inputs, setInputs] = React.useState(
     {
-      email: 'druss@baikonur.net',
-      password: '4349901'
+      email: '',
+      password: ''
     }
   )
   const dispatch = useDispatch();
   const history = useHistory()
-  // const backRoute = history.location.state.from.pathname
   const handleChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
@@ -32,6 +31,10 @@ const LoginPage = () => {
       if (!isAuth) dispatch(login(inputs))
       history.replace({ pathname: '/' })
     }, [isAuth, dispatch, inputs, history])
+
+  React.useEffect(() => {
+    if (isAuth) history.replace({ pathname: history.location.state.from })
+  }, [isAuth, history])
 
   return (
     <section className={styles.section_form_container}>
@@ -50,6 +53,7 @@ const LoginPage = () => {
           onChange={handleChange}
           value={inputs.password}
           name={'password'}
+          autoComplete='false'
           extraClass='mb-6'
         />
         <Button type="primary" size="large" htmlType='submit'>

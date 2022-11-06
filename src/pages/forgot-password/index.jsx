@@ -4,7 +4,11 @@ import { Button, EmailInput } from '@ya.praktikum/react-developer-burger-ui-comp
 import styles from '../form.module.css'
 
 const ForgotPasswordPage = () => {
-  const [inputs, setInputs] = React.useState({})
+  const [inputs, setInputs] = React.useState(
+    {
+      email: ''
+    }
+  )
   const history = useHistory()
 
   const handleChange = (event) => {
@@ -30,6 +34,7 @@ const ForgotPasswordPage = () => {
           onChange={handleChange}
           value={inputs.email}
           name={'email'}
+          autoComplete='false'
           extraClass='mt-6 mb-6'
         />
         <Button type="primary" size="large" htmlType='submit'>

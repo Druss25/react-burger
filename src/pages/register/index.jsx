@@ -55,6 +55,7 @@ const RegisterPage = () => {
           onChange={handleChange}
           value={inputs.password}
           name={'password'}
+          autoComplete='false'
           extraClass='mb-6'
         />
         <Button type="primary" size="large" htmlType='submit'>

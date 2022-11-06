@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types'
 import Accept from '../../images/graphics.svg'
-// import OrderDetailsStyles from './OrderDetails.module.css'
 
 const OrderDetails = ({ numberOrder }) => {
   return (
