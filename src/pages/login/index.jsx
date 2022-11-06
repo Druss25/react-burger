@@ -1,11 +1,25 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import {
+  Link,
+  useHistory,
+} from 'react-router-dom'
 import { Button, EmailInput, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components'
+import { login } from '../../services/reducers/auth/actions'
+import { useDispatch, useSelector } from 'react-redux'
+import { isAuthSelector } from '../../services/reducers/auth/selectors'
 import styles from '../form.module.css'
 
 const LoginPage = () => {
-  const [inputs, setInputs] = React.useState({})
-
+  const isAuth = useSelector(isAuthSelector)
+  const [inputs, setInputs] = React.useState(
+    {
+      email: 'druss@baikonur.net',
+      password: '4349901'
+    }
+  )
+  const dispatch = useDispatch();
+  const history = useHistory()
+  // const backRoute = history.location.state.from.pathname
   const handleChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
@@ -15,7 +29,9 @@ const LoginPage = () => {
   const handleSubmit = React.useCallback(
     (e) => {
       e.preventDefault()
-    }, [])
+      if (!isAuth) dispatch(login(inputs))
+      history.replace({ pathname: '/' })
+    }, [isAuth, dispatch, inputs, history])
 
   return (
     <section className={styles.section_form_container}>

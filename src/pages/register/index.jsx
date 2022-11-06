@@ -1,10 +1,20 @@
 import React from 'react'
+import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Button, EmailInput, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components'
+import { register } from '../../services/reducers/auth/actions'
 import styles from '../form.module.css'
 
 const RegisterPage = () => {
-  const [inputs, setInputs] = React.useState({})
+  const [inputs, setInputs] = React.useState(
+    {
+      email: '',
+      password: '',
+      name: ''
+    }
+  )
+
+  const dispatch = useDispatch()
 
   const handleChange = (event) => {
     const name = event.target.name;
@@ -15,7 +25,9 @@ const RegisterPage = () => {
   const handleSubmit = React.useCallback(
     (e) => {
       e.preventDefault()
-    }, [])
+      dispatch(register(inputs))
+    }, [dispatch, inputs]
+  )
 
   return (
     <section className={styles.section_form_container}>

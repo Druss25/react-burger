@@ -1,8 +1,16 @@
-import React from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useHistory } from 'react-router-dom'
+import { logout } from '../../services/reducers/auth/actions'
 import styles from './ProfileMenu.module.css'
 
 const ProfileNavigate = () => {
+  const history = useHistory()
+
+  const handleClick = async () => {
+    await logout()
+    history.replace({ pathname: '/' })
+
+  }
+
   return (
     <div className={styles.menu}>
       <nav className={styles.items}>
@@ -22,14 +30,7 @@ const ProfileNavigate = () => {
         >
           История заказов
         </NavLink>
-        <NavLink
-          exact
-          to='/'
-          className="text text_type_main-medium text_color_inactive"
-          activeClassName={styles.active}
-        >
-          Выход
-        </NavLink>
+        <button type='button' onClick={handleClick}>Выход</button>
       </nav>
     </div>
   )

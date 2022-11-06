@@ -1,3 +1,5 @@
+import { IUser } from "./auth";
+
 export interface IIngredients {
   _id: string;
   name: string;
@@ -48,7 +50,16 @@ export interface ModalState {
   data: IIngredients | null;
 }
 
+export interface AuthState {
+  user: IUser | null;
+  isLoading: boolean;
+  isAuth: boolean;
+  hasError: boolean;
+  message: string | null;
+}
+
 export interface RootStore {
+  auth: AuthState;
   ingredients: IngredientsState;
   burger: BurgerState;
   order: OrderState;

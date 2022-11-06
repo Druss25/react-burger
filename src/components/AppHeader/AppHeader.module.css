@@ -44,6 +44,12 @@
   margin-left: auto;
 }
 
-.active {
+.menu li a.active,
+nav a.active {
   color: var(--text-primary-color);
+}
+
+.menu li a.active svg path,
+nav a.active svg path {
+  fill: var(--text-primary-color);
 }

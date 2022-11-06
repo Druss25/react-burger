@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-import { ForgotPasswordPage, HomePage, LoginPage, ProfilePage, RegisterPage, ResetPasswordPage } from "../../pages";
-import OrdersHistoryPage from '../../pages/order-history';
+import { ForgotPasswordPage, HomePage, LoginPage, ProfilePage, RegisterPage, ResetPasswordPage, OrdersHistoryPage } from "../../pages";
 import Layout from "../Layouts/Layout";
 import LayoutProfile from '../Layouts/LayoutProfile';
+import { ProtectedRoute } from '../ProtectedRoute';
 
 function App() {
   return (
@@ -24,16 +24,16 @@ function App() {
           <Route path='/reset-password' >
             <ResetPasswordPage />
           </Route>
-          <Route exact strict path='/profile' >
+          <ProtectedRoute exact strict path='/profile' >
             <LayoutProfile>
               <ProfilePage />
             </LayoutProfile>
-          </Route>
-          <Route exact strict path='/profile/orders' >
+          </ProtectedRoute>
+          <ProtectedRoute exact path='/profile/orders' >
             <LayoutProfile>
               <OrdersHistoryPage />
             </LayoutProfile>
-          </Route>
+          </ProtectedRoute>
         </Switch>
       </Layout>
     </Router>

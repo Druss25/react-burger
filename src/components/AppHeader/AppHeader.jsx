@@ -1,55 +1,31 @@
 import { BurgerIcon, ListIcon, Logo, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useState } from 'react';
 import { NavLink } from 'react-router-dom'
 import styles from './AppHeader.module.css'
 
 const AppHeader = () => {
-  const [isLinkConstructor, setLinkConstructor] = useState(true)
-  const [isLinkOrders, setIsLinkOrders] = useState(false)
-  const [isLinkProfile, setIsLinkProfile] = useState(false)
-
-
-  const handleClickConstructor = () => {
-    setLinkConstructor(true)
-    setIsLinkOrders(false)
-    setIsLinkProfile(false)
-  }
-
-  const handleClickOrders = () => {
-    setLinkConstructor(false)
-    setIsLinkOrders(true)
-    setIsLinkProfile(false)
-  }
-
-  const handleClickProfile = () => {
-    setLinkConstructor(false)
-    setIsLinkOrders(false)
-    setIsLinkProfile(true)
-  }
-
   return (
     <header className={styles.header}>
       <nav className={styles.nav}>
         <ul className={styles.menu}>
           <li>
             <NavLink
+              exact
               to='/'
               className={`${styles.menu_items} text text_type_main-default text_color_inactive`}
-              activeClassName={isLinkConstructor ? styles.active : ''}
-              onClick={handleClickConstructor}
+              activeClassName={styles.active}
             >
-              <BurgerIcon type={isLinkConstructor ? "primary" : "secondary"} size={24} />
+              <BurgerIcon type="secondary" size={24} />
               <p className="text text_type_main-default">Конструктор</p>
             </NavLink>
           </li>
           <li>
             <NavLink
-              to='/'
+              exact
+              to='/feed'
               className={`${styles.menu_items} text text_type_main-default text_color_inactive`}
-              activeClassName={isLinkOrders ? styles.active : ''}
-              onClick={handleClickOrders}
+              activeClassName={styles.active}
             >
-              <ListIcon type={isLinkOrders ? "primary" : "secondary"} size={24} />
+              <ListIcon type="secondary" size={24} />
               <p className="text text_type_main-default">Лента заказов</p>
             </NavLink>
           </li>
@@ -58,10 +34,9 @@ const AppHeader = () => {
         <NavLink
           to='/profile'
           className={`${styles.profile} text text_type_main-default text_color_inactive`}
-          activeClassName={isLinkProfile ? styles.active : ''}
-          onClick={handleClickProfile}
+          activeClassName={styles.active}
         >
-          <ProfileIcon type={isLinkProfile ? "primary" : "secondary"} size={24} />
+          <ProfileIcon type='secondary' size={24} />
           <p className='text text_type_main-default'>Личный кабинет</p>
         </NavLink>
       </nav>
