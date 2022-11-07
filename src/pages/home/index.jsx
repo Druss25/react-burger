@@ -1,19 +1,17 @@
 import React from 'react'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
+import { useDispatch, useSelector } from 'react-redux'
 import BurgerConstructor from '../../components/BurgerConstructor/BurgerConstructor'
 import BurgerIngredients from '../../components/BurgerIngredients/BurgerIngredients'
-import { useAppDispatch } from '../../hook/useAppDispatch'
-import { useAppSelector } from '../../hook/useAppSelector'
 import { getIngredients } from '../../services/reducers/ingredients/actions'
 import { errorSelector, loadingSelector } from '../../services/reducers/ingredients/selectors'
 import styles from './home.module.css'
 
 const HomePage = () => {
-  const isLoading = useAppSelector(loadingSelector);
-  const hasError = useAppSelector(errorSelector);
-
-  const dispatch = useAppDispatch();
+  const isLoading = useSelector(loadingSelector);
+  const hasError = useSelector(errorSelector);
+  const dispatch = useDispatch();
 
   React.useEffect(() => {
     dispatch(getIngredients());

@@ -55,7 +55,7 @@ export interface AuthState {
   isLoading: boolean;
   isAuth: boolean;
   hasError: boolean;
-  message: string | null;
+  message?: string | null;
 }
 
 export interface RootStore {

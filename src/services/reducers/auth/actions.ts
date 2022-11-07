@@ -1,7 +1,8 @@
 import { Dispatch } from "redux";
 import { IRequestLogin } from "./../../../models/auth";
-import { IResponseFailed, IResponseLogin, IUser } from "../../../models/auth";
+import { IResponseLogin, IUser } from "../../../models/auth";
 import {
+  getRefreshToken,
   getUserRequest,
   loginRequest,
   LogoutRequest,
@@ -17,6 +18,7 @@ export enum AuthActionTypes {
   AUTH_USER_REQUEST = "AUTH_USER_REQUEST",
   AUTH_USER_SUCCESS = "AUTH_USER_SUCCESS",
   AUTH_USER_ERROR = "AUTH_USER_ERROR",
+  AUTH_GET_USER = "AUTH_GET_USER",
   AUTH_USER_LOGOUT = "AUTH_USER_LOGOUT",
 }
 
@@ -24,25 +26,31 @@ interface authUserRequest {
   type: AuthActionTypes.AUTH_USER_REQUEST;
 }
 
-interface authUserserSuccess {
+interface authUserSuccess {
   type: AuthActionTypes.AUTH_USER_SUCCESS;
   payload: IUser;
 }
 
-interface authUserserError {
+interface authUserError {
   type: AuthActionTypes.AUTH_USER_ERROR;
-  payload: IResponseFailed;
+  payload: string;
 }
 
-interface authUserserLogout {
+interface authGetUser {
+  type: AuthActionTypes.AUTH_GET_USER;
+  payload: IUser;
+}
+
+interface authUserLogout {
   type: AuthActionTypes.AUTH_USER_LOGOUT;
 }
 
 export type AuthAction =
   | authUserRequest
-  | authUserserSuccess
-  | authUserserError
-  | authUserserLogout;
+  | authUserSuccess
+  | authUserError
+  | authGetUser
+  | authUserLogout;
 
 export const login =
   (data: IUser) => async (dispatch: Dispatch<AuthAction>) => {
@@ -80,7 +88,7 @@ export const register =
           saveTokens(res.accessToken, res.refreshToken);
         } else throw new Error(res.message);
       })
-      .catch((error) => {
+      .catch((error: string) => {
         dispatch({
           type: AuthActionTypes.AUTH_USER_ERROR,
           payload: error,
@@ -92,7 +100,7 @@ export const logout = () => async (dispatch: Dispatch<AuthAction>) => {
   await LogoutRequest()
     .then((res) => {
       if (!res.ok && res.status !== 200)
-        return new Error("Что-то пошло не так !!!");
+        throw new Error("Что-то пошло не так !!!");
       return res.json();
     })
     .then((res) => {
@@ -106,18 +114,18 @@ export const logout = () => async (dispatch: Dispatch<AuthAction>) => {
     .catch((error) => console.log(error));
 };
 
-export const getRefreshToken = async (refreshToken: string) => {
+export const getRefreshTokens = async (refreshToken: string) => {
   if (refreshToken) {
     return await TokenRequest(refreshToken)
       .then((res) => {
         if (res.ok && res.status === 200) {
           return res.json();
-        } else new Error("Ошибка обновления токена");
+        } else throw new Error("Ошибка обновления токена");
       })
       .then((res) => {
         if (res.success) {
           saveTokens(res.accessToken, res.refreshToken);
-          return getUserRequest();
+          return res;
         }
       })
       .catch((error) => {
@@ -126,35 +134,36 @@ export const getRefreshToken = async (refreshToken: string) => {
   }
 };
 
+type getUserResponse = {
+  success: boolean;
+  user: IUser;
+  message?: string;
+};
+
 export const getUser = () => async (dispatch: Dispatch<AuthAction>) => {
-  dispatch({ type: AuthActionTypes.AUTH_USER_REQUEST });
-  return await getUserRequest()
-    .then((res: IResponseLogin) => {
+  await getUserRequest()
+    .then((res: getUserResponse) => {
       if (!res.success && res.message === "jwt expired") {
-        const refreshToken = localStorage.getItem("refreshToken");
+        const refreshToken = getRefreshToken();
         if (refreshToken) {
-          getRefreshToken(refreshToken);
-          return getUserRequest();
+          getRefreshTokens(refreshToken);
+          return async () => await getUserRequest();
         }
       }
       if (res.success) {
         dispatch({
-          type: AuthActionTypes.AUTH_USER_SUCCESS,
+          type: AuthActionTypes.AUTH_GET_USER,
           payload: res.user,
         });
       } else throw new Error(res.message);
     })
     .catch((error) => {
-      dispatch({
-        type: AuthActionTypes.AUTH_USER_ERROR,
-        payload: error,
-      });
+      console.info(error);
     });
 };
 
 export const updateUser = () => async (dispatch: Dispatch<AuthAction>) => {
-  dispatch({ type: AuthActionTypes.AUTH_USER_REQUEST });
-  return await updateUserRequest()
+  await updateUserRequest()
     .then((res: IResponseLogin) => {
       if (res.success) {
         dispatch({

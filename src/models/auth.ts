@@ -39,8 +39,3 @@ export interface IResponseUser {
   success: boolean;
   user: IUser;
 }
-
-export interface IResponseFailed {
-  success: boolean;
-  message: string;
-}

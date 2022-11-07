@@ -4,44 +4,46 @@ import { Redirect, Route } from 'react-router-dom';
 import { isAuthSelector } from '../services/reducers/auth/selectors';
 import { getUser } from '../services/reducers/auth/actions';
 
-export function ProtectedRoute({ children, ...rest }) {
+const ProtectedRoute = ({ children, ...rest }) => {
   const isAuth = useSelector(isAuthSelector)
-  const [isUserReady, setIsUserReady] = React.useState(false)
   const dispatch = useDispatch()
+  const [isUserReady, setIsUserReady] = React.useState(false)
 
-  const refreshAuth = async () => {
-    dispatch(getUser());
-    setIsUserReady(true)
-  }
+  const refreshAuth = React.useCallback(
+    () => {
+      dispatch(getUser());
+      setIsUserReady(true)
+    },
+    [dispatch]
+  )
 
   React.useEffect(() => {
     refreshAuth()
     // eslint-disable-next-line
   }, []);
 
-  console.info('Testing...')
-
   if (!isUserReady) {
     return null;
   }
+
 
   return (
     <Route
       {...rest}
       render={({ location }) =>
-        isAuth
-          ? (
-            children
-          )
-          : (
-            <Redirect
-              to={{
-                pathname: '/login',
-                state: { from: location }
-              }}
-            />
-          )
+        isAuth ? (
+          children
+        ) : (
+          <Redirect
+            to={{
+              pathname: '/login',
+              state: { from: location }
+            }}
+          />
+        )
       }
     />
   );
 }
+
+export default ProtectedRoute

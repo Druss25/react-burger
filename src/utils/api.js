@@ -5,6 +5,14 @@ export const saveTokens = (accessToken, refreshToken) => {
   localStorage.setItem('refreshToken', refreshToken)
 }
 
+export const getAccessToken = () => {
+  return localStorage.getItem('accessToken')
+}
+
+export const getRefreshToken = () => {
+  return localStorage.getItem('refreshToken')
+}
+
 export const orderRequest = ingredientsList => {
   return fetch(`${baseUrl}/orders`, {
     method: 'POST',
@@ -38,14 +46,14 @@ export const loginRequest = async data => {
 export const RegisterRequest = async data => {
   return await fetch(`${baseUrl}/auth/register`, {
     method: 'POST',
-    mode: 'cors',
-    cache: 'no-cache',
-    credentials: 'same-origin',
+    // mode: 'cors',
+    // cache: 'no-cache',
+    // credentials: 'same-origin',
     headers: {
       'Content-Type': 'application/json'
     },
-    redirect: 'follow',
-    referrerPolicy: 'no-referrer',
+    // redirect: 'follow',
+    // referrerPolicy: 'no-referrer',
     body: JSON.stringify(data)
   });
 };
@@ -61,7 +69,7 @@ export const LogoutRequest = async () => {
     },
     redirect: 'follow',
     referrerPolicy: 'no-referrer',
-    body: JSON.stringify({token: localStorage.getItem('refreshToken')})
+    body: JSON.stringify({token: getRefreshToken()})
   });
 };
 
@@ -80,21 +88,21 @@ export const TokenRequest = async (refreshToken) => {
   });
 };
 
-export const getUserRequest = async () => {
-  return await fetch(`${baseUrl}/auth/user`, {
+export const getUserRequest = async () =>
+  await fetch(`${baseUrl}/auth/user`, {
     method: 'GET',
     mode: 'cors',
     cache: 'no-cache',
     credentials: 'same-origin',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': localStorage.getItem('accessToken')
+      'Authorization': getAccessToken()
     },
     redirect: 'follow',
     referrerPolicy: 'no-referrer'
   })
   .then(res => res.json())
-};
+
 
 export const updateUserRequest = async (data) => {
   return await fetch(`${baseUrl}/auth/user`, {
@@ -104,7 +112,7 @@ export const updateUserRequest = async (data) => {
     credentials: 'same-origin',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': localStorage.getItem('accessToken')
+      'Authorization': getAccessToken()
     },
     redirect: 'follow',
     referrerPolicy: 'no-referrer',
