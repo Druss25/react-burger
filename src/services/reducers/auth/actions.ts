@@ -1,6 +1,6 @@
-import { IResponseLogin } from "../../../models/auth";
 import { Dispatch } from "redux";
-import { IRequestLogin, IResponseFailed, IUser } from "../../../models/auth";
+import { IRequestLogin } from "./../../../models/auth";
+import { IResponseFailed, IResponseLogin, IUser } from "../../../models/auth";
 import {
   getUserRequest,
   loginRequest,
@@ -8,6 +8,7 @@ import {
   RegisterRequest,
   saveTokens,
   TokenRequest,
+  updateUserRequest,
 } from "../../../utils/api";
 
 export const name = "auth";
@@ -114,7 +115,10 @@ export const getRefreshToken = async (refreshToken: string) => {
         } else new Error("Ошибка обновления токена");
       })
       .then((res) => {
-        if (res.success) saveTokens(res.accessToken, res.refreshToken);
+        if (res.success) {
+          saveTokens(res.accessToken, res.refreshToken);
+          return getUserRequest();
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -123,17 +127,34 @@ export const getRefreshToken = async (refreshToken: string) => {
 };
 
 export const getUser = () => async (dispatch: Dispatch<AuthAction>) => {
-  await getUserRequest()
-    .then((res) => {
-      if (!res.ok && res.status === 403) {
+  dispatch({ type: AuthActionTypes.AUTH_USER_REQUEST });
+  return await getUserRequest()
+    .then((res: IResponseLogin) => {
+      if (!res.success && res.message === "jwt expired") {
         const refreshToken = localStorage.getItem("refreshToken");
         if (refreshToken) {
           getRefreshToken(refreshToken);
           return getUserRequest();
         }
       }
-      return res.json();
+      if (res.success) {
+        dispatch({
+          type: AuthActionTypes.AUTH_USER_SUCCESS,
+          payload: res.user,
+        });
+      } else throw new Error(res.message);
     })
+    .catch((error) => {
+      dispatch({
+        type: AuthActionTypes.AUTH_USER_ERROR,
+        payload: error,
+      });
+    });
+};
+
+export const updateUser = () => async (dispatch: Dispatch<AuthAction>) => {
+  dispatch({ type: AuthActionTypes.AUTH_USER_REQUEST });
+  return await updateUserRequest()
     .then((res: IResponseLogin) => {
       if (res.success) {
         dispatch({

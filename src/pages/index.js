@@ -5,5 +5,6 @@ import ForgotPasswordPage from "./forgot-password";
 import ResetPasswordPage from './reset-password'
 import ProfilePage from './profile'
 import OrdersHistoryPage from './order-history'
+import NotFoundPage from './404'
 
-export {HomePage, LoginPage, RegisterPage, ForgotPasswordPage, ResetPasswordPage, ProfilePage, OrdersHistoryPage}
+export {HomePage, LoginPage, RegisterPage, ForgotPasswordPage, ResetPasswordPage, ProfilePage, OrdersHistoryPage, NotFoundPage}

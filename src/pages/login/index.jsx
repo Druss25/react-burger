@@ -1,7 +1,9 @@
 import React from 'react'
 import {
   Link,
+  useLocation,
   useHistory,
+  Redirect
 } from 'react-router-dom'
 import { Button, EmailInput, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components'
 import { login } from '../../services/reducers/auth/actions'
@@ -13,28 +15,33 @@ const LoginPage = () => {
   const isAuth = useSelector(isAuthSelector)
   const [inputs, setInputs] = React.useState(
     {
-      email: '',
-      password: ''
+      email: 'druss@baikonur.net',
+      password: '4349901'
     }
   )
   const dispatch = useDispatch();
+  const { state } = useLocation();
   const history = useHistory()
+
   const handleChange = (event) => {
-    const name = event.target.name;
-    const value = event.target.value;
-    setInputs(values => ({ ...values, [name]: value }))
+    setInputs(values => {
+      return {
+        ...values,
+        [event.target.name]: event.target.value
+      }
+    })
   }
 
   const handleSubmit = React.useCallback(
     (e) => {
       e.preventDefault()
       if (!isAuth) dispatch(login(inputs))
-      history.replace({ pathname: '/' })
-    }, [isAuth, dispatch, inputs, history])
+      history.replace(state?.from)
+    }, [isAuth, dispatch, inputs, history, state])
 
-  React.useEffect(() => {
-    if (isAuth) history.replace({ pathname: history.location.state.from })
-  }, [isAuth, history])
+  if (isAuth) {
+    return <Redirect to={state?.from} />
+  }
 
   return (
     <section className={styles.section_form_container}>

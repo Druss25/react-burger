@@ -1,5 +1,6 @@
+import React from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-import { ForgotPasswordPage, HomePage, LoginPage, ProfilePage, RegisterPage, ResetPasswordPage, OrdersHistoryPage } from "../../pages";
+import { ForgotPasswordPage, HomePage, LoginPage, ProfilePage, RegisterPage, ResetPasswordPage, OrdersHistoryPage, NotFoundPage } from "../../pages";
 import Layout from "../Layouts/Layout";
 import LayoutProfile from '../Layouts/LayoutProfile';
 import { ProtectedRoute } from '../ProtectedRoute';
@@ -24,16 +25,19 @@ function App() {
           <Route path='/reset-password' >
             <ResetPasswordPage />
           </Route>
-          <ProtectedRoute exact strict path='/profile' >
+          <ProtectedRoute exact path='/profile' >
             <LayoutProfile>
               <ProfilePage />
             </LayoutProfile>
           </ProtectedRoute>
-          <ProtectedRoute exact strict path='/profile/orders' >
+          <ProtectedRoute path='/profile/orders' >
             <LayoutProfile>
               <OrdersHistoryPage />
             </LayoutProfile>
           </ProtectedRoute>
+          <Route path="*">
+            <NotFoundPage />
+          </Route>
         </Switch>
       </Layout>
     </Router>

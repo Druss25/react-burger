@@ -81,7 +81,6 @@ export const TokenRequest = async (refreshToken) => {
 };
 
 export const getUserRequest = async () => {
-
   return await fetch(`${baseUrl}/auth/user`, {
     method: 'GET',
     mode: 'cors',
@@ -93,5 +92,23 @@ export const getUserRequest = async () => {
     },
     redirect: 'follow',
     referrerPolicy: 'no-referrer'
-  });
+  })
+  .then(res => res.json())
+};
+
+export const updateUserRequest = async (data) => {
+  return await fetch(`${baseUrl}/auth/user`, {
+    method: 'PATCH',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': localStorage.getItem('accessToken')
+    },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer',
+    body: JSON.stringify(data)
+  })
+  .then(res => res.json())
 };

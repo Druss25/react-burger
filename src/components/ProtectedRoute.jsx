@@ -1,25 +1,27 @@
-import { useCallback, useEffect, useState } from 'react';
-import { Redirect, Route } from 'react-router-dom';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Redirect, Route } from 'react-router-dom';
 import { isAuthSelector } from '../services/reducers/auth/selectors';
 import { getUser } from '../services/reducers/auth/actions';
 
 export function ProtectedRoute({ children, ...rest }) {
   const isAuth = useSelector(isAuthSelector)
+  const [isUserReady, setIsUserReady] = React.useState(false)
   const dispatch = useDispatch()
-  const [isUserLoaded, setUserLoaded] = useState(false);
 
-  const init = useCallback(() => {
+  const refreshAuth = async () => {
     dispatch(getUser());
-    setUserLoaded(true);
-  }, [dispatch])
+    setIsUserReady(true)
+  }
 
+  React.useEffect(() => {
+    refreshAuth()
+    // eslint-disable-next-line
+  }, []);
 
-  useEffect(() => {
-    init();
-  }, [init]);
+  console.info('Testing...')
 
-  if (!isUserLoaded) {
+  if (!isUserReady) {
     return null;
   }
 
