@@ -1,3 +1,5 @@
+import { baseUrl } from "./constants";
+
 export class HttpError extends Error {
   response: Response;
 
@@ -15,16 +17,18 @@ async function _fetch<T>(path: string, config: RequestInit): Promise<T> {
   const request = new Request(path, config);
   const response = await fetch(request);
 
-  if (!response.ok && response.status !== 403) {
-    throw new HttpError(response);
-  }
+  // if (!response.ok && response.status !== 403) {
+  //   throw new HttpError(response);
+  // }
 
-  return response.json().catch(() => ({}));
+  return response.json();
+  // .catch(() => ({}));
 }
 
 export async function get<T>(path: string, config?: RequestInit): Promise<T> {
+  const url = baseUrl + path;
   const init = { method: "get", ...config };
-  return await _fetch<T>(path, init);
+  return await _fetch<T>(url, init);
 }
 
 export async function post<T, U>(

@@ -1,6 +1,10 @@
 import { Dispatch } from "redux";
-import { IRequestLogin } from "./../../../models/auth";
-import { IResponseLogin, IUser } from "../../../models/auth";
+import {
+  IRequestLogin,
+  IRequestRegister,
+  IResponseLogin,
+  IUser,
+} from "../../../models/auth";
 import {
   getAccessToken,
   getRefreshToken,
@@ -13,7 +17,6 @@ import {
   updateUserRequest,
 } from "../../../utils/api";
 import * as _fetch from "../../../utils/fetch";
-import { baseUrl } from "../../../utils/constants";
 
 export const name = "auth";
 
@@ -56,7 +59,7 @@ export type AuthAction =
   | authUserLogout;
 
 export const login =
-  (data: IUser) => async (dispatch: Dispatch<AuthAction>) => {
+  (data: IRequestLogin) => async (dispatch: Dispatch<AuthAction>) => {
     dispatch({ type: AuthActionTypes.AUTH_USER_REQUEST });
     await loginRequest(data)
       .then((res) => res.json())
@@ -78,7 +81,7 @@ export const login =
   };
 
 export const register =
-  (data: IRequestLogin) => async (dispatch: Dispatch<AuthAction>) => {
+  (data: IRequestRegister) => async (dispatch: Dispatch<AuthAction>) => {
     dispatch({ type: AuthActionTypes.AUTH_USER_REQUEST });
     await RegisterRequest(data)
       .then((res) => res.json())
@@ -111,15 +114,16 @@ export const logout = () => async (dispatch: Dispatch<AuthAction>) => {
         dispatch({
           type: AuthActionTypes.AUTH_USER_LOGOUT,
         });
-        localStorage.clear();
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
       }
     })
     .catch((error) => console.log(error));
 };
 
-export const getRefreshTokens = async (refreshToken: string) => {
+export const getNewTokens = async (refreshToken: string) => {
   if (refreshToken) {
-    return await TokenRequest(refreshToken)
+    await TokenRequest(refreshToken)
       .then((res) => {
         if (res.ok && res.status === 200) {
           return res.json();
@@ -137,18 +141,19 @@ export const getRefreshTokens = async (refreshToken: string) => {
   }
 };
 
-type getUserResponse = {
+interface getUserResponse {
   success: boolean;
   user: IUser;
-  message?: string;
-};
+  message: string;
+}
 
-type IRequestInit = {
+interface IRequestInit {
   path: string;
   config: RequestInit;
-};
+}
+
 const RequestGetUser: IRequestInit = {
-  path: `${baseUrl}/auth/user`,
+  path: "/auth/user",
   config: {
     mode: "cors",
     cache: "no-cache",
@@ -163,6 +168,7 @@ const RequestGetUser: IRequestInit = {
 };
 
 export const getUser = () => async (dispatch: Dispatch<AuthAction>) => {
+  dispatch({ type: AuthActionTypes.AUTH_USER_REQUEST });
   const response = await _fetch.get<getUserResponse>(
     RequestGetUser.path,
     RequestGetUser.config
@@ -171,43 +177,22 @@ export const getUser = () => async (dispatch: Dispatch<AuthAction>) => {
   if (!response.success && response.message === "jwt expired") {
     const refreshToken = getRefreshToken();
     if (refreshToken) {
-      getRefreshTokens(refreshToken);
+      await getNewTokens(refreshToken);
       await getUserRequest();
     }
+  } else if (!response.success) {
+    dispatch({
+      type: AuthActionTypes.AUTH_USER_ERROR,
+      payload: response.message,
+    });
   }
+
   if (response.success) {
     dispatch({
       type: AuthActionTypes.AUTH_GET_USER,
       payload: response.user,
     });
   }
-
-  // .then((data) => {
-  //   console.log("Response: ", data);
-  // })
-  // .catch((err: Error) => {
-  //   console.log("Error: ", err.message);
-  // });
-
-  // await getUserRequest()
-  //   .then((res: getUserResponse) => {
-  //     if (!res.success && res.message === "jwt expired") {
-  //       const refreshToken = getRefreshToken();
-  //       if (refreshToken) {
-  //         getRefreshTokens(refreshToken);
-  //         return async () => await getUserRequest();
-  //       }
-  //     }
-  //     if (res.success) {
-  //       dispatch({
-  //         type: AuthActionTypes.AUTH_GET_USER,
-  //         payload: res.user,
-  //       });
-  //     } else throw new Error(res.message);
-  //   })
-  //   .catch((error) => {
-  //     console.info(error);
-  //   });
 };
 
 export const updateUser = () => async (dispatch: Dispatch<AuthAction>) => {

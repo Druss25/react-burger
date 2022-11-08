@@ -26,6 +26,8 @@ export const authReducer = (
         user: action.payload,
         isLoading: false,
         isAuth: true,
+        hasError: false,
+        message: null,
       };
 
     case AuthActionTypes.AUTH_USER_ERROR:
@@ -40,6 +42,7 @@ export const authReducer = (
 
     case AuthActionTypes.AUTH_GET_USER:
       return {
+        ...state,
         user: action.payload,
         isLoading: false,
         isAuth: true,

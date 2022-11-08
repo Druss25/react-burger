@@ -2,23 +2,26 @@ import React from 'react'
 import {
   Link,
   useLocation,
+  useHistory,
   Redirect
 } from 'react-router-dom'
 import { Button, EmailInput, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components'
 import { login } from '../../services/reducers/auth/actions'
 import { useDispatch, useSelector } from 'react-redux'
-import { isAuthSelector } from '../../services/reducers/auth/selectors'
+import { AuthSelector } from '../../services/reducers/auth/selectors'
 import styles from '../form.module.css'
 
 const LoginPage = () => {
-  const isAuth = useSelector(isAuthSelector)
+  const {isAuth, isLogin} = useSelector(AuthSelector)
   const [inputs, setValues] = React.useState(
     {
       email: 'druss@baikonur.net',
       password: '4349901'
     }
   )
+
   const dispatch = useDispatch();
+  const history = useHistory()
   const location = useLocation();
   const { state } = location || { from: { pathname: "/" } };
 
@@ -35,13 +38,11 @@ const LoginPage = () => {
     (e) => {
       e.preventDefault()
       dispatch(login(inputs))
+      // history.replace({pathname: '/'})
     }, [dispatch, inputs])
 
   if (isAuth) {
-    // history.replace(from)
-    return (
-      <Redirect to={state?.from} />
-    )
+    return (<Redirect to={state?.from} />)
   }
 
   return (

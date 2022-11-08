@@ -1,22 +1,22 @@
 {
-	"editor.wordWrap": "wordWrapColumn",
-	"editor.wordWrapColumn": 120,
-	"editor.minimap.enabled": true,
-	"editor.tabSize": 2,
-	"editor.detectIndentation": false,
-	"editor.fontSize": 17,
-	"editor.mouseWheelZoom": true,
-	"workbench.startupEditor": "none",
-	"files.insertFinalNewline": true,
-	"files.trimFinalNewlines": true,
-	"files.trimTrailingWhitespace": true,
-	"telemetry.enableTelemetry": false,
-	"files.autoSave": "afterDelay",
-	"files.autoSaveDelay": 10000,
-	"editor.formatOnSave": true,
-	// добавить это
-	"[javascript]": {
-		"editor.defaultFormatter": "dbaeumer.vscode-eslint"
-	},
-	"eslint.format.enable": true
+  "editor.wordWrap": "wordWrapColumn",
+  "editor.wordWrapColumn": 100,
+  "editor.minimap.enabled": true,
+  "editor.tabSize": 2,
+  "editor.detectIndentation": false,
+  "editor.fontSize": 17,
+  "editor.mouseWheelZoom": true,
+  "workbench.startupEditor": "none",
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
+  "files.trimTrailingWhitespace": true,
+  "telemetry.enableTelemetry": false,
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 10000,
+  "editor.formatOnSave": true,
+  // добавить это
+  "[javascript]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "eslint.format.enable": true
 }

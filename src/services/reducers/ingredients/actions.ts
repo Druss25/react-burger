@@ -28,11 +28,11 @@ export type IngredientsAction =
   | getIngredientsSuccess
   | getIngredientsError;
 
-export const getIngredients = () => (dispatch: Dispatch<IngredientsAction>) => {
+export const getIngredients = () => async (dispatch: Dispatch<IngredientsAction>) => {
   dispatch({
     type: IngredientsActionTypes.GET_INGREDIENTS_REQUEST,
   });
-  return requestFetch("/ingredients")
+  return await requestFetch("/ingredients")
     .then((data) => {
       dispatch({
         type: IngredientsActionTypes.GET_INGREDIENTS_SUCCESS,

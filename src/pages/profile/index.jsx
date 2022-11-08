@@ -1,11 +1,11 @@
 import React from 'react'
 import { Input, EmailInput, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components'
 import { useSelector } from 'react-redux'
-import { getUserSelector } from '../../services/reducers/auth/selectors'
+import { UserSelector } from '../../services/reducers/auth/selectors'
 import styles from './profile.module.css'
 
 const ProfilePage = () => {
-  const { email, name } = useSelector(getUserSelector)
+  const { email, name } = useSelector(UserSelector)
   const [inputs, setInputs] = React.useState(
     {
       name,
