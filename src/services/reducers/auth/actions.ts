@@ -2,6 +2,7 @@ import { Dispatch } from "redux";
 import { IRequestLogin } from "./../../../models/auth";
 import { IResponseLogin, IUser } from "../../../models/auth";
 import {
+  getAccessToken,
   getRefreshToken,
   getUserRequest,
   loginRequest,
@@ -11,6 +12,8 @@ import {
   TokenRequest,
   updateUserRequest,
 } from "../../../utils/api";
+import * as _fetch from "../../../utils/fetch";
+import { baseUrl } from "../../../utils/constants";
 
 export const name = "auth";
 
@@ -140,26 +143,71 @@ type getUserResponse = {
   message?: string;
 };
 
+type IRequestInit = {
+  path: string;
+  config: RequestInit;
+};
+const RequestGetUser: IRequestInit = {
+  path: `${baseUrl}/auth/user`,
+  config: {
+    mode: "cors",
+    cache: "no-cache",
+    credentials: "same-origin",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `${getAccessToken()}`,
+    },
+    redirect: "follow",
+    referrerPolicy: "no-referrer",
+  },
+};
+
 export const getUser = () => async (dispatch: Dispatch<AuthAction>) => {
-  await getUserRequest()
-    .then((res: getUserResponse) => {
-      if (!res.success && res.message === "jwt expired") {
-        const refreshToken = getRefreshToken();
-        if (refreshToken) {
-          getRefreshTokens(refreshToken);
-          return async () => await getUserRequest();
-        }
-      }
-      if (res.success) {
-        dispatch({
-          type: AuthActionTypes.AUTH_GET_USER,
-          payload: res.user,
-        });
-      } else throw new Error(res.message);
-    })
-    .catch((error) => {
-      console.info(error);
+  const response = await _fetch.get<getUserResponse>(
+    RequestGetUser.path,
+    RequestGetUser.config
+  );
+
+  if (!response.success && response.message === "jwt expired") {
+    const refreshToken = getRefreshToken();
+    if (refreshToken) {
+      getRefreshTokens(refreshToken);
+      await getUserRequest();
+    }
+  }
+  if (response.success) {
+    dispatch({
+      type: AuthActionTypes.AUTH_GET_USER,
+      payload: response.user,
     });
+  }
+
+  // .then((data) => {
+  //   console.log("Response: ", data);
+  // })
+  // .catch((err: Error) => {
+  //   console.log("Error: ", err.message);
+  // });
+
+  // await getUserRequest()
+  //   .then((res: getUserResponse) => {
+  //     if (!res.success && res.message === "jwt expired") {
+  //       const refreshToken = getRefreshToken();
+  //       if (refreshToken) {
+  //         getRefreshTokens(refreshToken);
+  //         return async () => await getUserRequest();
+  //       }
+  //     }
+  //     if (res.success) {
+  //       dispatch({
+  //         type: AuthActionTypes.AUTH_GET_USER,
+  //         payload: res.user,
+  //       });
+  //     } else throw new Error(res.message);
+  //   })
+  //   .catch((error) => {
+  //     console.info(error);
+  //   });
 };
 
 export const updateUser = () => async (dispatch: Dispatch<AuthAction>) => {
