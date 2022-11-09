@@ -2,7 +2,6 @@ import React from 'react'
 import {
   Link,
   useLocation,
-  useHistory,
   Redirect
 } from 'react-router-dom'
 import { Button, EmailInput, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components'
@@ -12,7 +11,7 @@ import { AuthSelector } from '../../services/reducers/auth/selectors'
 import styles from '../form.module.css'
 
 const LoginPage = () => {
-  const {isAuth, isLogin} = useSelector(AuthSelector)
+  const {isAuth, isLoading} = useSelector(AuthSelector)
   const [inputs, setValues] = React.useState(
     {
       email: 'druss@baikonur.net',
@@ -21,7 +20,6 @@ const LoginPage = () => {
   )
 
   const dispatch = useDispatch();
-  const history = useHistory()
   const location = useLocation();
   const { state } = location || { from: { pathname: "/" } };
 
@@ -38,10 +36,9 @@ const LoginPage = () => {
     (e) => {
       e.preventDefault()
       dispatch(login(inputs))
-      // history.replace({pathname: '/'})
     }, [dispatch, inputs])
 
-  if (isAuth) {
+  if (isAuth && !isLoading) {
     return (<Redirect to={state?.from} />)
   }
 

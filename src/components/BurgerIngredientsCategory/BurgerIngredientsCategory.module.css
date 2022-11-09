@@ -5,3 +5,8 @@
   column-gap: 24px;
   cursor: pointer;
 }
+
+.link {
+  color: inherit;
+  text-decoration: none;
+}

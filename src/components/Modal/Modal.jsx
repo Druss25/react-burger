@@ -4,13 +4,24 @@ import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import ModalOverlay from '../ModalOverlay/ModalOverlay';
 import { modalProps } from '../../utils/constants';
 import styles from './Modal.module.css'
+import { useHistory } from 'react-router-dom';
 
 function Modal(props) {
+  const history = useHistory()
 
   function handleCloseOverlay() {
     if (props.disableOverlayClick) return
     props.requestClose && props.requestClose();
+    if (props.goBack) {
+      history.goBack(-1)
+    }
   }
+
+  const onClick = React.useCallback(
+    () => {
+      props.requestClose && props.requestClose()
+      if (props.goBack) history.goBack(-1)
+  },[history, props])
 
   React.useEffect(() => {
     const closeOnEscapeKey = e => e.key === "Escape" ? props.requestClose() : null;
@@ -34,7 +45,7 @@ function Modal(props) {
                 : `${styles.modal__title__not} text text_type_main-large`}
               >
                 {props.titleModal}
-                <div className={styles.modal__close} onClick={() => props.requestClose && props.requestClose()}>
+                <div className={styles.modal__close} onClick={onClick}>
                   <CloseIcon type="primary" />
                 </div>
               </div>

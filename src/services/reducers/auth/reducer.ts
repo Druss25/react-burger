@@ -1,5 +1,5 @@
-import { AuthState } from "../../../models";
-import { AuthAction, AuthActionTypes } from "./actions";
+import { AuthState } from '../../../models'
+import { AuthAction, AuthActionTypes } from './actions'
 
 const initialState: AuthState = {
   user: null,
@@ -7,18 +7,15 @@ const initialState: AuthState = {
   isAuth: false,
   hasError: false,
   message: null,
-};
+}
 
-export const authReducer = (
-  state = initialState,
-  action: AuthAction
-): AuthState => {
+export const authReducer = (state = initialState, action: AuthAction): AuthState => {
   switch (action.type) {
     case AuthActionTypes.AUTH_USER_REQUEST:
       return {
         ...state,
         isLoading: true,
-      };
+      }
 
     case AuthActionTypes.AUTH_USER_SUCCESS:
       return {
@@ -28,7 +25,7 @@ export const authReducer = (
         isAuth: true,
         hasError: false,
         message: null,
-      };
+      }
 
     case AuthActionTypes.AUTH_USER_ERROR:
       return {
@@ -38,7 +35,7 @@ export const authReducer = (
         isAuth: false,
         hasError: true,
         message: action.payload,
-      };
+      }
 
     case AuthActionTypes.AUTH_GET_USER:
       return {
@@ -48,12 +45,12 @@ export const authReducer = (
         isAuth: true,
         hasError: false,
         message: null,
-      };
+      }
 
     case AuthActionTypes.AUTH_USER_LOGOUT: {
-      return initialState;
+      return initialState
     }
     default:
-      return state;
+      return state
   }
-};
+}

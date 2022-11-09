@@ -1,9 +1,15 @@
+
 import { useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom'
 import { currentIngredient } from '../../services/reducers/ingredient-modal/selectors'
+import { ingredientsSelector } from '../../services/reducers/ingredients/selectors'
 import styles from './IngredientDetails.module.css'
 
 const IngredientDetails = () => {
-  const ingredient = useSelector(currentIngredient)
+  const params = useParams()
+  const ingredients = useSelector(ingredientsSelector)
+  const searchIngredient = ingredients.filter(ingredient => ingredient._id === params.id)
+  const ingredient = useSelector(currentIngredient) || searchIngredient[0]
 
   return (
     <>

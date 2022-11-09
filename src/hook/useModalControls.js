@@ -1,7 +1,11 @@
 import React from "react";
 import PropTypes from 'prop-types'
 
-const useModalControls = ({ titleModal = '', disableCloseButton = false, disableOverlayClick = false } = {}) => {
+const useModalControls = ({
+  titleModal = '',
+  disableCloseButton = false,
+  disableOverlayClick = false,
+  goBack = false } = {}) => {
 	const [isModalOpen, setIsModalOpen] = React.useState(false);
 
 	function handleOpenModal() {
@@ -17,6 +21,7 @@ const useModalControls = ({ titleModal = '', disableCloseButton = false, disable
 		close: handleCloseModal,
 		modalProps: {
 			isOpen: isModalOpen,
+      goBack,
 			requestClose: handleCloseModal,
 			titleModal,
 			disableCloseButton,

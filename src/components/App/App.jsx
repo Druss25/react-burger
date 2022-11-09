@@ -1,5 +1,5 @@
-import React from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import React from 'react'
+import { Switch, Route, useLocation } from 'react-router-dom'
 import {
   ForgotPasswordPage,
   HomePage,
@@ -9,20 +9,21 @@ import {
   ResetPasswordPage,
   OrdersHistoryPage,
   NotFoundPage,
-  IngredientsPage,
-} from "../../pages";
-import Layout from "../Layouts/Layout";
-import LayoutProfile from "../Layouts/LayoutProfile";
-import { ProtectedRoute, PublicRoute } from "../../routes";
+  IngredientPage,
+  ModalPage,
+} from '../../pages'
+import Layout from '../Layouts/Layout'
+import LayoutProfile from '../Layouts/LayoutProfile'
+import { ProtectedRoute, PublicRoute } from '../../routes'
 
 function App() {
+  const location = useLocation()
+  let background = location.state && location.state.background
+
   return (
-    <Router>
       <Layout>
-        <Switch>
-          <Route exact path="/">
-            <HomePage />
-          </Route>
+        <Switch location={background || location}>
+          <Route exact path="/" children={<HomePage />} />
           <Route path="/login">
             <LoginPage />
           </Route>
@@ -46,15 +47,15 @@ function App() {
             </LayoutProfile>
           </ProtectedRoute>
           <Route path="/ingredients/:id">
-            <IngredientsPage />
+            <IngredientPage />
           </Route>
           <Route path="*">
             <NotFoundPage />
           </Route>
         </Switch>
+        {background && <Route path='/ingredients/:id' children={<ModalPage />} />}
       </Layout>
-    </Router>
-  );
+  )
 }
 
-export default App;
+export default App

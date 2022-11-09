@@ -1,8 +1,13 @@
-import { baseUrl } from "./constants";
+import { baseUrl } from './constants'
 
 export const saveTokens = (accessToken, refreshToken) => {
   localStorage.setItem('accessToken', accessToken)
   localStorage.setItem('refreshToken', refreshToken)
+}
+
+export const removeTokens = (accessToken, refreshToken) => {
+  localStorage.removeItem('accessToken')
+  localStorage.removeItem('refreshToken')
 }
 
 export const getAccessToken = () => {
@@ -13,6 +18,9 @@ export const getRefreshToken = () => {
   return localStorage.getItem('refreshToken')
 }
 
+export const checkAccessToken = () => !!getAccessToken()
+export const checkRefreshToken = () => !!getRefreshToken()
+
 export const orderRequest = ingredientsList => {
   return fetch(`${baseUrl}/orders`, {
     method: 'POST',
@@ -20,13 +28,13 @@ export const orderRequest = ingredientsList => {
     cache: 'no-cache',
     credentials: 'same-origin',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
     redirect: 'follow',
     referrerPolicy: 'no-referrer',
-    body: JSON.stringify({ingredients: ingredientsList})
-  });
-};
+    body: JSON.stringify({ ingredients: ingredientsList }),
+  })
+}
 
 export const loginRequest = async data => {
   return await fetch(`${baseUrl}/auth/login`, {
@@ -35,13 +43,13 @@ export const loginRequest = async data => {
     cache: 'no-cache',
     credentials: 'same-origin',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
     redirect: 'follow',
     referrerPolicy: 'no-referrer',
-    body: JSON.stringify(data)
-  });
-};
+    body: JSON.stringify(data),
+  })
+}
 
 export const RegisterRequest = async data => {
   return await fetch(`${baseUrl}/auth/register`, {
@@ -50,13 +58,13 @@ export const RegisterRequest = async data => {
     // cache: 'no-cache',
     // credentials: 'same-origin',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
     // redirect: 'follow',
     // referrerPolicy: 'no-referrer',
-    body: JSON.stringify(data)
-  });
-};
+    body: JSON.stringify(data),
+  })
+}
 
 export const LogoutRequest = async () => {
   return await fetch(`${baseUrl}/auth/logout`, {
@@ -65,28 +73,28 @@ export const LogoutRequest = async () => {
     cache: 'no-cache',
     credentials: 'same-origin',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
     redirect: 'follow',
     referrerPolicy: 'no-referrer',
-    body: JSON.stringify({token: getRefreshToken()})
-  });
-};
+    body: JSON.stringify({ token: getRefreshToken() }),
+  })
+}
 
-export const TokenRequest = async (refreshToken) => {
+export const TokenRequest = async refreshToken => {
   return await fetch(`${baseUrl}/auth/token`, {
     method: 'POST',
     mode: 'cors',
     cache: 'no-cache',
     credentials: 'same-origin',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
     redirect: 'follow',
     referrerPolicy: 'no-referrer',
-    body: JSON.stringify({token: refreshToken})
-  });
-};
+    body: JSON.stringify({ token: refreshToken }),
+  })
+}
 
 export const getUserRequest = async () =>
   await fetch(`${baseUrl}/auth/user`, {
@@ -96,15 +104,13 @@ export const getUserRequest = async () =>
     credentials: 'same-origin',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': getAccessToken()
+      Authorization: getAccessToken(),
     },
     redirect: 'follow',
-    referrerPolicy: 'no-referrer'
-  })
-  .then(res => res.json())
+    referrerPolicy: 'no-referrer',
+  }).then(res => res.json())
 
-
-export const updateUserRequest = async (data) => {
+export const updateUserRequest = async data => {
   return await fetch(`${baseUrl}/auth/user`, {
     method: 'PATCH',
     mode: 'cors',
@@ -112,11 +118,10 @@ export const updateUserRequest = async (data) => {
     credentials: 'same-origin',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': getAccessToken()
+      Authorization: getAccessToken(),
     },
     redirect: 'follow',
     referrerPolicy: 'no-referrer',
-    body: JSON.stringify(data)
-  })
-  .then(res => res.json())
-};
+    body: JSON.stringify(data),
+  }).then(res => res.json())
+}
