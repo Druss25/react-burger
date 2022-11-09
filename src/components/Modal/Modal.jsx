@@ -17,14 +17,14 @@ function Modal(props) {
     }
   }
 
-  const onClick = React.useCallback(
+  const handleCloseModal = React.useCallback(
     () => {
       props.requestClose && props.requestClose()
       if (props.goBack) history.goBack(-1)
   },[history, props])
 
   React.useEffect(() => {
-    const closeOnEscapeKey = e => e.key === "Escape" ? props.requestClose() : null;
+    const closeOnEscapeKey = e => e.key === "Escape" ? handleCloseModal() : null;
     document.body.addEventListener("keydown", closeOnEscapeKey);
     return () => {
       document.body.removeEventListener("keydown", closeOnEscapeKey);
@@ -45,7 +45,7 @@ function Modal(props) {
                 : `${styles.modal__title__not} text text_type_main-large`}
               >
                 {props.titleModal}
-                <div className={styles.modal__close} onClick={onClick}>
+                <div className={styles.modal__close} onClick={handleCloseModal}>
                   <CloseIcon type="primary" />
                 </div>
               </div>

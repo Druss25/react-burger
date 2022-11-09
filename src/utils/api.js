@@ -36,19 +36,20 @@ export const orderRequest = ingredientsList => {
   })
 }
 
-export const loginRequest = async data => {
+export const loginRequest = async (form) => {
   return await fetch(`${baseUrl}/auth/login`, {
     method: 'POST',
     mode: 'cors',
     cache: 'no-cache',
     credentials: 'same-origin',
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json; charset=UTF-8',
     },
     redirect: 'follow',
     referrerPolicy: 'no-referrer',
-    body: JSON.stringify(data),
+    body: JSON.stringify(form),
   })
+  .then(res => res.json())
 }
 
 export const RegisterRequest = async data => {

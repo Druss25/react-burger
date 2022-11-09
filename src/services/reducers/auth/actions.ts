@@ -54,29 +54,19 @@ export type AuthAction =
   | authGetUser
   | authUserLogout
 
-export const login = (data: IRequestLogin) => async (dispatch: Dispatch<AuthAction>) => {
+export const login = (form: IRequestLogin) => async (dispatch: Dispatch<AuthAction>) => {
   dispatch({ type: AuthActionTypes.AUTH_USER_REQUEST })
-  await loginRequest(data)
-    .then(res => res.json())
-    .then((res: IResponseLogin) => {
-      try {
-        if (res.success) {
-          dispatch({
-            type: AuthActionTypes.AUTH_USER_SUCCESS,
-            payload: res.user,
-          })
-          saveTokens(res.accessToken, res.refreshToken)
-        }
-      } catch (error) {
-        throw new Error(res.message)
-      }
+  const data = (await loginRequest(form)) as IResponseLogin
+
+  if (data.success) {
+    dispatch({
+      type: AuthActionTypes.AUTH_USER_SUCCESS,
+      payload: data.user,
     })
-    .catch(error => {
-      dispatch({
-        type: AuthActionTypes.AUTH_USER_ERROR,
-        payload: error,
-      })
-    })
+    saveTokens(data.accessToken, data.refreshToken)
+  } else {
+    console.log('Ошибка авторизации: ', data)
+  }
 }
 
 export const register = (data: IRequestRegister) => async (dispatch: Dispatch<AuthAction>) => {
@@ -118,23 +108,21 @@ export const logout = () => async (dispatch: Dispatch<AuthAction>) => {
 }
 
 export const getNewTokens = async (refreshToken: string) => {
-  if (refreshToken) {
-    await TokenRequest(refreshToken)
-      .then(res => {
-        if (res.ok && res.status === 200) {
-          return res.json()
-        } else throw new Error('Ошибка обновления токена')
-      })
-      .then(res => {
-        if (res.success) {
-          saveTokens(res.accessToken, res.refreshToken)
-          return res
-        }
-      })
-      .catch(error => {
-        console.log(error)
-      })
-  }
+  await TokenRequest(refreshToken)
+    .then(res => {
+      if (res.ok) {
+        return res.json()
+      } else throw new Error('Ошибка обновления токена')
+    })
+    .then(res => {
+      if (res.success) {
+        saveTokens(res.accessToken, res.refreshToken)
+        return res
+      }
+    })
+    .catch(error => {
+      console.log(error)
+    })
 }
 
 interface getUserResponse {
@@ -170,6 +158,7 @@ export const getUser = () => async (dispatch: Dispatch<AuthAction>) => {
   if (!response.success && response.message === 'jwt expired') {
     const refreshToken = getRefreshToken()
     if (refreshToken) {
+      dispatch({ type: AuthActionTypes.AUTH_USER_REQUEST })
       await getNewTokens(refreshToken)
       await getUserRequest()
     }
@@ -178,7 +167,7 @@ export const getUser = () => async (dispatch: Dispatch<AuthAction>) => {
   if (!response.success) {
     dispatch({
       type: AuthActionTypes.AUTH_USER_ERROR,
-      payload: response.message,
+      payload: response?.message,
     })
   }
 

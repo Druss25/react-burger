@@ -8,7 +8,7 @@ export class HttpError extends Error {
 
     super(statusText || String(status))
 
-    this.name = 'HttpError'
+    // this.name = 'HttpError'
     this.response = response
   }
 }
@@ -18,11 +18,11 @@ async function _fetch<T>(path: string, config: RequestInit): Promise<T> {
   const response = await fetch(request)
 
   // if (!response.ok && response.status !== 403) {
-  //   throw new HttpError(response);
+  //   throw new HttpError(response)
   // }
 
   return response.json()
-  // .catch(() => ({}));
+  // .catch(() => ({}))
 }
 
 export async function get<T>(path: string, config?: RequestInit): Promise<T> {

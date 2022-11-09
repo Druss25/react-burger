@@ -1,20 +1,25 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Redirect, Route } from 'react-router-dom';
-import { AuthSelector } from '../services/reducers/auth/selectors';
-import { getUser } from '../services/reducers/auth/actions';
-import { checkAccessToken } from '../utils/api';
+import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Redirect, Route } from 'react-router-dom'
+import { AuthSelector } from '../services/reducers/auth/selectors'
+import { getUser } from '../services/reducers/auth/actions'
+import { checkAccessToken } from '../utils/api'
 
 const ProtectedRoute = ({ children, ...rest }) => {
-  const {isAuth, isLoading} = useSelector(AuthSelector)
+  const { isAuth, isLoading } = useSelector(AuthSelector)
   const dispatch = useDispatch()
 
+  const checkAuth = React.useCallback(() => {
+    if (checkAccessToken()) dispatch(getUser())
+  }, [dispatch])
+
   React.useEffect(() => {
-    if (checkAccessToken()) dispatch(getUser());
-  }, [dispatch]);
+    checkAuth()
+    // eslint-disable-next-line
+  }, [])
 
   if (isLoading) {
-    return null;
+    return null
   }
 
   return (
@@ -27,13 +32,13 @@ const ProtectedRoute = ({ children, ...rest }) => {
           <Redirect
             to={{
               pathname: '/login',
-              state: { from: location }
+              state: { from: location },
             }}
           />
         )
       }
     />
-  );
+  )
 }
 
 export default ProtectedRoute

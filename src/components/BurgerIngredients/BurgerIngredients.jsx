@@ -1,8 +1,6 @@
 import React from 'react'
 import { useInView } from 'react-intersection-observer'
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
-import Modal from '../Modal/Modal'
-import IngredientDetails from '../IngredientDetails/IngredientDetails'
 import useModalControls from '../../hook/useModalControls'
 import { getBun, getMain, getSauce } from '../../services/reducers/ingredients/selectors'
 import BurgerIngredientsCategory from '../BurgerIngredientsCategory/BurgerIngredientsCategory'

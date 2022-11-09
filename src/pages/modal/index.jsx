@@ -12,13 +12,13 @@ const ModalPage = () => {
   const modalControls = useModalControls({ titleModal, goBack })
   React.useEffect(() => {
     if (params.id) modalControls.open()
-  // eslint-disable-next-line
+    // eslint-disable-next-line
   }, [])
 
   return (
     <Modal {...modalControls.modalProps}>
-        <IngredientDetails />
-      </Modal>
+      <IngredientDetails />
+    </Modal>
   )
 }
 

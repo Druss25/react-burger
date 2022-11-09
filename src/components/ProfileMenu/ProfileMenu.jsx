@@ -1,3 +1,4 @@
+import React from 'react'
 import { useDispatch } from 'react-redux'
 import { NavLink, useHistory } from 'react-router-dom'
 import { logout } from '../../services/reducers/auth/actions'
@@ -7,31 +8,33 @@ const ProfileNavigate = () => {
   const history = useHistory()
   const dispatch = useDispatch()
 
-  const handleClick = () => {
+  const handleClick = React.useCallback(() => {
     dispatch(logout())
-    history.replace({ pathname: '/' })
-  }
+    history.replace({ pathname: '/login' })
+  }, [dispatch, history])
 
   return (
     <div className={styles.menu}>
       <nav className={styles.items}>
         <NavLink
           exact
-          to='/profile'
-          className='text text_type_main-medium text_color_inactive'
+          to="/profile"
+          className="text text_type_main-medium text_color_inactive"
           activeClassName={styles.active}
         >
           Профиль
         </NavLink>
         <NavLink
           exact
-          to='/profile/orders'
+          to="/profile/orders"
           className="text text_type_main-medium text_color_inactive"
           activeClassName={styles.active}
         >
           История заказов
         </NavLink>
-        <button type='button' onClick={handleClick}>Выход</button>
+        <button type="button" onClick={handleClick}>
+          Выход
+        </button>
       </nav>
     </div>
   )
