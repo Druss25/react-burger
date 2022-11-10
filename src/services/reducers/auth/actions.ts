@@ -1,15 +1,14 @@
 import { Dispatch } from 'redux'
 import { IRequestLogin, IRequestRegister, IResponseLogin, IUser } from '../../../models/auth'
 import {
+  checkRefreshToken,
   getAccessToken,
   getRefreshToken,
-  getUserRequest,
   loginRequest,
   LogoutRequest,
   RegisterRequest,
   removeTokens,
   saveTokens,
-  TokenRequest,
   updateUserRequest,
 } from '../../../utils/api'
 import * as _fetch from '../../../utils/fetch'
@@ -92,10 +91,7 @@ export const register = (data: IRequestRegister) => async (dispatch: Dispatch<Au
 
 export const logout = () => async (dispatch: Dispatch<AuthAction>) => {
   await LogoutRequest()
-    .then(res => {
-      if (!res.ok && res.status !== 200) throw new Error('Что-то пошло не так !!!')
-      return res.json()
-    })
+    .then(res => res.json())
     .then(res => {
       if (res.success) {
         dispatch({
@@ -107,23 +103,24 @@ export const logout = () => async (dispatch: Dispatch<AuthAction>) => {
     .catch(error => console.log(error))
 }
 
-export const getNewTokens = async (refreshToken: string) => {
-  await TokenRequest(refreshToken)
-    .then(res => {
-      if (res.ok) {
-        return res.json()
-      } else throw new Error('Ошибка обновления токена')
-    })
-    .then(res => {
-      if (res.success) {
-        saveTokens(res.accessToken, res.refreshToken)
-        return res
-      }
-    })
-    .catch(error => {
-      console.log(error)
-    })
-}
+// export const getNewTokens = async () => {
+//   await TokenRequest()
+//     .then(res => {
+//       if (res.ok) {
+//         return res.json()
+//       } else throw new Error('Ошибка обновления токена')
+//     })
+//     .then(res => {
+//       if (res.success) {
+//         console.log('Обновил токены !')
+//         saveTokens(res.accessToken, res.refreshToken)
+//         return res
+//       }
+//     })
+//     .catch(error => {
+//       console.log(error)
+//     })
+// }
 
 interface getUserResponse {
   success: boolean
@@ -134,6 +131,41 @@ interface getUserResponse {
 interface IRequestInit {
   path: string
   config: RequestInit
+}
+
+interface ITokenResponse {
+  success: boolean
+  accessToken: string
+  refreshToken: string
+}
+
+const requestNewToken: IRequestInit = {
+  path: '/auth/token',
+  config: {
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer',
+    body: JSON.stringify({ token: getRefreshToken() }),
+  },
+}
+
+const postNewTokens = async () => {
+  const { path, config } = requestNewToken
+
+  await _fetch
+    .post<ITokenResponse>(path, config)
+    .then(data => {
+      if (data.success) {
+        saveTokens(data.accessToken, data.refreshToken)
+        return data.accessToken
+      }
+    })
+    .catch(err => console.log(err))
 }
 
 const RequestGetUser: IRequestInit = {
@@ -151,31 +183,81 @@ const RequestGetUser: IRequestInit = {
   },
 }
 
+// export const getUser = () => async (dispatch: Dispatch<AuthAction>) => {
+//   const { path, config } = RequestGetUser
+//   dispatch({ type: AuthActionTypes.AUTH_USER_REQUEST })
+//   const response = await _fetch.get<getUserResponse>(path, config)
+
+//   if (!response.success && response.message === 'jwt expired') {
+//     if (checkRefreshToken) {
+//       await getNewTokens()
+//       getUser()
+//     }
+//   }
+
+//   if (!response.success) {
+//     dispatch({
+//       type: AuthActionTypes.AUTH_USER_ERROR,
+//       payload: response?.message,
+//     })
+//   }
+
+//   if (response.success) {
+//     dispatch({
+//       type: AuthActionTypes.AUTH_GET_USER,
+//       payload: response.user,
+//     })
+//   }
+// }
+
 export const getUser = () => async (dispatch: Dispatch<AuthAction>) => {
+  const { path, config } = RequestGetUser
+
   dispatch({ type: AuthActionTypes.AUTH_USER_REQUEST })
-  const response = await _fetch.get<getUserResponse>(RequestGetUser.path, RequestGetUser.config)
+  const request = await _fetch
+    .get<getUserResponse>(path, config)
+    .then(data => {
+      if (data.success) {
+        console.log('Прочитал пользователя !')
+        dispatch({
+          type: AuthActionTypes.AUTH_GET_USER,
+          payload: data.user,
+        })
+      }
+    })
+    .catch(err => err)
 
-  if (!response.success && response.message === 'jwt expired') {
-    const refreshToken = getRefreshToken()
-    if (refreshToken) {
-      dispatch({ type: AuthActionTypes.AUTH_USER_REQUEST })
-      await getNewTokens(refreshToken)
-      await getUserRequest()
+  console.log('Ответ request ---- ', request)
+  if (request !== undefined) {
+    if (checkRefreshToken) {
+      return await postNewTokens().then(async () => {
+        console.log('Начало выполнения второго запроса')
+        return await _fetch
+          .get<getUserResponse>(path, {
+            mode: 'cors',
+            cache: 'no-cache',
+            credentials: 'same-origin',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: String(getAccessToken()),
+            },
+            redirect: 'follow',
+            referrerPolicy: 'no-referrer',
+          })
+          .then(data => {
+            if (data.success) {
+              console.log('Прочитал данные с новым токеном !', data)
+              dispatch({
+                type: AuthActionTypes.AUTH_GET_USER,
+                payload: data.user,
+              })
+              console.log('Записал второй запрос !')
+              return data
+            }
+          })
+          .catch(err => err)
+      })
     }
-  }
-
-  if (!response.success) {
-    dispatch({
-      type: AuthActionTypes.AUTH_USER_ERROR,
-      payload: response?.message,
-    })
-  }
-
-  if (response.success) {
-    dispatch({
-      type: AuthActionTypes.AUTH_GET_USER,
-      payload: response.user,
-    })
   }
 }
 

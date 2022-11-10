@@ -10,7 +10,7 @@ const ProfileNavigate = () => {
 
   const handleClick = React.useCallback(() => {
     dispatch(logout())
-    history.replace({ pathname: '/login' })
+    history.replace({ pathname: '/' })
   }, [dispatch, history])
 
   return (

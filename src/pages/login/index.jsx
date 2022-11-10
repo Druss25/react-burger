@@ -43,7 +43,7 @@ const LoginPage = () => {
   }
 
   if (isAuth) {
-    return <Redirect to={state?.from} />
+    return <Redirect exact to={state?.from} />
   }
 
   return (

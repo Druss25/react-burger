@@ -5,7 +5,7 @@ export const saveTokens = (accessToken, refreshToken) => {
   localStorage.setItem('refreshToken', refreshToken)
 }
 
-export const removeTokens = (accessToken, refreshToken) => {
+export const removeTokens = () => {
   localStorage.removeItem('accessToken')
   localStorage.removeItem('refreshToken')
 }
@@ -18,8 +18,8 @@ export const getRefreshToken = () => {
   return localStorage.getItem('refreshToken')
 }
 
-export const checkAccessToken = () => !!getAccessToken()
-export const checkRefreshToken = () => !!getRefreshToken()
+export const checkAccessToken = !!getAccessToken()
+export const checkRefreshToken = !!getRefreshToken()
 
 export const orderRequest = ingredientsList => {
   return fetch(`${baseUrl}/orders`, {
@@ -82,7 +82,7 @@ export const LogoutRequest = async () => {
   })
 }
 
-export const TokenRequest = async refreshToken => {
+export const TokenRequest = async () => {
   return await fetch(`${baseUrl}/auth/token`, {
     method: 'POST',
     mode: 'cors',
@@ -93,7 +93,7 @@ export const TokenRequest = async refreshToken => {
     },
     redirect: 'follow',
     referrerPolicy: 'no-referrer',
-    body: JSON.stringify({ token: refreshToken }),
+    body: JSON.stringify({ token: getRefreshToken() }),
   })
 }
 

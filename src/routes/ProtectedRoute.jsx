@@ -10,7 +10,7 @@ const ProtectedRoute = ({ children, ...rest }) => {
   const dispatch = useDispatch()
 
   const checkAuth = React.useCallback(() => {
-    if (checkAccessToken()) dispatch(getUser())
+    if (checkAccessToken) dispatch(getUser())
   }, [dispatch])
 
   React.useEffect(() => {

@@ -6,3 +6,12 @@
   grid-area: content;
   margin-left: 60px;
 }
+
+.form {
+  max-width: 480px;
+  width: 100%;
+}
+
+.group_button {
+  text-align: end;
+}

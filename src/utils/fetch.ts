@@ -14,26 +14,25 @@ export class HttpError extends Error {
 }
 
 async function _fetch<T>(path: string, config: RequestInit): Promise<T> {
-  const request = new Request(path, config)
+  const url = baseUrl + path
+  const request = new Request(url, config)
   const response = await fetch(request)
 
-  // if (!response.ok && response.status !== 403) {
-  //   throw new HttpError(response)
-  // }
+  if (!response.ok) {
+    throw new Error('Что-то пошло не так !')
+  }
 
-  return response.json()
-  // .catch(() => ({}))
+  return response.json().catch(() => ({}))
 }
 
 export async function get<T>(path: string, config?: RequestInit): Promise<T> {
-  const url = baseUrl + path
   const init = { method: 'get', ...config }
-  return await _fetch<T>(url, init)
+  return await _fetch<T>(path, init)
 }
 
-export async function post<T, U>(path: string, body: T, config?: RequestInit): Promise<U> {
-  const init = { method: 'post', body: JSON.stringify(body), ...config }
-  return await _fetch<U>(path, init)
+export async function post<T>(path: string, config?: RequestInit): Promise<T> {
+  const init = { method: 'post', ...config }
+  return await _fetch<T>(path, init)
 }
 
 export async function put<T, U>(path: string, body: T, config?: RequestInit): Promise<U> {
