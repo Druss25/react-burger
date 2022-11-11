@@ -13,7 +13,7 @@ import Spinner from '../../components/Spinner/Spinner'
 
 const LoginPage = () => {
   const location = useLocation()
-  const { state } = location || { from: { pathname: '/' } }
+  const { state } = location
   const { isAuth, isLoading } = useSelector(AuthSelector)
   const [inputs, setValues] = React.useState({
     email: 'druss@baikonur.net',
@@ -44,7 +44,7 @@ const LoginPage = () => {
   }
 
   if (isAuth) {
-    return <Redirect exact to={state?.from} />
+    return <Redirect exact to={state?.from || { from: { pathname: '/' } }} />
   }
 
   return (

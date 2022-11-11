@@ -216,7 +216,7 @@ const postNewTokens = async () => {
 // *
 export const getUser = () => async (dispatch: Dispatch<AuthAction>) => {
   dispatch({ type: AuthActionTypes.AUTH_USER_REQUEST })
-  const request = await fetch
+  let request = await fetch
     .get<IResponseUser>('/auth/user', {
       mode: 'cors',
       cache: 'no-cache',
@@ -239,7 +239,8 @@ export const getUser = () => async (dispatch: Dispatch<AuthAction>) => {
     .catch(err => err)
 
   if (request !== undefined) {
-    if (checkRefreshToken) {
+    const isRefreshToken = !!getRefreshToken()
+    if (isRefreshToken) {
       const token = await postNewTokens()
       await fetch
         .get<IResponseUser>('/auth/user', {
@@ -259,9 +260,9 @@ export const getUser = () => async (dispatch: Dispatch<AuthAction>) => {
               type: AuthActionTypes.AUTH_GET_USER,
               payload: data.user,
             })
-            return data
           }
-          return null
+          request = undefined
+          return data
         })
         .catch(err => err)
     }

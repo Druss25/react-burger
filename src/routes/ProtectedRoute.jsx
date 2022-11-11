@@ -2,8 +2,8 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Redirect, Route } from 'react-router-dom'
 import { AuthSelector } from '../services/reducers/auth/selectors'
-import { getUser } from '../services/reducers/auth/actions'
-import { checkAccessToken } from '../utils/api'
+import { AuthActionTypes, getUser } from '../services/reducers/auth/actions'
+import { checkRefreshToken } from '../utils/api'
 import Spinner from '../components/Spinner/Spinner'
 
 const ProtectedRoute = ({ children, ...rest }) => {
@@ -11,8 +11,18 @@ const ProtectedRoute = ({ children, ...rest }) => {
   const dispatch = useDispatch()
 
   const checkAuth = React.useCallback(() => {
-    if (checkAccessToken) dispatch(getUser())
-  }, [dispatch])
+    if (checkRefreshToken) {
+      dispatch(getUser())
+    }
+
+    // TODO
+    if (!checkRefreshToken && !isLoading) {
+      dispatch({
+        type: AuthActionTypes.AUTH_USER_ERROR,
+        payload: 'Требуется авторизироваться !!!',
+      })
+    }
+  }, [dispatch, isLoading])
 
   React.useEffect(() => {
     checkAuth()

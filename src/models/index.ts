@@ -16,7 +16,7 @@ export interface IIngredients {
   id?: string
 }
 
-export interface IResponseOrderApi {
+export interface IResponseOrder {
   success: boolean
   name: string
   order: {
@@ -41,7 +41,7 @@ export interface BurgerState {
 }
 
 export interface OrderState {
-  data: IResponseOrderApi | null
+  data: IResponseOrder | null
   isLoading: boolean
   error: string | null
 }

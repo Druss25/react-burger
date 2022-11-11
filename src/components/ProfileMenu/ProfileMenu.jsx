@@ -8,7 +8,7 @@ const ProfileNavigate = () => {
   const history = useHistory()
   const dispatch = useDispatch()
 
-  const handleClick = React.useCallback(() => {
+  const onClick = React.useCallback(() => {
     dispatch(logout())
     history.replace({ pathname: '/' })
   }, [dispatch, history])
@@ -32,7 +32,7 @@ const ProfileNavigate = () => {
         >
           История заказов
         </NavLink>
-        <button type="button" onClick={handleClick}>
+        <button type="button" onClick={onClick}>
           Выход
         </button>
       </nav>

@@ -7,7 +7,7 @@ const override: React.CSSProperties = {
 }
 
 const Spinner = () => {
-  return <BarLoader color="#ffffff" cssOverride={override} width={200} />
+  return <BarLoader color="#ffffff" cssOverride={override} width={1100} />
 }
 
 export default Spinner
