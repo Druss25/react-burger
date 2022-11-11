@@ -4,6 +4,7 @@ import { Redirect, Route } from 'react-router-dom'
 import { AuthSelector } from '../services/reducers/auth/selectors'
 import { getUser } from '../services/reducers/auth/actions'
 import { checkAccessToken } from '../utils/api'
+import Spinner from '../components/Spinner/Spinner'
 
 const ProtectedRoute = ({ children, ...rest }) => {
   const { isAuth, isLoading } = useSelector(AuthSelector)
@@ -19,7 +20,7 @@ const ProtectedRoute = ({ children, ...rest }) => {
   }, [])
 
   if (isLoading) {
-    return null
+    return <Spinner />
   }
 
   return (

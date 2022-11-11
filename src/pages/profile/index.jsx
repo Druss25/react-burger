@@ -5,9 +5,10 @@ import {
   PasswordInput,
   Button,
 } from '@ya.praktikum/react-developer-burger-ui-components'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { UserSelector } from '../../services/reducers/auth/selectors'
 import styles from './profile.module.css'
+import { updateUser } from '../../services/reducers/auth/actions'
 
 const ProfilePage = () => {
   const nameRef = React.useRef(null)
@@ -17,16 +18,15 @@ const ProfilePage = () => {
     email,
     password: '',
   })
-
   const [editInputs, setEditInputs] = React.useState(false)
+  const dispatch = useDispatch()
 
   const onIconClick = e => {
     e.preventDefault()
     nameRef.current.focus()
-    console.log('nameRef: ', nameRef.current.onFocus)
   }
 
-  const handleChange = event => {
+  const onChange = event => {
     const name = event.target.name
     const value = event.target.value
     setInputs(values => ({ ...values, [name]: value }))
@@ -41,9 +41,14 @@ const ProfilePage = () => {
     inputs.password = ''
   }
 
-  const submitForm = e => {
-    e.preventDefault()
-  }
+  const onSubmit = React.useCallback(
+    e => {
+      e.preventDefault()
+      dispatch(updateUser(inputs))
+      setEditInputs(false)
+    },
+    [dispatch, inputs],
+  )
 
   return (
     <>
@@ -53,7 +58,7 @@ const ProfilePage = () => {
         </p>
       </div>
       <div className={styles.wrapper}>
-        <form className={styles.form} onSubmit={submitForm}>
+        <form className={styles.form} onSubmit={onSubmit}>
           <Input
             icon="EditIcon"
             placeholder="Имя"
@@ -61,12 +66,12 @@ const ProfilePage = () => {
             name={'name'}
             ref={nameRef}
             onIconClick={onIconClick}
-            onChange={handleChange}
+            onChange={onChange}
             extraClass="mb-6"
           />
           <EmailInput
             type="email"
-            onChange={handleChange}
+            onChange={onChange}
             value={inputs.email}
             name={'email'}
             placeholder="Email"
@@ -77,7 +82,7 @@ const ProfilePage = () => {
             placeholder={'Пароль'}
             icon="EditIcon"
             size={'default'}
-            onChange={handleChange}
+            onChange={onChange}
             value={inputs.password}
             name={'password'}
             extraClass="mb-6"

@@ -46,6 +46,18 @@ export const authReducer = (state = initialState, action: AuthAction): AuthState
         hasError: false,
         message: null,
       }
+    case AuthActionTypes.AUTH_UPDATE_USER_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+      }
+
+    case AuthActionTypes.AUTH_UPDATE_USER:
+      return {
+        ...state,
+        user: action.payload,
+        isLoading: false,
+      }
 
     case AuthActionTypes.AUTH_USER_LOGOUT: {
       return initialState

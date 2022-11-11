@@ -1,17 +1,13 @@
 import { Dispatch } from 'redux'
-import { IRequestLogin, IRequestRegister, IResponseLogin, IUser } from '../../../models/auth'
+import { IRequestLogin, IRequestRegister, IUser } from '../../../models/auth'
 import {
   checkRefreshToken,
   getAccessToken,
   getRefreshToken,
-  loginRequest,
-  LogoutRequest,
-  RegisterRequest,
   removeTokens,
   saveTokens,
-  updateUserRequest,
 } from '../../../utils/api'
-import * as _fetch from '../../../utils/fetch'
+import * as fetch from '../../../utils/fetch'
 
 export const name = 'auth'
 
@@ -20,6 +16,8 @@ export enum AuthActionTypes {
   AUTH_USER_SUCCESS = 'AUTH_USER_SUCCESS',
   AUTH_USER_ERROR = 'AUTH_USER_ERROR',
   AUTH_GET_USER = 'AUTH_GET_USER',
+  AUTH_UPDATE_USER_REQUEST = 'AUTH_UPDATE_USER_REQUEST',
+  AUTH_UPDATE_USER = 'AUTH_UPDATE_USER',
   AUTH_USER_LOGOUT = 'AUTH_USER_LOGOUT',
 }
 
@@ -42,6 +40,15 @@ interface authGetUser {
   payload: IUser
 }
 
+interface authUpdateUserRequest {
+  type: AuthActionTypes.AUTH_UPDATE_USER_REQUEST
+}
+
+interface authUpdateUser {
+  type: AuthActionTypes.AUTH_UPDATE_USER
+  payload: IUser
+}
+
 interface authUserLogout {
   type: AuthActionTypes.AUTH_USER_LOGOUT
 }
@@ -50,175 +57,179 @@ export type AuthAction =
   | authUserRequest
   | authUserSuccess
   | authUserError
+  | authUpdateUserRequest
+  | authUpdateUser
   | authGetUser
   | authUserLogout
 
-export const login = (form: IRequestLogin) => async (dispatch: Dispatch<AuthAction>) => {
-  dispatch({ type: AuthActionTypes.AUTH_USER_REQUEST })
-  const data = (await loginRequest(form)) as IResponseLogin
-
-  if (data.success) {
-    dispatch({
-      type: AuthActionTypes.AUTH_USER_SUCCESS,
-      payload: data.user,
-    })
-    saveTokens(data.accessToken, data.refreshToken)
-  } else {
-    console.log('Ошибка авторизации: ', data)
-  }
+interface IResponse {
+  success: boolean
+  user: IUser
+  accessToken: string
+  refreshToken: string
+  message?: string
 }
 
-export const register = (data: IRequestRegister) => async (dispatch: Dispatch<AuthAction>) => {
+// *
+export const login = (form: IRequestLogin) => async (dispatch: Dispatch<AuthAction>) => {
   dispatch({ type: AuthActionTypes.AUTH_USER_REQUEST })
-  await RegisterRequest(data)
-    .then(res => res.json())
-    .then((res: IResponseLogin) => {
-      if (res.success) {
+
+  await fetch
+    .post<IResponse>('/auth/login', {
+      mode: 'cors',
+      cache: 'no-cache',
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      redirect: 'follow',
+      referrerPolicy: 'no-referrer',
+      body: JSON.stringify(form),
+    })
+    .then(data => {
+      if (data.success) {
         dispatch({
           type: AuthActionTypes.AUTH_USER_SUCCESS,
-          payload: res.user,
+          payload: data.user,
         })
-        saveTokens(res.accessToken, res.refreshToken)
-      } else throw new Error(res.message)
+        saveTokens(data.accessToken, data.refreshToken)
+      }
     })
-    .catch((error: string) => {
+    .catch(err => err)
+}
+
+// *
+export const register = (form: IRequestRegister) => async (dispatch: Dispatch<AuthAction>) => {
+  dispatch({ type: AuthActionTypes.AUTH_USER_REQUEST })
+
+  await fetch
+    .post<IResponse>('/auth/register', {
+      mode: 'cors',
+      cache: 'no-cache',
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      redirect: 'follow',
+      referrerPolicy: 'no-referrer',
+      body: JSON.stringify(form),
+    })
+    .then(data => {
+      if (data.success) {
+        dispatch({
+          type: AuthActionTypes.AUTH_USER_SUCCESS,
+          payload: data.user,
+        })
+        saveTokens(data.accessToken, data.refreshToken)
+      }
+    })
+    .catch(error => {
       dispatch({
         type: AuthActionTypes.AUTH_USER_ERROR,
         payload: error,
       })
     })
+
+  // await RegisterRequest(data)
+  //   .then(res => res.json())
+  //   .then((res: IResponseLogin) => {
+  //     if (res.success) {
+  //       dispatch({
+  //         type: AuthActionTypes.AUTH_USER_SUCCESS,
+  //         payload: res.user,
+  //       })
+  //       saveTokens(res.accessToken, res.refreshToken)
+  //     }
+  //   })
+  //   .catch((error: string) => {
+  //     dispatch({
+  //       type: AuthActionTypes.AUTH_USER_ERROR,
+  //       payload: error,
+  //     })
+  //   })
 }
 
+interface IResponseLogout {
+  success: boolean
+}
+
+// *
 export const logout = () => async (dispatch: Dispatch<AuthAction>) => {
-  await LogoutRequest()
-    .then(res => res.json())
-    .then(res => {
-      if (res.success) {
+  await fetch
+    .post<IResponseLogout>('/auth/logout', {
+      method: 'POST',
+      mode: 'cors',
+      cache: 'no-cache',
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      redirect: 'follow',
+      referrerPolicy: 'no-referrer',
+      body: JSON.stringify({ token: getRefreshToken() }),
+    })
+    .then(data => {
+      if (data.success) {
         dispatch({
           type: AuthActionTypes.AUTH_USER_LOGOUT,
         })
         removeTokens()
       }
     })
-    .catch(error => console.log(error))
+    .catch(error => error)
 }
 
-// export const getNewTokens = async () => {
-//   await TokenRequest()
-//     .then(res => {
-//       if (res.ok) {
-//         return res.json()
-//       } else throw new Error('Ошибка обновления токена')
-//     })
-//     .then(res => {
-//       if (res.success) {
-//         console.log('Обновил токены !')
-//         saveTokens(res.accessToken, res.refreshToken)
-//         return res
-//       }
-//     })
-//     .catch(error => {
-//       console.log(error)
-//     })
-// }
-
-interface getUserResponse {
+interface IResponseUser {
   success: boolean
   user: IUser
-  message: string
+  message?: string
 }
 
-interface IRequestInit {
-  path: string
-  config: RequestInit
-}
-
-interface ITokenResponse {
+interface IResponseToken {
   success: boolean
   accessToken: string
   refreshToken: string
 }
 
-const requestNewToken: IRequestInit = {
-  path: '/auth/token',
-  config: {
-    mode: 'cors',
-    cache: 'no-cache',
-    credentials: 'same-origin',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    redirect: 'follow',
-    referrerPolicy: 'no-referrer',
-    body: JSON.stringify({ token: getRefreshToken() }),
-  },
-}
-
+// *
 const postNewTokens = async () => {
-  const { path, config } = requestNewToken
-
-  await _fetch
-    .post<ITokenResponse>(path, config)
+  return await fetch
+    .post<IResponseToken>('/auth/token', {
+      mode: 'cors',
+      cache: 'no-cache',
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      redirect: 'follow',
+      referrerPolicy: 'no-referrer',
+      body: JSON.stringify({ token: getRefreshToken() }),
+    })
     .then(data => {
       if (data.success) {
         saveTokens(data.accessToken, data.refreshToken)
         return data.accessToken
       }
     })
-    .catch(err => console.log(err))
+    .catch(err => err)
 }
-
-const RequestGetUser: IRequestInit = {
-  path: '/auth/user',
-  config: {
-    mode: 'cors',
-    cache: 'no-cache',
-    credentials: 'same-origin',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: String(getAccessToken()),
-    },
-    redirect: 'follow',
-    referrerPolicy: 'no-referrer',
-  },
-}
-
-// export const getUser = () => async (dispatch: Dispatch<AuthAction>) => {
-//   const { path, config } = RequestGetUser
-//   dispatch({ type: AuthActionTypes.AUTH_USER_REQUEST })
-//   const response = await _fetch.get<getUserResponse>(path, config)
-
-//   if (!response.success && response.message === 'jwt expired') {
-//     if (checkRefreshToken) {
-//       await getNewTokens()
-//       getUser()
-//     }
-//   }
-
-//   if (!response.success) {
-//     dispatch({
-//       type: AuthActionTypes.AUTH_USER_ERROR,
-//       payload: response?.message,
-//     })
-//   }
-
-//   if (response.success) {
-//     dispatch({
-//       type: AuthActionTypes.AUTH_GET_USER,
-//       payload: response.user,
-//     })
-//   }
-// }
-
+// *
 export const getUser = () => async (dispatch: Dispatch<AuthAction>) => {
-  const { path, config } = RequestGetUser
-
   dispatch({ type: AuthActionTypes.AUTH_USER_REQUEST })
-  const request = await _fetch
-    .get<getUserResponse>(path, config)
+  const request = await fetch
+    .get<IResponseUser>('/auth/user', {
+      mode: 'cors',
+      cache: 'no-cache',
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: String(getAccessToken()),
+      },
+      redirect: 'follow',
+      referrerPolicy: 'no-referrer',
+    })
     .then(data => {
       if (data.success) {
-        console.log('Прочитал пользователя !')
         dispatch({
           type: AuthActionTypes.AUTH_GET_USER,
           payload: data.user,
@@ -227,54 +238,58 @@ export const getUser = () => async (dispatch: Dispatch<AuthAction>) => {
     })
     .catch(err => err)
 
-  console.log('Ответ request ---- ', request)
   if (request !== undefined) {
     if (checkRefreshToken) {
-      return await postNewTokens().then(async () => {
-        console.log('Начало выполнения второго запроса')
-        return await _fetch
-          .get<getUserResponse>(path, {
-            mode: 'cors',
-            cache: 'no-cache',
-            credentials: 'same-origin',
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: String(getAccessToken()),
-            },
-            redirect: 'follow',
-            referrerPolicy: 'no-referrer',
-          })
-          .then(data => {
-            if (data.success) {
-              console.log('Прочитал данные с новым токеном !', data)
-              dispatch({
-                type: AuthActionTypes.AUTH_GET_USER,
-                payload: data.user,
-              })
-              console.log('Записал второй запрос !')
-              return data
-            }
-          })
-          .catch(err => err)
-      })
+      const token = await postNewTokens()
+      await fetch
+        .get<IResponseUser>('/auth/user', {
+          mode: 'cors',
+          cache: 'no-cache',
+          credentials: 'same-origin',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: String(token),
+          },
+          redirect: 'follow',
+          referrerPolicy: 'no-referrer',
+        })
+        .then(data => {
+          if (data.success) {
+            dispatch({
+              type: AuthActionTypes.AUTH_GET_USER,
+              payload: data.user,
+            })
+            return data
+          }
+          return null
+        })
+        .catch(err => err)
     }
   }
 }
-
-export const updateUser = () => async (dispatch: Dispatch<AuthAction>) => {
-  await updateUserRequest()
-    .then((res: IResponseLogin) => {
-      if (res.success) {
+// *
+export const updateUser = (form: IRequestRegister) => async (dispatch: Dispatch<AuthAction>) => {
+  dispatch({ type: AuthActionTypes.AUTH_UPDATE_USER_REQUEST })
+  await fetch
+    .patch<IRequestRegister, IResponseUser>('/auth/user', form, {
+      mode: 'cors',
+      cache: 'no-cache',
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: String(getAccessToken()),
+      },
+      redirect: 'follow',
+      referrerPolicy: 'no-referrer',
+      body: JSON.stringify(form),
+    })
+    .then(data => {
+      if (data.success) {
         dispatch({
-          type: AuthActionTypes.AUTH_USER_SUCCESS,
-          payload: res.user,
+          type: AuthActionTypes.AUTH_UPDATE_USER,
+          payload: data.user,
         })
-      } else throw new Error(res.message)
+      }
     })
-    .catch(error => {
-      dispatch({
-        type: AuthActionTypes.AUTH_USER_ERROR,
-        payload: error,
-      })
-    })
+    .catch(err => err)
 }

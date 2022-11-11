@@ -11,7 +11,7 @@
   "files.trimFinalNewlines": true,
   "files.trimTrailingWhitespace": true,
   "files.autoSave": "afterDelay",
-  "files.autoSaveDelay": 10000,
+  "files.autoSaveDelay": 60000,
   "editor.formatOnSave": true,
   // добавить это
   "[javascriptreact]": {
@@ -35,5 +35,5 @@
   "window.autoDetectColorScheme": true,
   "workbench.preferredHighContrastLightColorTheme": "GitHub Light High Contrast",
   "workbench.preferredLightColorTheme": "Monokai",
-  "workbench.colorTheme": "GitHub Dark Default"
+  "workbench.colorTheme": "Default Dark+"
 }

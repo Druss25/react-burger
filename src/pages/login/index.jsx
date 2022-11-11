@@ -9,6 +9,7 @@ import { login } from '../../services/reducers/auth/actions'
 import { useDispatch, useSelector } from 'react-redux'
 import { AuthSelector } from '../../services/reducers/auth/selectors'
 import styles from '../form.module.css'
+import Spinner from '../../components/Spinner/Spinner'
 
 const LoginPage = () => {
   const location = useLocation()
@@ -30,7 +31,7 @@ const LoginPage = () => {
     })
   }
 
-  const handleSubmit = React.useCallback(
+  const onSubmit = React.useCallback(
     e => {
       e.preventDefault()
       dispatch(login(inputs))
@@ -39,7 +40,7 @@ const LoginPage = () => {
   )
 
   if (isLoading) {
-    return null
+    return <Spinner />
   }
 
   if (isAuth) {
@@ -48,7 +49,7 @@ const LoginPage = () => {
 
   return (
     <section className={styles.section_form_container}>
-      <form className={styles.form_wrapper} onSubmit={handleSubmit}>
+      <form className={styles.form_wrapper} onSubmit={onSubmit}>
         <h3 className="text text_type_main-medium">Вход</h3>
         <EmailInput
           placeholder={'Email'}

@@ -21,40 +21,28 @@ function App() {
   let background = location.state && location.state.background
 
   return (
-      <Layout>
-        <Switch location={background || location}>
-          <Route exact path="/" children={<HomePage />} />
-          <Route path="/login">
-            <LoginPage />
-          </Route>
-          <PublicRoute path="/register">
-            <RegisterPage />
-          </PublicRoute>
-          <PublicRoute path="/forgot-password">
-            <ForgotPasswordPage />
-          </PublicRoute>
-          <PublicRoute path="/reset-password">
-            <ResetPasswordPage />
-          </PublicRoute>
-          <ProtectedRoute exact path="/profile">
-            <LayoutProfile>
-              <ProfilePage />
-            </LayoutProfile>
-          </ProtectedRoute>
-          <ProtectedRoute path="/profile/orders">
-            <LayoutProfile>
-              <OrdersHistoryPage />
-            </LayoutProfile>
-          </ProtectedRoute>
-          <Route path="/ingredients/:id">
-            <IngredientPage />
-          </Route>
-          <Route path="*">
-            <NotFoundPage />
-          </Route>
-        </Switch>
-        {background && <Route path='/ingredients/:id' children={<ModalPage />} />}
-      </Layout>
+    <Layout>
+      <Switch location={background || location}>
+        <Route exact path="/" children={<HomePage />} />
+        <Route path="/login" children={<LoginPage />} />
+        <Route path="/register" children={<RegisterPage />} />
+        <Route path="/forgot-password" children={<ForgotPasswordPage />} />
+        <PublicRoute path="/reset-password" children={<ResetPasswordPage />} />
+        <ProtectedRoute exact path="/profile">
+          <LayoutProfile>
+            <ProfilePage />
+          </LayoutProfile>
+        </ProtectedRoute>
+        <ProtectedRoute path="/profile/orders">
+          <LayoutProfile>
+            <OrdersHistoryPage />
+          </LayoutProfile>
+        </ProtectedRoute>
+        <Route path="/ingredients/:id" children={<IngredientPage />} />
+        <Route path="*" children={<NotFoundPage />} />
+      </Switch>
+      {background && <Route path="/ingredients/:id" children={<ModalPage />} />}
+    </Layout>
   )
 }
 
