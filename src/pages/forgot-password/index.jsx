@@ -14,7 +14,7 @@ const ForgotPasswordPage = () => {
   const dispatch = useDispatch()
   const location = useLocation()
   const [inputs, setInputs] = React.useState({
-    email: 'druss@baikonur.net',
+    email: '',
   })
 
   const handleChange = event => {

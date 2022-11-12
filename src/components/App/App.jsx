@@ -17,7 +17,7 @@ import ProtectedRoute from '../../routes/ProtectedRoute'
 
 function App() {
   const location = useLocation()
-  let background = location.state && location.state.background
+  const background = location.state && location.state.background
 
   return (
     <Layout>

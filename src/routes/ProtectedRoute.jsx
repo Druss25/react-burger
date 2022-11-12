@@ -9,13 +9,13 @@ const ProtectedRoute = ({ children, ...rest }) => {
   const { isAuth, isLoading } = useSelector(AuthSelector)
   const dispatch = useDispatch()
 
-  const checkAuth = async () => {
-    if (!!localStorage.getItem('refreshToken')) dispatch(getUser())
-  }
+  const checkAuth = React.useCallback(() => {
+    if (localStorage.getItem('refreshToken')) dispatch(getUser())
+  }, [dispatch])
 
   React.useEffect(() => {
     checkAuth()
-  }, [])
+  }, [checkAuth])
 
   if (isLoading) {
     return <Spinner />

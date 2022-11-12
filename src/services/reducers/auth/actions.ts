@@ -1,6 +1,16 @@
 import { Dispatch } from 'redux'
-import { IRequestLogin, IRequestRegister, IUser } from '../../../models/auth'
-import { accessToken, refreshToken, removeTokens, saveTokens } from '../../../utils/api'
+import {
+  IRequestLogin,
+  IRequestRegister,
+  IRequestResetPassword,
+  IResponse,
+  IResponseLogout,
+  IResponseReset,
+  IResponseToken,
+  IResponseUser,
+  IUser,
+} from '../../../models/auth'
+import { removeTokens, saveTokens } from '../../../utils/api'
 import * as fetch from '../../../utils/fetch'
 
 export const name = 'auth'
@@ -68,14 +78,6 @@ export type AuthAction =
   | resetPasswordAction
   | forgotPasswordAction
 
-interface IResponse {
-  success: boolean
-  user: IUser
-  accessToken: string
-  refreshToken: string
-  message?: string
-}
-
 // *
 export const login = (form: IRequestLogin) => async (dispatch: Dispatch<AuthAction>) => {
   dispatch({ type: AuthActionTypes.AUTH_USER_REQUEST })
@@ -107,7 +109,7 @@ export const login = (form: IRequestLogin) => async (dispatch: Dispatch<AuthActi
 // *
 export const register = (form: IRequestRegister) => async (dispatch: Dispatch<AuthAction>) => {
   dispatch({ type: AuthActionTypes.AUTH_USER_REQUEST })
-
+  console.log(form)
   await fetch
     .post<IResponse>('/auth/register', {
       mode: 'cors',
@@ -132,13 +134,10 @@ export const register = (form: IRequestRegister) => async (dispatch: Dispatch<Au
     .catch(error => {
       dispatch({
         type: AuthActionTypes.AUTH_USER_ERROR,
-        payload: error,
+        payload: 'Регистрация не прошла !!!',
       })
+      console.log(error)
     })
-}
-
-interface IResponseLogout {
-  success: boolean
 }
 
 // *
@@ -168,18 +167,6 @@ export const logout = () => async (dispatch: Dispatch<AuthAction>) => {
     .catch(err => err)
 }
 
-interface IResponseUser {
-  success: boolean
-  user: IUser
-  message?: string
-}
-
-interface IResponseToken {
-  success: boolean
-  accessToken: string
-  refreshToken: string
-}
-
 // *
 const postNewTokens = async () => {
   return await fetch
@@ -202,6 +189,7 @@ const postNewTokens = async () => {
     })
     .catch(err => err)
 }
+
 // *
 export const getUser = () => async (dispatch: Dispatch<AuthAction>) => {
   dispatch({ type: AuthActionTypes.AUTH_USER_REQUEST })
@@ -256,6 +244,7 @@ export const getUser = () => async (dispatch: Dispatch<AuthAction>) => {
     }
   } else return
 }
+
 // *
 export const updateUser = (form: IRequestRegister) => async (dispatch: Dispatch<AuthAction>) => {
   dispatch({ type: AuthActionTypes.AUTH_UPDATE_USER_REQUEST })
@@ -283,10 +272,7 @@ export const updateUser = (form: IRequestRegister) => async (dispatch: Dispatch<
     .catch(err => err)
 }
 
-interface IResponseReset {
-  success: boolean
-  message: string
-}
+// *
 export const resetPassword = (email: string) => async (dispatch: Dispatch<AuthAction>) => {
   dispatch({ type: AuthActionTypes.AUTH_USER_REQUEST })
   await fetch
@@ -311,10 +297,7 @@ export const resetPassword = (email: string) => async (dispatch: Dispatch<AuthAc
     .catch(err => err)
 }
 
-interface IRequestResetPassword {
-  password: string
-  token: string
-}
+// *
 export const forgotPassword =
   (form: IRequestResetPassword) => async (dispatch: Dispatch<AuthAction>) => {
     dispatch({ type: AuthActionTypes.AUTH_USER_REQUEST })

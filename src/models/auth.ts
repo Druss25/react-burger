@@ -1,45 +1,49 @@
 export interface IUser {
-  email: string;
-  name: string;
+  email: string
+  name: string
 }
 
-export interface IRequestLogin {
-  email: string;
-  password: string;
-}
-export interface IRequestRegister {
-  email: string;
-  password: string;
-  name: string;
-}
-
-export interface IResponseLogin {
-  success: boolean;
-  accessToken: string;
-  refreshToken: string;
-  user: IUser;
-  message?: string;
-}
-
-export interface IResponseRegistration {
-  success: boolean;
-  user: IUser;
-  accessToken: string;
-  refreshToken: string;
-}
-
-export interface IResponseRefreshToken {
-  success: boolean;
-  accessToken: string;
-  refreshToken: string;
+export interface IResponse {
+  success: boolean
+  user: IUser
+  accessToken: string
+  refreshToken: string
+  message?: string
 }
 
 export interface IResponseLogout {
-  success: boolean;
-  message: string;
+  success: boolean
 }
 
 export interface IResponseUser {
-  success: boolean;
-  user: IUser;
+  success: boolean
+  user: IUser
+  message?: string
+}
+
+export interface IResponseToken {
+  success: boolean
+  accessToken: string
+  refreshToken: string
+}
+
+export interface IResponseReset {
+  success: boolean
+  message: string
+}
+
+export interface IRequestLogin {
+  email: string
+  password: string
+}
+
+export interface IRequestRegister {
+  email: string
+  password: string
+  name: string
+}
+
+export interface IRequestResetPassword {
+  password: string
+  token: string
 }

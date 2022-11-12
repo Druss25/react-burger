@@ -7,8 +7,9 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import { useSelector, useDispatch } from 'react-redux'
 import { UserSelector } from '../../services/reducers/auth/selectors'
-import styles from './profile.module.css'
 import { updateUser } from '../../services/reducers/auth/actions'
+
+import styles from './profile.module.css'
 
 const ProfilePage = () => {
   const nameRef = React.useRef(null)
@@ -18,24 +19,32 @@ const ProfilePage = () => {
     email,
     password: '',
   })
-  const [editInputs, setEditInputs] = React.useState(false)
+  const [disabled, setDisabled] = React.useState(true)
+  const [isEditInputs, setIsEditInputs] = React.useState(false)
   const dispatch = useDispatch()
 
-  const onIconClick = e => {
-    e.preventDefault()
-    nameRef.current.focus()
+  const onIconClick = React.useCallback(
+    e => {
+      e.preventDefault()
+      setDisabled(!disabled)
+    },
+    [disabled],
+  )
+
+  const onBlurName = () => {
+    setDisabled(true)
   }
 
   const onChange = event => {
     const name = event.target.name
     const value = event.target.value
     setInputs(values => ({ ...values, [name]: value }))
-    setEditInputs(true)
+    setIsEditInputs(true)
   }
 
   const resetForm = e => {
     e.preventDefault()
-    setEditInputs(false)
+    setIsEditInputs(false)
     inputs.name = name
     inputs.email = email
     inputs.password = ''
@@ -45,10 +54,16 @@ const ProfilePage = () => {
     e => {
       e.preventDefault()
       dispatch(updateUser(inputs))
-      setEditInputs(false)
+      setIsEditInputs(false)
     },
     [dispatch, inputs],
   )
+
+  React.useEffect(() => {
+    if (!disabled) {
+      nameRef.current.focus()
+    }
+  }, [disabled])
 
   return (
     <>
@@ -67,6 +82,8 @@ const ProfilePage = () => {
             ref={nameRef}
             onIconClick={onIconClick}
             onChange={onChange}
+            onBlur={onBlurName}
+            disabled={disabled}
             extraClass="mb-6"
           />
           <EmailInput
@@ -88,7 +105,7 @@ const ProfilePage = () => {
             extraClass="mb-6"
             autoComplete="false"
           />
-          {editInputs && (
+          {isEditInputs && (
             <div className={styles.group_button}>
               <Button type="secondary" size="medium" htmlType="reset" onClick={resetForm}>
                 Отмена

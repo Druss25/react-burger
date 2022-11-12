@@ -14,13 +14,13 @@ import { checkRefreshToken } from '../../utils/api'
 import styles from '../form.module.css'
 
 const LoginPage = () => {
-  const { isAuth, isLoading } = useSelector(AuthSelector)
+  const { isAuth, isLoading, hasError } = useSelector(AuthSelector)
   const dispatch = useDispatch()
   const location = useLocation()
   const { state } = location
   const [inputs, setValues] = React.useState({
-    email: 'druss@baikonur.net',
-    password: '4349901',
+    email: '',
+    password: '',
   })
 
   const handleChange = event => {
@@ -44,7 +44,7 @@ const LoginPage = () => {
     return <Spinner />
   }
 
-  if (isAuth || checkRefreshToken) {
+  if (isAuth || (checkRefreshToken && !hasError)) {
     return <Redirect exact to={state?.from || { from: { pathname: '/' } }} />
   }
 
