@@ -1,10 +1,6 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import {
-  Link,
-  // Redirect,
-  // useLocation
-} from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import {
   Button,
   EmailInput,
@@ -13,13 +9,13 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import { register } from '../../services/reducers/auth/actions'
 import { AuthSelector } from '../../services/reducers/auth/selectors'
+import { checkRefreshToken } from '../../utils/api'
+
 import styles from '../form.module.css'
 
 const RegisterPage = () => {
   const { isAuth, isLoading } = useSelector(AuthSelector)
   const dispatch = useDispatch()
-  // const location = useLocation()
-  // const { state } = location || { from: { pathname: '/' } }
   const [inputs, setInputs] = React.useState({
     email: '',
     password: '',
@@ -43,9 +39,9 @@ const RegisterPage = () => {
     return null
   }
 
-  // if (isAuth) {
-  //   return <Redirect exact to={state?.from} />
-  // }
+  if (isAuth || checkRefreshToken) {
+    return <Redirect to={'/'} />
+  }
 
   return (
     <section className={styles.section_form_container}>

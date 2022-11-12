@@ -5,18 +5,20 @@ import { useDispatch, useSelector } from 'react-redux'
 import BurgerConstructor from '../../components/BurgerConstructor/BurgerConstructor'
 import BurgerIngredients from '../../components/BurgerIngredients/BurgerIngredients'
 import Spinner from '../../components/Spinner/Spinner'
+import { AuthSelector } from '../../services/reducers/auth/selectors'
 import { getIngredients } from '../../services/reducers/ingredients/actions'
-import { errorSelector, loadingSelector } from '../../services/reducers/ingredients/selectors'
+
 import styles from './home.module.css'
 
 const HomePage = () => {
-  const isLoading = useSelector(loadingSelector)
-  const hasError = useSelector(errorSelector)
+  const { isLoading, hasError } = useSelector(AuthSelector)
   const dispatch = useDispatch()
 
   React.useEffect(() => {
     dispatch(getIngredients())
   }, [dispatch])
+
+  if (isLoading) return <Spinner />
 
   return (
     <>

@@ -55,6 +55,7 @@ export interface AuthState {
   user: IUser | null
   isLoading: boolean
   isAuth: boolean
+  isReset: boolean
   hasError: boolean
   message?: string | null
 }

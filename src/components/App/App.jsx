@@ -1,4 +1,3 @@
-import React from 'react'
 import { Switch, Route, useLocation } from 'react-router-dom'
 import {
   ForgotPasswordPage,
@@ -14,7 +13,7 @@ import {
 } from '../../pages'
 import Layout from '../Layouts/Layout'
 import LayoutProfile from '../Layouts/LayoutProfile'
-import { ProtectedRoute, PublicRoute } from '../../routes'
+import ProtectedRoute from '../../routes/ProtectedRoute'
 
 function App() {
   const location = useLocation()
@@ -27,7 +26,7 @@ function App() {
         <Route path="/login" children={<LoginPage />} />
         <Route path="/register" children={<RegisterPage />} />
         <Route path="/forgot-password" children={<ForgotPasswordPage />} />
-        <PublicRoute path="/reset-password" children={<ResetPasswordPage />} />
+        <Route path="/reset-password" children={<ResetPasswordPage />} />
         <ProtectedRoute exact path="/profile">
           <LayoutProfile>
             <ProfilePage />

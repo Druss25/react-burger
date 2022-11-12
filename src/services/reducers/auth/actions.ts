@@ -1,12 +1,6 @@
 import { Dispatch } from 'redux'
 import { IRequestLogin, IRequestRegister, IUser } from '../../../models/auth'
-import {
-  checkRefreshToken,
-  getAccessToken,
-  getRefreshToken,
-  removeTokens,
-  saveTokens,
-} from '../../../utils/api'
+import { accessToken, refreshToken, removeTokens, saveTokens } from '../../../utils/api'
 import * as fetch from '../../../utils/fetch'
 
 export const name = 'auth'
@@ -19,6 +13,8 @@ export enum AuthActionTypes {
   AUTH_UPDATE_USER_REQUEST = 'AUTH_UPDATE_USER_REQUEST',
   AUTH_UPDATE_USER = 'AUTH_UPDATE_USER',
   AUTH_USER_LOGOUT = 'AUTH_USER_LOGOUT',
+  AUTH_RESER_PASSWORD = 'AUTH_RESER_PASSWORD',
+  AUTH_FORGOT_PASSWORD = 'AUTH_FORGOT_PASSWORD',
 }
 
 interface authUserRequest {
@@ -35,7 +31,7 @@ interface authUserError {
   payload: string
 }
 
-interface authGetUser {
+interface getUserAction {
   type: AuthActionTypes.AUTH_GET_USER
   payload: IUser
 }
@@ -44,13 +40,21 @@ interface authUpdateUserRequest {
   type: AuthActionTypes.AUTH_UPDATE_USER_REQUEST
 }
 
-interface authUpdateUser {
+interface updateUserAction {
   type: AuthActionTypes.AUTH_UPDATE_USER
   payload: IUser
 }
 
-interface authUserLogout {
+interface userLogoutAction {
   type: AuthActionTypes.AUTH_USER_LOGOUT
+}
+
+interface resetPasswordAction {
+  type: AuthActionTypes.AUTH_RESER_PASSWORD
+}
+
+interface forgotPasswordAction {
+  type: AuthActionTypes.AUTH_FORGOT_PASSWORD
 }
 
 export type AuthAction =
@@ -58,9 +62,11 @@ export type AuthAction =
   | authUserSuccess
   | authUserError
   | authUpdateUserRequest
-  | authUpdateUser
-  | authGetUser
-  | authUserLogout
+  | updateUserAction
+  | getUserAction
+  | userLogoutAction
+  | resetPasswordAction
+  | forgotPasswordAction
 
 interface IResponse {
   success: boolean
@@ -129,24 +135,6 @@ export const register = (form: IRequestRegister) => async (dispatch: Dispatch<Au
         payload: error,
       })
     })
-
-  // await RegisterRequest(data)
-  //   .then(res => res.json())
-  //   .then((res: IResponseLogin) => {
-  //     if (res.success) {
-  //       dispatch({
-  //         type: AuthActionTypes.AUTH_USER_SUCCESS,
-  //         payload: res.user,
-  //       })
-  //       saveTokens(res.accessToken, res.refreshToken)
-  //     }
-  //   })
-  //   .catch((error: string) => {
-  //     dispatch({
-  //       type: AuthActionTypes.AUTH_USER_ERROR,
-  //       payload: error,
-  //     })
-  //   })
 }
 
 interface IResponseLogout {
@@ -155,6 +143,7 @@ interface IResponseLogout {
 
 // *
 export const logout = () => async (dispatch: Dispatch<AuthAction>) => {
+  dispatch({ type: AuthActionTypes.AUTH_USER_REQUEST })
   await fetch
     .post<IResponseLogout>('/auth/logout', {
       method: 'POST',
@@ -166,7 +155,7 @@ export const logout = () => async (dispatch: Dispatch<AuthAction>) => {
       },
       redirect: 'follow',
       referrerPolicy: 'no-referrer',
-      body: JSON.stringify({ token: getRefreshToken() }),
+      body: JSON.stringify({ token: String(localStorage.getItem('refreshToken')) }),
     })
     .then(data => {
       if (data.success) {
@@ -176,7 +165,7 @@ export const logout = () => async (dispatch: Dispatch<AuthAction>) => {
         removeTokens()
       }
     })
-    .catch(error => error)
+    .catch(err => err)
 }
 
 interface IResponseUser {
@@ -203,7 +192,7 @@ const postNewTokens = async () => {
       },
       redirect: 'follow',
       referrerPolicy: 'no-referrer',
-      body: JSON.stringify({ token: getRefreshToken() }),
+      body: JSON.stringify({ token: String(localStorage.getItem('refreshToken')) }),
     })
     .then(data => {
       if (data.success) {
@@ -223,7 +212,7 @@ export const getUser = () => async (dispatch: Dispatch<AuthAction>) => {
       credentials: 'same-origin',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: String(getAccessToken()),
+        Authorization: String(localStorage.getItem('accessToken')),
       },
       redirect: 'follow',
       referrerPolicy: 'no-referrer',
@@ -239,8 +228,7 @@ export const getUser = () => async (dispatch: Dispatch<AuthAction>) => {
     .catch(err => err)
 
   if (request !== undefined) {
-    const isRefreshToken = !!getRefreshToken()
-    if (isRefreshToken) {
+    if (!!localStorage.getItem('refreshToken')) {
       const token = await postNewTokens()
       await fetch
         .get<IResponseUser>('/auth/user', {
@@ -266,7 +254,7 @@ export const getUser = () => async (dispatch: Dispatch<AuthAction>) => {
         })
         .catch(err => err)
     }
-  }
+  } else return
 }
 // *
 export const updateUser = (form: IRequestRegister) => async (dispatch: Dispatch<AuthAction>) => {
@@ -278,7 +266,7 @@ export const updateUser = (form: IRequestRegister) => async (dispatch: Dispatch<
       credentials: 'same-origin',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: String(getAccessToken()),
+        Authorization: String(localStorage.getItem('accessToken')),
       },
       redirect: 'follow',
       referrerPolicy: 'no-referrer',
@@ -294,3 +282,60 @@ export const updateUser = (form: IRequestRegister) => async (dispatch: Dispatch<
     })
     .catch(err => err)
 }
+
+interface IResponseReset {
+  success: boolean
+  message: string
+}
+export const resetPassword = (email: string) => async (dispatch: Dispatch<AuthAction>) => {
+  dispatch({ type: AuthActionTypes.AUTH_USER_REQUEST })
+  await fetch
+    .post<IResponseReset>('/password-reset', {
+      mode: 'cors',
+      cache: 'no-cache',
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      redirect: 'follow',
+      referrerPolicy: 'no-referrer',
+      body: JSON.stringify({ email: email }),
+    })
+    .then(data => {
+      if (data.success) {
+        dispatch({
+          type: AuthActionTypes.AUTH_RESER_PASSWORD,
+        })
+      }
+    })
+    .catch(err => err)
+}
+
+interface IRequestResetPassword {
+  password: string
+  token: string
+}
+export const forgotPassword =
+  (form: IRequestResetPassword) => async (dispatch: Dispatch<AuthAction>) => {
+    dispatch({ type: AuthActionTypes.AUTH_USER_REQUEST })
+    await fetch
+      .post<IResponseReset>('/password-reset/reset', {
+        mode: 'cors',
+        cache: 'no-cache',
+        credentials: 'same-origin',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        redirect: 'follow',
+        referrerPolicy: 'no-referrer',
+        body: JSON.stringify({ password: form.password, token: form.token }),
+      })
+      .then(data => {
+        if (data.success) {
+          dispatch({
+            type: AuthActionTypes.AUTH_FORGOT_PASSWORD,
+          })
+        }
+      })
+      .catch(err => console.log('Error:', err))
+  }

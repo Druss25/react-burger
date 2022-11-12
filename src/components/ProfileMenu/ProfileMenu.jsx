@@ -2,6 +2,7 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import { NavLink, useHistory } from 'react-router-dom'
 import { logout } from '../../services/reducers/auth/actions'
+import { refreshToken } from '../../utils/api'
 import styles from './ProfileMenu.module.css'
 
 const ProfileNavigate = () => {

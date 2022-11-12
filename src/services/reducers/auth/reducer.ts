@@ -5,6 +5,7 @@ const initialState: AuthState = {
   user: null,
   isLoading: false,
   isAuth: false,
+  isReset: false,
   hasError: false,
   message: null,
 }
@@ -56,6 +57,20 @@ export const authReducer = (state = initialState, action: AuthAction): AuthState
       return {
         ...state,
         user: action.payload,
+        isLoading: false,
+      }
+
+    case AuthActionTypes.AUTH_RESER_PASSWORD:
+      return {
+        ...state,
+        isReset: true,
+        isLoading: false,
+      }
+
+    case AuthActionTypes.AUTH_FORGOT_PASSWORD:
+      return {
+        ...state,
+        isReset: false,
         isLoading: false,
       }
 

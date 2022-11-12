@@ -8,19 +8,20 @@ import {
 import { login } from '../../services/reducers/auth/actions'
 import { useDispatch, useSelector } from 'react-redux'
 import { AuthSelector } from '../../services/reducers/auth/selectors'
-import styles from '../form.module.css'
 import Spinner from '../../components/Spinner/Spinner'
+import { checkRefreshToken } from '../../utils/api'
+
+import styles from '../form.module.css'
 
 const LoginPage = () => {
+  const { isAuth, isLoading } = useSelector(AuthSelector)
+  const dispatch = useDispatch()
   const location = useLocation()
   const { state } = location
-  const { isAuth, isLoading } = useSelector(AuthSelector)
   const [inputs, setValues] = React.useState({
     email: 'druss@baikonur.net',
     password: '4349901',
   })
-
-  const dispatch = useDispatch()
 
   const handleChange = event => {
     setValues(values => {
@@ -43,7 +44,7 @@ const LoginPage = () => {
     return <Spinner />
   }
 
-  if (isAuth) {
+  if (isAuth || checkRefreshToken) {
     return <Redirect exact to={state?.from || { from: { pathname: '/' } }} />
   }
 
