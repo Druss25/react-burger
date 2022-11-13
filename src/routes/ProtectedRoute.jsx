@@ -1,12 +1,12 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Redirect, Route } from 'react-router-dom'
-import { AuthSelector } from '../services/reducers/auth/selectors'
+import { authSelector } from '../services/reducers/auth/selectors'
 import { getUser } from '../services/reducers/auth/actions'
 import Spinner from '../components/Spinner/Spinner'
 
 const ProtectedRoute = ({ children, ...rest }) => {
-  const { isAuth, isLoading } = useSelector(AuthSelector)
+  const { isAuth, isLoading } = useSelector(authSelector)
   const dispatch = useDispatch()
 
   const checkAuth = React.useCallback(() => {

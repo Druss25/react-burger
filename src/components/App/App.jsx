@@ -1,3 +1,4 @@
+import React from 'react'
 import { Switch, Route, useLocation } from 'react-router-dom'
 import {
   ForgotPasswordPage,
@@ -14,10 +15,18 @@ import {
 import Layout from '../Layouts/Layout'
 import LayoutProfile from '../Layouts/LayoutProfile'
 import ProtectedRoute from '../../routes/ProtectedRoute'
+import { useDispatch } from 'react-redux'
+import { getIngredients } from '../../services/reducers/ingredients/actions'
 
 function App() {
   const location = useLocation()
+  const dispatch = useDispatch()
   const background = location.state && location.state.background
+
+  React.useEffect(() => {
+    dispatch(getIngredients())
+    // eslint-disable-next-line
+  }, [])
 
   return (
     <Layout>

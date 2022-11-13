@@ -7,42 +7,30 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import { login } from '../../services/reducers/auth/actions'
 import { useDispatch, useSelector } from 'react-redux'
-import { AuthSelector } from '../../services/reducers/auth/selectors'
+import { authSelector } from '../../services/reducers/auth/selectors'
 import Spinner from '../../components/Spinner/Spinner'
 import { checkRefreshToken } from '../../utils/api'
+import { useForm } from '../../hook/useForm'
 
 import styles from '../form.module.css'
 
 const LoginPage = () => {
-  const { isAuth, isLoading, hasError } = useSelector(AuthSelector)
+  const { isAuth, isLoading, hasError } = useSelector(authSelector)
   const dispatch = useDispatch()
   const location = useLocation()
   const { state } = location
-  const [inputs, setValues] = React.useState({
-    email: '',
-    password: '',
-  })
 
-  const handleChange = event => {
-    setValues(values => {
-      return {
-        ...values,
-        [event.target.name]: event.target.value,
-      }
-    })
-  }
+  const { values, handleChange } = useForm({ email: '', password: '' })
 
   const onSubmit = React.useCallback(
     e => {
       e.preventDefault()
-      dispatch(login(inputs))
+      dispatch(login(values))
     },
-    [dispatch, inputs],
+    [dispatch, values],
   )
 
-  if (isLoading) {
-    return <Spinner />
-  }
+  if (isLoading) return <Spinner />
 
   if (isAuth || (checkRefreshToken && !hasError)) {
     return <Redirect exact to={state?.from || { from: { pathname: '/' } }} />
@@ -56,14 +44,14 @@ const LoginPage = () => {
           placeholder={'Email'}
           isIcon={false}
           onChange={handleChange}
-          value={inputs.email}
+          value={values.email}
           name={'email'}
           extraClass="mt-6 mb-6"
         />
         <PasswordInput
           placeholder={'Пароль'}
           onChange={handleChange}
-          value={inputs.password}
+          value={values.password}
           name={'password'}
           autoComplete="false"
           extraClass="mb-6"

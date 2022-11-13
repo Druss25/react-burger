@@ -78,6 +78,12 @@ export type AuthAction =
   | resetPasswordAction
   | forgotPasswordAction
 
+// TODO Не совсем понял как это применить !!!
+// TODO Нужно больше времени чтоб разобраться...
+// const initRequest = () => {
+//   return { type: AuthActionTypes.AUTH_USER_REQUEST }
+// }
+
 // *
 export const login = (form: IRequestLogin) => async (dispatch: Dispatch<AuthAction>) => {
   dispatch({ type: AuthActionTypes.AUTH_USER_REQUEST })
@@ -109,7 +115,6 @@ export const login = (form: IRequestLogin) => async (dispatch: Dispatch<AuthActi
 // *
 export const register = (form: IRequestRegister) => async (dispatch: Dispatch<AuthAction>) => {
   dispatch({ type: AuthActionTypes.AUTH_USER_REQUEST })
-  console.log(form)
   await fetch
     .post<IResponse>('/auth/register', {
       mode: 'cors',

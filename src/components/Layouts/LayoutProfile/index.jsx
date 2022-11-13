@@ -4,17 +4,17 @@ import styles from './LayoutProfile.module.css'
 
 const LayoutProfile = ({ children }) => {
   return (
-    <section className='mt-30'>
+    <section className="mt-30">
       <div className={styles.wrapper}>
         <ProfileNavigate />
         {children}
       </div>
-    </section >
+    </section>
   )
 }
 
 LayoutProfile.propTypes = {
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
 }
 
 export default LayoutProfile

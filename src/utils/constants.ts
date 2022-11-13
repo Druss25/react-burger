@@ -17,16 +17,6 @@ export const dataPropTypes = PropTypes.shape({
   __v: PropTypes.number.isRequired,
 })
 
-export const modalProps = PropTypes.shape({
-  children: PropTypes.elementType,
-  isOpen: PropTypes.bool.isRequired,
-  requestClose: PropTypes.func.isRequired,
-  titleModal: PropTypes.string.isRequired,
-  goBack: PropTypes.bool.isRequired,
-  disableCloseButton: PropTypes.bool.isRequired,
-  disableOverlayClick: PropTypes.bool.isRequired,
-})
-
 export const enum TargetDropType {
   ADD_INGREDIENT = 'ADD_INGREDIENT',
   SORTING_INGREDIENT = 'SORTING_INGREDIENT',

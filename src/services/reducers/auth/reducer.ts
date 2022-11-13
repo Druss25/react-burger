@@ -47,6 +47,7 @@ export const authReducer = (state = initialState, action: AuthAction): AuthState
         hasError: false,
         message: null,
       }
+
     case AuthActionTypes.AUTH_UPDATE_USER_REQUEST:
       return {
         ...state,

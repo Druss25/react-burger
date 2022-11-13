@@ -8,13 +8,13 @@ import {
   PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import { register } from '../../services/reducers/auth/actions'
-import { AuthSelector } from '../../services/reducers/auth/selectors'
+import { authSelector } from '../../services/reducers/auth/selectors'
 import { checkRefreshToken } from '../../utils/api'
 
 import styles from '../form.module.css'
 
 const RegisterPage = () => {
-  const { isAuth, isLoading } = useSelector(AuthSelector)
+  const { isAuth, isLoading } = useSelector(authSelector)
   const dispatch = useDispatch()
   const [inputs, setInputs] = React.useState({
     email: '',

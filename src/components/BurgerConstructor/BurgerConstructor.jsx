@@ -13,22 +13,23 @@ import { addToBurger } from '../../services/reducers/burger/actions'
 import { getBurgerItems, totalBurgerPrice } from '../../services/reducers/burger/selectors'
 import {
   isLoadingOrderSelector,
-  NumberOrderSelector,
+  numberOrderSelector,
 } from '../../services/reducers/order/selectors'
 import BurgerConstructorElement from '../BurgerConstructorElement/BurgerConstructorElement'
 import { getOrder, OrderActionTypes } from '../../services/reducers/order/actions'
 import { TargetDropType } from '../../utils/constants'
-import styles from './BurgerConstructor.module.css'
-import { AuthSelector } from '../../services/reducers/auth/selectors'
+import { authSelector } from '../../services/reducers/auth/selectors'
 import { useHistory } from 'react-router-dom'
+
+import styles from './BurgerConstructor.module.css'
 
 const BurgerConstructor = () => {
   const dispatch = useDispatch()
-  const { isAuth } = useSelector(AuthSelector)
+  const { isAuth } = useSelector(authSelector)
   const burgerItems = useSelector(getBurgerItems)
   const totalPrice = useSelector(totalBurgerPrice)
   const isLoadingOrder = useSelector(isLoadingOrderSelector)
-  const numberOrder = useSelector(NumberOrderSelector)
+  const numberOrder = useSelector(numberOrderSelector)
   const history = useHistory()
   const modalControls = useModalControls({})
 

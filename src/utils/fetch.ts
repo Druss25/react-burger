@@ -9,7 +9,7 @@ async function _api<T>(path: string, config: RequestInit): Promise<T> {
     throw new Error(`Что-то пошло не так - ${response}`)
   }
 
-  return response.json().catch(() => ({}))
+  return response.json()
 }
 
 export async function get<T>(path: string, config?: RequestInit): Promise<T> {

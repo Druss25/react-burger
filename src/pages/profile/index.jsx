@@ -6,21 +6,21 @@ import {
   Button,
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import { useSelector, useDispatch } from 'react-redux'
-import { UserSelector } from '../../services/reducers/auth/selectors'
+import { userSelector } from '../../services/reducers/auth/selectors'
 import { updateUser } from '../../services/reducers/auth/actions'
+import { useForm } from '../../hook/useForm'
 
 import styles from './profile.module.css'
 
 const ProfilePage = () => {
   const nameRef = React.useRef(null)
-  const { email, name } = useSelector(UserSelector)
-  const [inputs, setInputs] = React.useState({
+  const { email, name } = useSelector(userSelector)
+  const { values, handleChange, isChange, setChange } = useForm({
     name,
     email,
     password: '',
   })
   const [disabled, setDisabled] = React.useState(true)
-  const [isEditInputs, setIsEditInputs] = React.useState(false)
   const dispatch = useDispatch()
 
   const onIconClick = React.useCallback(
@@ -35,28 +35,21 @@ const ProfilePage = () => {
     setDisabled(true)
   }
 
-  const onChange = event => {
-    const name = event.target.name
-    const value = event.target.value
-    setInputs(values => ({ ...values, [name]: value }))
-    setIsEditInputs(true)
-  }
-
   const resetForm = e => {
     e.preventDefault()
-    setIsEditInputs(false)
-    inputs.name = name
-    inputs.email = email
-    inputs.password = ''
+    setChange(false)
+    values.name = name
+    values.email = email
+    values.password = ''
   }
 
   const onSubmit = React.useCallback(
     e => {
       e.preventDefault()
-      dispatch(updateUser(inputs))
-      setIsEditInputs(false)
+      dispatch(updateUser(values))
+      setChange(false)
     },
-    [dispatch, inputs],
+    [dispatch, values, setChange],
   )
 
   React.useEffect(() => {
@@ -77,19 +70,19 @@ const ProfilePage = () => {
           <Input
             icon="EditIcon"
             placeholder="Имя"
-            value={inputs.name}
+            value={values.name}
             name={'name'}
             ref={nameRef}
             onIconClick={onIconClick}
-            onChange={onChange}
+            onChange={handleChange}
             onBlur={onBlurName}
             disabled={disabled}
             extraClass="mb-6"
           />
           <EmailInput
             type="email"
-            onChange={onChange}
-            value={inputs.email}
+            onChange={handleChange}
+            value={values.email}
             name={'email'}
             placeholder="Email"
             isIcon={true}
@@ -99,13 +92,13 @@ const ProfilePage = () => {
             placeholder={'Пароль'}
             icon="EditIcon"
             size={'default'}
-            onChange={onChange}
-            value={inputs.password}
+            onChange={handleChange}
+            value={values.password}
             name={'password'}
             extraClass="mb-6"
             autoComplete="false"
           />
-          {isEditInputs && (
+          {isChange && (
             <div className={styles.group_button}>
               <Button type="secondary" size="medium" htmlType="reset" onClick={resetForm}>
                 Отмена

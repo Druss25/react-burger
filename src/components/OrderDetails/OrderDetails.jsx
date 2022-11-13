@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types'
 import Accept from '../../images/graphics.svg'
+import Spinner from '../Spinner/Spinner'
 
 const OrderDetails = ({ numberOrder }) => {
   return (
     <>
       {numberOrder === undefined ? (
-        <p className="text text_type_digits-large mt-4 mb-8"></p>
+        <Spinner />
       ) : (
         <p className="text text_type_digits-large mt-4 mb-8">{numberOrder}</p>
       )}

@@ -2,7 +2,7 @@ import React from 'react'
 import { Link, Redirect, useLocation } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { Button, EmailInput } from '@ya.praktikum/react-developer-burger-ui-components'
-import { AuthSelector } from '../../services/reducers/auth/selectors'
+import { authSelector } from '../../services/reducers/auth/selectors'
 import { resetPassword } from '../../services/reducers/auth/actions'
 import { checkRefreshToken } from '../../utils/api'
 
@@ -10,7 +10,7 @@ import styles from '../form.module.css'
 import Spinner from '../../components/Spinner/Spinner'
 
 const ForgotPasswordPage = () => {
-  const { isAuth, isReset, isLoading } = useSelector(AuthSelector)
+  const { isAuth, isReset, isLoading } = useSelector(authSelector)
   const dispatch = useDispatch()
   const location = useLocation()
   const [inputs, setInputs] = React.useState({

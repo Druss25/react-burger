@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from 'prop-types'
+import { useHistory } from "react-router-dom";
 
 const useModalControls = ({
   titleModal = '',
@@ -7,6 +8,7 @@ const useModalControls = ({
   disableOverlayClick = false,
   goBack = false } = {}) => {
 	const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const history = useHistory()
 
 	function handleOpenModal() {
 		setIsModalOpen(true);
@@ -14,6 +16,7 @@ const useModalControls = ({
 
 	function handleCloseModal() {
 		setIsModalOpen(false);
+    if (goBack)  history.goBack(-1)
 	}
 
 	return {
@@ -31,9 +34,10 @@ const useModalControls = ({
 }
 
 useModalControls.propTypes = {
-	titleModal: PropTypes.string,
-	disableCloseButton: PropTypes.bool,
-	disableOverlayClick: PropTypes.bool
+	titleModal: PropTypes.string.isRequired,
+	disableCloseButton: PropTypes.bool.isRequired,
+	disableOverlayClick: PropTypes.bool.isRequired,
+  goBack: PropTypes.bool.isRequired
 }
 
 export default useModalControls
