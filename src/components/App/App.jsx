@@ -1,5 +1,8 @@
 import React from 'react'
 import { Switch, Route, useLocation } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { getIngredients } from '../../services/reducers/ingredients/actions'
+import Layout from '../Layouts/Layout'
 import {
   ForgotPasswordPage,
   HomePage,
@@ -11,12 +14,10 @@ import {
   NotFoundPage,
   IngredientPage,
   ModalPage,
+  OrderFeedPage,
 } from '../../pages'
-import Layout from '../Layouts/Layout'
 import LayoutProfile from '../Layouts/LayoutProfile'
 import ProtectedRoute from '../../routes/ProtectedRoute'
-import { useDispatch } from 'react-redux'
-import { getIngredients } from '../../services/reducers/ingredients/actions'
 
 function App() {
   const location = useLocation()
@@ -46,6 +47,7 @@ function App() {
             <OrdersHistoryPage />
           </LayoutProfile>
         </ProtectedRoute>
+        <Route path="/feed" children={<OrderFeedPage />} />
         <Route path="/ingredients/:id" children={<IngredientPage />} />
         <Route path="*" children={<NotFoundPage />} />
       </Switch>

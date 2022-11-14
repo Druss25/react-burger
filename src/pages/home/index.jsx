@@ -19,8 +19,6 @@ const HomePage = () => {
         <div className={styles.messages}>
           <p className="text text_type_main-medium">Ошибка загрузки данных с сервера...</p>
         </div>
-      ) : isLoading ? (
-        <Spinner />
       ) : (
         <DndProvider backend={HTML5Backend}>
           <BurgerIngredients />
