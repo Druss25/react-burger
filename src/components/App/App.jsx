@@ -1,57 +1,57 @@
-import React from "react";
-import AppHeader from "../AppHeader/AppHeader";
-import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
-import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
-import { useAppDispatch } from "../../hook/useAppDispatch";
-import { getIngredients } from "../../services/reducers/ingredients/actions";
-import { useAppSelector } from "../../hook/useAppSelector";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
-import { errorSelector, loadingSelector } from "../../services/reducers/ingredients/selectors";
-import AppStyles from "./App.module.css";
+import React from 'react'
+import { Switch, Route, useLocation } from 'react-router-dom'
+import {
+  ForgotPasswordPage,
+  HomePage,
+  LoginPage,
+  ProfilePage,
+  RegisterPage,
+  ResetPasswordPage,
+  OrdersHistoryPage,
+  NotFoundPage,
+  IngredientPage,
+  ModalPage,
+} from '../../pages'
+import Layout from '../Layouts/Layout'
+import LayoutProfile from '../Layouts/LayoutProfile'
+import ProtectedRoute from '../../routes/ProtectedRoute'
+import { useDispatch } from 'react-redux'
+import { getIngredients } from '../../services/reducers/ingredients/actions'
 
 function App() {
-  const isLoading = useAppSelector(loadingSelector);
-  const hasError = useAppSelector(errorSelector);
-
-  const dispatch = useAppDispatch();
+  const location = useLocation()
+  const dispatch = useDispatch()
+  const background = location.state && location.state.background
 
   React.useEffect(() => {
-    dispatch(getIngredients());
-  }, [dispatch]);
+    dispatch(getIngredients())
+    // eslint-disable-next-line
+  }, [])
 
   return (
-      <div className={AppStyles.app}>
-        {hasError ? (
-          <div className={AppStyles.messages}>
-            <p className="text text_type_main-medium">
-              Ошибка загрузки данных с сервера...
-            </p>
-          </div>
-        ) : isLoading ? (
-          <div className={AppStyles.messages}>
-            <p className="text text_type_main-medium">
-              Загрузка данных с сервера...
-            </p>
-          </div>
-        ) : (
-          <>
-            <AppHeader />
-            <DndProvider backend={HTML5Backend}>
-              <main className={AppStyles.main}>
-                <section className={AppStyles.wrapper}>
-                  <p className="text text_type_main-large mt-10">
-                    Соберите бургер
-                  </p>
-                  <BurgerIngredients />
-                </section>
-                <BurgerConstructor />
-              </main>
-            </DndProvider>
-          </>
-        )}
-      </div>
-  );
+    <Layout>
+      <Switch location={background || location}>
+        <Route exact path="/" children={<HomePage />} />
+        <Route path="/login" children={<LoginPage />} />
+        <Route path="/register" children={<RegisterPage />} />
+        <Route path="/forgot-password" children={<ForgotPasswordPage />} />
+        <Route path="/reset-password" children={<ResetPasswordPage />} />
+        <ProtectedRoute exact path="/profile">
+          <LayoutProfile>
+            <ProfilePage />
+          </LayoutProfile>
+        </ProtectedRoute>
+        <ProtectedRoute path="/profile/orders">
+          <LayoutProfile>
+            <OrdersHistoryPage />
+          </LayoutProfile>
+        </ProtectedRoute>
+        <Route path="/ingredients/:id" children={<IngredientPage />} />
+        <Route path="*" children={<NotFoundPage />} />
+      </Switch>
+      {background && <Route path="/ingredients/:id" children={<ModalPage />} />}
+    </Layout>
+  )
 }
 
-export default App;
+export default App

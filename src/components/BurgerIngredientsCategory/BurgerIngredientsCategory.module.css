@@ -1,6 +1,12 @@
 .wrapper_card {
-  display: flex;
-  gap: 24px;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  row-gap: 32px;
+  column-gap: 24px;
   cursor: pointer;
+}
+
+.link {
+  color: inherit;
+  text-decoration: none;
 }

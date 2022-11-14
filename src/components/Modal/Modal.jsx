@@ -1,45 +1,58 @@
 import React from 'react'
-import ReactPortal from '../ReactPortal/ReactPortal';
-import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import ModalOverlay from '../ModalOverlay/ModalOverlay';
-import { modalProps } from '../../utils/constants';
+import ReactPortal from '../ReactPortal/ReactPortal'
+import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components'
+import PropTypes from 'prop-types'
+import ModalOverlay from '../ModalOverlay/ModalOverlay'
+
 import styles from './Modal.module.css'
 
-function Modal(props) {
+function Modal({
+  children,
+  isOpen,
+  requestClose,
+  titleModal,
+  disableCloseButton,
+  disableOverlayClick,
+}) {
+  const handleCloseOverlay = () => {
+    if (disableOverlayClick) return
+    requestClose && requestClose()
+  }
 
-  function handleCloseOverlay() {
-    if (props.disableOverlayClick) return
-    props.requestClose && props.requestClose();
+  const handleCloseModal = () => {
+    requestClose && requestClose()
   }
 
   React.useEffect(() => {
-    const closeOnEscapeKey = e => e.key === "Escape" ? props.requestClose() : null;
-    document.body.addEventListener("keydown", closeOnEscapeKey);
+    const closeOnEscapeKey = e => (e.key === 'Escape' ? handleCloseModal() : null)
+    document.body.addEventListener('keydown', closeOnEscapeKey)
     return () => {
-      document.body.removeEventListener("keydown", closeOnEscapeKey);
-    };
+      document.body.removeEventListener('keydown', closeOnEscapeKey)
+    }
     // eslint-disable-next-line
-  }, []);
+  }, [])
 
   return (
-    props.isOpen &&
-    (
-      <ReactPortal wrapperId='modal' >
+    isOpen && (
+      <ReactPortal wrapperId="modal">
         <div className={styles.modal}>
           <ModalOverlay onClick={handleCloseOverlay} />
           <div className={`${styles.modal__content} pt-10 pl-10 pr-10`}>
-            {!props.disableCloseButton && (
-              <div className={props.titleModal !== ''
-                ? `${styles.modal__title__yes} text text_type_main-large`
-                : `${styles.modal__title__not} text text_type_main-large`}
+            {!disableCloseButton && (
+              <div
+                className={
+                  titleModal !== ''
+                    ? `${styles.modal__title__yes} text text_type_main-large`
+                    : `${styles.modal__title__not} text text_type_main-large`
+                }
               >
-                {props.titleModal}
-                <div className={styles.modal__close} onClick={() => props.requestClose && props.requestClose()}>
+                {titleModal}
+                <div className={styles.modal__close} onClick={handleCloseModal}>
                   <CloseIcon type="primary" />
                 </div>
               </div>
             )}
-            {props.children}
+            {children}
           </div>
         </div>
       </ReactPortal>
@@ -48,7 +61,12 @@ function Modal(props) {
 }
 
 Modal.propTypes = {
-  props: modalProps
+  children: PropTypes.element.isRequired,
+  isOpen: PropTypes.bool.isRequired,
+  requestClose: PropTypes.func.isRequired,
+  titleModal: PropTypes.string.isRequired,
+  disableCloseButton: PropTypes.bool.isRequired,
+  disableOverlayClick: PropTypes.bool.isRequired,
 }
 
 export default Modal

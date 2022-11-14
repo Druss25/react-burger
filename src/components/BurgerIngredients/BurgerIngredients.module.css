@@ -1,15 +1,24 @@
+.section {
+  width: 100%;
+  max-width: 600px;
+}
+
 .wrapper_tab {
   display: flex;
   width: 100%;
 }
+
 .wrapper {
   display: flex;
   flex-direction: column;
-  /* gap: 40px; */
   max-height: 664px;
-
   overflow-y: auto;
 }
+
+.wrapper > div:not(:last-child) {
+  margin-bottom: 40px;
+}
+
 .content {
   display: flex;
   flex-direction: column;

@@ -1,9 +1,13 @@
 import { useSelector } from 'react-redux'
-import { currentIngredient } from '../../services/reducers/ingredient-modal/selectors'
+import { useParams } from 'react-router-dom'
+import { ingredientsSelector } from '../../services/reducers/ingredients/selectors'
+
 import styles from './IngredientDetails.module.css'
 
 const IngredientDetails = () => {
-  const ingredient = useSelector(currentIngredient)
+  const params = useParams()
+  const ingredients = useSelector(ingredientsSelector)
+  const ingredient = ingredients.filter(ingredient => ingredient._id === params.id)[0]
 
   return (
     <>
@@ -15,20 +19,20 @@ const IngredientDetails = () => {
       </p>
       <div className={`${styles.items__list} mb-15`}>
         <div className={`${styles.item} text text_type_main-default text_color_inactive`}>
-          <p className='text-center'>Калорий,&nbsp;ккалл</p>
-          <p className='text text_type_main-medium text-center mt-2' >{ingredient?.calories}</p>
+          <p className="text-center">Калорий,&nbsp;ккалл</p>
+          <p className="text text_type_main-medium text-center mt-2">{ingredient?.calories}</p>
         </div>
         <div className={`${styles.item} text text_type_main-default text_color_inactive`}>
-          <p className='text-center'>Белки,&nbsp;г</p>
-          <p className='text text_type_main-medium text-center mt-2'>{ingredient?.proteins}</p>
+          <p className="text-center">Белки,&nbsp;г</p>
+          <p className="text text_type_main-medium text-center mt-2">{ingredient?.proteins}</p>
         </div>
         <div className={`${styles.item} text text_type_main-default text_color_inactive`}>
-          <p className='text-center'>Жиры,&nbsp;г</p>
-          <p className='text text_type_main-medium text-center mt-2'>{ingredient?.fat}</p>
+          <p className="text-center">Жиры,&nbsp;г</p>
+          <p className="text text_type_main-medium text-center mt-2">{ingredient?.fat}</p>
         </div>
         <div className={`${styles.item} text text_type_main-default text_color_inactive`}>
-          <p className='text-center'>Углеводы,&nbsp;г</p>
-          <p className='text text_type_main-medium text-center mt-2'>{ingredient?.carbohydrates}</p>
+          <p className="text-center">Углеводы,&nbsp;г</p>
+          <p className="text text_type_main-medium text-center mt-2">{ingredient?.carbohydrates}</p>
         </div>
       </div>
     </>

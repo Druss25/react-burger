@@ -1,0 +1,8 @@
+.subtitle {
+  grid-area: subtitle;
+}
+
+.wrapper {
+  grid-area: content;
+  margin-left: 60px;
+}

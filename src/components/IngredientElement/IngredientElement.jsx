@@ -9,9 +9,6 @@ const IngredientElement = ({ ingredient, counter, onClick }) => {
   const [{ opacity }, dragRef] = useDrag({
     type: TargetDropType.ADD_INGREDIENT,
     item: { ...ingredient },
-    // collect: monitor => ({
-    //   isDrag: monitor.isDragging()
-    // })
     collect: monitor => ({
       opacity: monitor.isDragging() ? 0.5 : 1
     })

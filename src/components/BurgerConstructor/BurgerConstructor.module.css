@@ -2,6 +2,7 @@
   flex-direction: column;
   width: 100%;
   max-width: 600px;
+  margin-left: auto;
 }
 .list_items {
   flex-direction: column;

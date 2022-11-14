@@ -1,0 +1,19 @@
+.section_form_container {
+  display: flex;
+  width: 100%;
+  height: calc(100vh - 88px);
+}
+.form_wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 480px;
+  width: 100%;
+  background: #131316;
+  margin: auto;
+}
+
+.form_wrapper a {
+  text-decoration: none;
+}

@@ -1,19 +1,19 @@
-import { IIngredients } from "../../../models";
+import { ModalState } from '../../../models'
 
-export const name = "ingradientDetailModal";
+export const name = 'ingradientDetailModal'
 
 export enum ModalActionTypes {
-  MODAL_SET = "MODAL_SET",
-  MODAL_RESET = "MODAL_RESET",
+  MODAL_SET = 'MODAL_SET',
+  MODAL_RESET = 'MODAL_RESET',
 }
 
 interface setModalAction {
-  type: ModalActionTypes.MODAL_SET;
-  payload: IIngredients;
+  type: ModalActionTypes.MODAL_SET
+  payload: ModalState
 }
 
 interface resetModal {
-  type: ModalActionTypes.MODAL_RESET;
+  type: ModalActionTypes.MODAL_RESET
 }
 
-export type ModalAction = setModalAction | resetModal;
+export type ModalAction = setModalAction | resetModal

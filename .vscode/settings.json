@@ -1,0 +1,39 @@
+{
+  "editor.wordWrap": "wordWrapColumn",
+  "editor.wordWrapColumn": 100,
+  "editor.minimap.enabled": true,
+  "editor.tabSize": 2,
+  "editor.detectIndentation": false,
+  "editor.fontSize": 16,
+  "editor.mouseWheelZoom": true,
+  "workbench.startupEditor": "none",
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
+  "files.trimTrailingWhitespace": true,
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 60000,
+  "editor.formatOnSave": true,
+  // добавить это
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  // "[javascriptreact]": {
+  //   "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  // },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "eslint.format.enable": true,
+  "eslint.alwaysShowStatus": true,
+  "workbench.iconTheme": "vscode-icons",
+  "window.autoDetectColorScheme": true,
+  "workbench.preferredHighContrastLightColorTheme": "GitHub Light High Contrast",
+  "workbench.preferredLightColorTheme": "Monokai",
+  "workbench.colorTheme": "Default Dark+"
+}

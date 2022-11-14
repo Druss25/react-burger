@@ -1,0 +1,15 @@
+.section {
+  display: flex;
+  width: 100%;
+  margin-top: 120px;
+  height: 100vh;
+}
+
+.wrapper {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: 272px 100px 1fr;
+  grid-template-areas:
+    "menu content content content"
+    "subtitle content content content";
+}
