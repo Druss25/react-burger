@@ -1,8 +1,11 @@
-import PropTypes from 'prop-types'
 import Accept from '../../images/graphics.svg'
 import Spinner from '../Spinner/Spinner'
 
-const OrderDetails = ({ numberOrder }) => {
+interface IProps {
+  numberOrder: number
+}
+
+const OrderDetails = ({ numberOrder }: IProps) => {
   return (
     <>
       {numberOrder === undefined ? (
@@ -18,10 +21,6 @@ const OrderDetails = ({ numberOrder }) => {
       </p>
     </>
   )
-}
-
-OrderDetails.propTypes = {
-  numberOrder: PropTypes.number,
 }
 
 export default OrderDetails

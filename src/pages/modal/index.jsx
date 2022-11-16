@@ -1,11 +1,20 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
 import IngredientDetails from '../../components/IngredientDetails/IngredientDetails'
-import Modal from '../../components/Modal/Modal'
+import Modal, { IModalProps } from '../../components/Modal/Modal'
 import useModalControls from '../../hook/useModalControls'
 
 const titleModal = 'Детали ингредиента'
 const goBack = true
+
+// interface IModalPageProps {
+//   titleModal: string
+//   goBack: boolean
+// }
+
+// type IParams = {
+//   id: string
+// }
 
 const ModalPage = () => {
   const params = useParams()
@@ -16,7 +25,7 @@ const ModalPage = () => {
   }, [])
 
   return (
-    <Modal {...modalControls.modalProps}>
+    <Modal>
       <IngredientDetails />
     </Modal>
   )

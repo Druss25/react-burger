@@ -17,17 +17,17 @@ const ForgotPasswordPage = () => {
     email: '',
   })
 
-  const handleChange = event => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const name = event.target.name
     const value = event.target.value
     setInputs(values => ({ ...values, [name]: value }))
   }
 
   const handleSubmit = React.useCallback(
-    e => {
+    (e: React.ChangeEvent<HTMLFormElement>) => {
       e.preventDefault()
       if (inputs.email !== '') {
-        dispatch(resetPassword(inputs.email))
+        dispatch<any>(resetPassword(inputs.email))
       }
     },
     [inputs.email, dispatch],

@@ -12,27 +12,23 @@ import { authSelector } from '../../services/reducers/auth/selectors'
 import { checkRefreshToken } from '../../utils/api'
 
 import styles from '../form.module.css'
+import { IValues, useForm } from '../../hook/useForm'
 
 const RegisterPage = () => {
   const { isAuth, isLoading } = useSelector(authSelector)
   const dispatch = useDispatch()
-  const [inputs, setInputs] = React.useState({
+  const { values, handleChange } = useForm({
     email: '',
     password: '',
     name: '',
   })
 
-  const handleChange = event => {
-    const { name, value } = event.target
-    setInputs(values => ({ ...values, [name]: value }))
-  }
-
   const onSubmit = React.useCallback(
     e => {
       e.preventDefault()
-      dispatch(register(inputs))
+      dispatch<any>(register(values as IValues))
     },
-    [dispatch, inputs],
+    [dispatch, values],
   )
 
   if (isLoading) {
@@ -52,14 +48,14 @@ const RegisterPage = () => {
           placeholder={'Имя'}
           size={'default'}
           onChange={handleChange}
-          value={inputs.name}
+          value={String(values.name)}
           name={'name'}
           error={false}
           extraClass="mt-6 mb-6"
         />
         <EmailInput
           name={'email'}
-          value={inputs.email}
+          value={values.email}
           isIcon={false}
           onChange={handleChange}
           extraClass="mb-6"
@@ -67,7 +63,7 @@ const RegisterPage = () => {
         <PasswordInput
           placeholder={'Пароль'}
           onChange={handleChange}
-          value={inputs.password}
+          value={String(values.password)}
           name={'password'}
           autoComplete="false"
           extraClass="mb-6"

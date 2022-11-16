@@ -19,7 +19,7 @@ const AppHeader = () => {
               className={`${styles.menu_items} text text_type_main-default text_color_inactive`}
               activeClassName={styles.active}
             >
-              <BurgerIcon type="secondary" size={24} />
+              <BurgerIcon type="secondary" />
               <p className="text text_type_main-default">Конструктор</p>
             </NavLink>
           </li>
@@ -30,7 +30,7 @@ const AppHeader = () => {
               className={`${styles.menu_items} text text_type_main-default text_color_inactive`}
               activeClassName={styles.active}
             >
-              <ListIcon type="secondary" size={24} />
+              <ListIcon type="secondary" />
               <p className="text text_type_main-default">Лента заказов</p>
             </NavLink>
           </li>
@@ -43,7 +43,7 @@ const AppHeader = () => {
           className={`${styles.profile} text text_type_main-default text_color_inactive`}
           activeClassName={styles.active}
         >
-          <ProfileIcon type="secondary" size={24} />
+          <ProfileIcon type="secondary" />
           <p className="text text_type_main-default">Личный кабинет</p>
         </NavLink>
       </nav>

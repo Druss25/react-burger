@@ -56,6 +56,11 @@
   },
   "devDependencies": {
     "@types/react-router-dom": "^5.3.3",
-    "@types/uuid": "^8.3.4"
+    "@types/uuid": "^8.3.4",
+    "eslint": "^8.27.0",
+    "eslint-plugin-react-redux": "^4.0.0"
+  },
+  "rules": {
+    "react-redux/connect-prefer-named-arguments": 2
   }
 }

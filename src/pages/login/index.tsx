@@ -14,18 +14,29 @@ import { useForm } from '../../hook/useForm'
 
 import styles from '../form.module.css'
 
+export interface LoginForm {
+  email: string
+  password: string
+}
+
+type LocationState = {
+  from: {
+    pathname: string
+  }
+}
+
 const LoginPage = () => {
   const { isAuth, isLoading, hasError } = useSelector(authSelector)
   const dispatch = useDispatch()
-  const location = useLocation()
+  const location = useLocation<LocationState>()
   const { state } = location
 
-  const { values, handleChange } = useForm({ email: '', password: '' })
 
+  const { values, handleChange } = useForm({ email: '', password: '' })
   const onSubmit = React.useCallback(
-    e => {
+    (e: React.ChangeEvent<HTMLFormElement>) => {
       e.preventDefault()
-      dispatch(login(values))
+      dispatch<any>(login(values as LoginForm))
     },
     [dispatch, values],
   )
@@ -51,7 +62,7 @@ const LoginPage = () => {
         <PasswordInput
           placeholder={'Пароль'}
           onChange={handleChange}
-          value={values.password}
+          value={String(values.password)}
           name={'password'}
           autoComplete="false"
           extraClass="mb-6"

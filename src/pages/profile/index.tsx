@@ -8,23 +8,30 @@ import {
 import { useSelector, useDispatch } from 'react-redux'
 import { userSelector } from '../../services/reducers/auth/selectors'
 import { updateUser } from '../../services/reducers/auth/actions'
+import { IRequestRegister, IUser } from '../../models/auth'
 import { useForm } from '../../hook/useForm'
 
 import styles from './profile.module.css'
 
+export interface IProfileForm {
+  email: string
+  name: string
+  password: string
+}
+
 const ProfilePage = () => {
-  const nameRef = React.useRef(null)
-  const { email, name } = useSelector(userSelector)
-  const { values, handleChange, isChange, setChange } = useForm({
+  const nameRef = React.useRef<HTMLInputElement>(null)
+  const { email, name } = useSelector(userSelector) as IUser
+  const { values, handleChange, setValues, isChange, setChange } = useForm({
     name,
     email,
     password: '',
-  })
+  } as IProfileForm)
   const [disabled, setDisabled] = React.useState(true)
   const dispatch = useDispatch()
 
   const onIconClick = React.useCallback(
-    e => {
+    (e: React.MouseEvent) => {
       e.preventDefault()
       setDisabled(!disabled)
     },
@@ -35,18 +42,18 @@ const ProfilePage = () => {
     setDisabled(true)
   }
 
-  const resetForm = e => {
+  const resetForm = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault()
     setChange(false)
-    values.name = name
-    values.email = email
-    values.password = ''
+    setValues(username => username)
+    setValues(email => email)
+    setValues(password => password)
   }
 
   const onSubmit = React.useCallback(
-    e => {
+    (e: React.ChangeEvent<HTMLFormElement>) => {
       e.preventDefault()
-      dispatch(updateUser(values))
+      dispatch<any>(updateUser(values as IRequestRegister))
       setChange(false)
     },
     [dispatch, values, setChange],
@@ -54,7 +61,7 @@ const ProfilePage = () => {
 
   React.useEffect(() => {
     if (!disabled) {
-      nameRef.current.focus()
+      nameRef.current?.focus()
     }
   }, [disabled])
 
@@ -70,7 +77,7 @@ const ProfilePage = () => {
           <Input
             icon="EditIcon"
             placeholder="Имя"
-            value={values.name}
+            value={String(values.name)}
             name={'name'}
             ref={nameRef}
             onIconClick={onIconClick}
@@ -80,7 +87,6 @@ const ProfilePage = () => {
             extraClass="mb-6"
           />
           <EmailInput
-            type="email"
             onChange={handleChange}
             value={values.email}
             name={'email'}
@@ -93,14 +99,14 @@ const ProfilePage = () => {
             icon="EditIcon"
             size={'default'}
             onChange={handleChange}
-            value={values.password}
+            value={String(values.password)}
             name={'password'}
             extraClass="mb-6"
             autoComplete="false"
           />
           {isChange && (
             <div className={styles.group_button}>
-              <Button type="secondary" size="medium" htmlType="reset" onClick={resetForm}>
+              <Button type="secondary" size="medium" htmlType="reset" onClick={e => resetForm}>
                 Отмена
               </Button>
               <Button type="primary" size="medium" htmlType="submit">

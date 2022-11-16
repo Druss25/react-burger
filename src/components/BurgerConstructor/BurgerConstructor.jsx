@@ -9,7 +9,11 @@ import Modal from '../Modal/Modal'
 import OrderDetails from '../OrderDetails/OrderDetails'
 import { useDispatch, useSelector } from 'react-redux'
 import { useDrop } from 'react-dnd'
-import { addToBurger } from '../../services/reducers/burger/actions'
+import {
+  addToBurger,
+  BurgerAction,
+  BurgerActionTypes,
+} from '../../services/reducers/burger/actions'
 import { getBurgerItems, totalBurgerPrice } from '../../services/reducers/burger/selectors'
 import {
   isLoadingOrderSelector,
@@ -22,9 +26,11 @@ import { authSelector } from '../../services/reducers/auth/selectors'
 import { useHistory } from 'react-router-dom'
 
 import styles from './BurgerConstructor.module.css'
+import { useAppDispatch } from '../../hook/useAppDispatch'
+import { IIngredients } from '../../models'
 
 const BurgerConstructor = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const { isAuth } = useSelector(authSelector)
   const burgerItems = useSelector(getBurgerItems)
   const totalPrice = useSelector(totalBurgerPrice)
@@ -32,6 +38,11 @@ const BurgerConstructor = () => {
   const numberOrder = useSelector(numberOrderSelector)
   const history = useHistory()
   const modalControls = useModalControls({})
+
+  // interface IProps {
+  //   type: BurgerAction
+  //   payload: IIngredients
+  // }
 
   const [, drop] = useDrop(() => ({
     accept: TargetDropType.ADD_INGREDIENT,
