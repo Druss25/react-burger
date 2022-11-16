@@ -14,6 +14,11 @@ import { checkRefreshToken } from '../../utils/api'
 import styles from '../form.module.css'
 import { IValues, useForm } from '../../hook/useForm'
 
+interface Register {
+  email: string
+  password: string
+  name: string
+}
 const RegisterPage = () => {
   const { isAuth, isLoading } = useSelector(authSelector)
   const dispatch = useDispatch()
@@ -24,9 +29,9 @@ const RegisterPage = () => {
   })
 
   const onSubmit = React.useCallback(
-    e => {
+    (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault()
-      dispatch<any>(register(values as IValues))
+      dispatch<any>(register(values as Register))
     },
     [dispatch, values],
   )
@@ -55,7 +60,7 @@ const RegisterPage = () => {
         />
         <EmailInput
           name={'email'}
-          value={values.email}
+          value={String(values.email)}
           isIcon={false}
           onChange={handleChange}
           extraClass="mb-6"

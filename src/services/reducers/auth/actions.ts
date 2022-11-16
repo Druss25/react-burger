@@ -1,3 +1,4 @@
+import { accessToken } from './../../../utils/api'
 import { Dispatch } from 'redux'
 import {
   IRequestLogin,
@@ -85,31 +86,42 @@ export type AuthAction =
 // }
 
 // *
-export const login = (form: IRequestLogin) => async (dispatch: Dispatch<AuthAction>) => {
-  dispatch({ type: AuthActionTypes.AUTH_USER_REQUEST })
-
-  await fetch
-    .post<IResponse>('/auth/login', {
-      mode: 'cors',
-      cache: 'no-cache',
-      credentials: 'same-origin',
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      redirect: 'follow',
-      referrerPolicy: 'no-referrer',
-      body: JSON.stringify(form),
+export const login = (form: IRequestLogin) => {
+  return async (dispatch: Dispatch<AuthAction>) => {
+    dispatch({
+      type: AuthActionTypes.AUTH_USER_REQUEST,
     })
-    .then(data => {
-      if (data.success) {
+
+    try {
+      const { user, success, accessToken, refreshToken } = await fetch.post<IResponse>(
+        '/auth/login',
+        {
+          mode: 'cors',
+          cache: 'no-cache',
+          credentials: 'same-origin',
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          redirect: 'follow',
+          referrerPolicy: 'no-referrer',
+          body: JSON.stringify(form),
+        },
+      )
+
+      if (success) {
         dispatch({
           type: AuthActionTypes.AUTH_USER_SUCCESS,
-          payload: data.user,
+          payload: user,
         })
-        saveTokens(data.accessToken, data.refreshToken)
+        saveTokens(accessToken, refreshToken)
       }
-    })
-    .catch(err => err)
+    } catch (err) {
+      dispatch({
+        type: AuthActionTypes.AUTH_USER_ERROR,
+        payload: '',
+      })
+    }
+  }
 }
 
 // *

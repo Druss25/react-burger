@@ -1,12 +1,11 @@
-
 import ProfileNavigate from '../../ProfileMenu/ProfileMenu'
 import styles from './LayoutProfile.module.css'
 
-interface IProps {
-  children: JSX.Element
+interface LayoutProfileProps {
+  children?: React.ReactNode
 }
 
-const LayoutProfile = ({ children }: IProps) => {
+const LayoutProfile: React.FC<LayoutProfileProps> = ({ children }) => {
   return (
     <section className="mt-30">
       <div className={styles.wrapper}>

@@ -1,11 +1,11 @@
 import Accept from '../../images/graphics.svg'
 import Spinner from '../Spinner/Spinner'
 
-interface IProps {
-  numberOrder: number
+interface OrderDetailsProps {
+  numberOrder: number | undefined
 }
 
-const OrderDetails = ({ numberOrder }: IProps) => {
+const OrderDetails = ({ numberOrder }: OrderDetailsProps) => {
   return (
     <>
       {numberOrder === undefined ? (

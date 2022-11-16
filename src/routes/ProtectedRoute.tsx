@@ -5,12 +5,17 @@ import { authSelector } from '../services/reducers/auth/selectors'
 import { getUser } from '../services/reducers/auth/actions'
 import Spinner from '../components/Spinner/Spinner'
 
-const ProtectedRoute = ({ children, ...rest }) => {
+interface Props {
+  children: JSX.Element
+  [x: string]: any
+}
+
+const ProtectedRoute: React.FC<Props> = ({ children, ...rest }) => {
   const { isAuth, isLoading } = useSelector(authSelector)
   const dispatch = useDispatch()
 
   const checkAuth = React.useCallback(() => {
-    if (localStorage.getItem('refreshToken')) dispatch(getUser())
+    if (localStorage.getItem('refreshToken')) dispatch<any>(getUser())
   }, [dispatch])
 
   React.useEffect(() => {

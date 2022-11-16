@@ -9,11 +9,7 @@ import Modal from '../Modal/Modal'
 import OrderDetails from '../OrderDetails/OrderDetails'
 import { useDispatch, useSelector } from 'react-redux'
 import { useDrop } from 'react-dnd'
-import {
-  addToBurger,
-  BurgerAction,
-  BurgerActionTypes,
-} from '../../services/reducers/burger/actions'
+import { addToBurger } from '../../services/reducers/burger/actions'
 import { getBurgerItems, totalBurgerPrice } from '../../services/reducers/burger/selectors'
 import {
   isLoadingOrderSelector,
@@ -24,12 +20,12 @@ import { getOrder, OrderActionTypes } from '../../services/reducers/order/action
 import { TargetDropType } from '../../utils/constants'
 import { authSelector } from '../../services/reducers/auth/selectors'
 import { useHistory } from 'react-router-dom'
-
-import styles from './BurgerConstructor.module.css'
 import { useAppDispatch } from '../../hook/useAppDispatch'
 import { IIngredients } from '../../models'
 
-const BurgerConstructor = () => {
+import styles from './BurgerConstructor.module.css'
+
+const BurgerConstructor: React.FC = () => {
   const dispatch = useAppDispatch()
   const { isAuth } = useSelector(authSelector)
   const burgerItems = useSelector(getBurgerItems)
@@ -46,7 +42,7 @@ const BurgerConstructor = () => {
 
   const [, drop] = useDrop(() => ({
     accept: TargetDropType.ADD_INGREDIENT,
-    drop: ingredient => dispatch(addToBurger(ingredient)),
+    drop: ingredient => dispatch<any>(addToBurger(ingredient as IIngredients)),
     collect: monitor => ({
       isOver: monitor.isOver(),
     }),
@@ -59,7 +55,7 @@ const BurgerConstructor = () => {
       history.replace({ pathname: '/login' })
     }
 
-    dispatch(
+    dispatch<any>(
       getOrder([
         burgerItems.bun._id,
         ...burgerItems.ingredients.map(ingredient => ingredient._id),
@@ -148,7 +144,7 @@ const BurgerConstructor = () => {
 
       {modalControls.modalProps.isOpen && (
         <Modal {...modalControls.modalProps}>
-          <OrderDetails numberOrder={numberOrder} />
+          <OrderDetails numberOrder={Number(numberOrder)} />
         </Modal>
       )}
     </>

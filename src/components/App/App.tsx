@@ -1,6 +1,7 @@
 import React from 'react'
 import { Switch, Route, useLocation } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
+import { Location } from 'history'
 import { getIngredients } from '../../services/reducers/ingredients/actions'
 import Layout from '../Layouts/Layout'
 import {
@@ -19,13 +20,13 @@ import {
 import LayoutProfile from '../Layouts/LayoutProfile'
 import ProtectedRoute from '../../routes/ProtectedRoute'
 
-function App() {
-  const location = useLocation()
+const App: React.FC = () => {
+  const location = useLocation<{ background?: Location<{} | null | undefined> }>()
   const dispatch = useDispatch()
   const background = location.state && location.state.background
 
   React.useEffect(() => {
-    dispatch(getIngredients())
+    dispatch<any>(getIngredients())
     // eslint-disable-next-line
   }, [])
 

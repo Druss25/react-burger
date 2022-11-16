@@ -5,9 +5,10 @@ import {
   ProfileIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import { Link, NavLink } from 'react-router-dom'
+
 import styles from './AppHeader.module.css'
 
-const AppHeader = () => {
+const AppHeader: React.FC = () => {
   return (
     <header className={styles.header}>
       <nav className={styles.nav}>

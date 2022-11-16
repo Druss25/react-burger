@@ -6,7 +6,7 @@ import ModalOverlay from '../ModalOverlay/ModalOverlay'
 import styles from './Modal.module.css'
 
 // export interface IModalProps {
-//   children?: JSX.Element
+//   children?: React.ReactNode
 //   isOpen?: boolean
 //   goBack?: boolean
 //   requestClose?: () => void

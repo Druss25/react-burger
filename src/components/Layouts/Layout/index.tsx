@@ -2,11 +2,11 @@ import AppHeader from '../../AppHeader/AppHeader'
 
 import styles from './Layout.module.css'
 
-interface IProps {
-  children: JSX.Element
+interface Props {
+  children?: React.ReactNode
 }
 
-const Layout = ({ children }: IProps) => {
+const Layout: React.FC<Props> = ({ children }) => {
   return (
     <div className={styles.wrapper}>
       <AppHeader />

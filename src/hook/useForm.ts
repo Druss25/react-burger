@@ -2,9 +2,10 @@ import React from 'react'
 import { IRequestLogin, IRequestRegister } from '../models/auth'
 
 export interface IValues {
-  email: string
+  email?: string
   name?: string
-  password?: string
+  password?: string | undefined
+  token?: string
 }
 
 export function useForm(inputValues: IValues) {

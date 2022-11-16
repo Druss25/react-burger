@@ -1,17 +1,18 @@
 import React from 'react'
 import { Link, Redirect, useLocation } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'
+import { useAppSelector } from '../../hook/useAppSelector'
+import { useAppDispatch } from '../../hook/useAppDispatch'
 import { Button, EmailInput } from '@ya.praktikum/react-developer-burger-ui-components'
 import { authSelector } from '../../services/reducers/auth/selectors'
-import { resetPassword } from '../../services/reducers/auth/actions'
+import { AuthAction, resetPassword } from '../../services/reducers/auth/actions'
 import { checkRefreshToken } from '../../utils/api'
-
-import styles from '../form.module.css'
 import Spinner from '../../components/Spinner/Spinner'
 
+import styles from '../form.module.css'
+
 const ForgotPasswordPage = () => {
-  const { isAuth, isReset, isLoading } = useSelector(authSelector)
-  const dispatch = useDispatch()
+  const { isAuth, isReset, isLoading } = useAppSelector(authSelector)
+  const dispatch = useAppDispatch()
   const location = useLocation()
   const [inputs, setInputs] = React.useState({
     email: '',
@@ -24,7 +25,7 @@ const ForgotPasswordPage = () => {
   }
 
   const handleSubmit = React.useCallback(
-    (e: React.ChangeEvent<HTMLFormElement>) => {
+    (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault()
       if (inputs.email !== '') {
         dispatch<any>(resetPassword(inputs.email))

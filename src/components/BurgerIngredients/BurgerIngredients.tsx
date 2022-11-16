@@ -12,7 +12,7 @@ import { IIngredients } from '../../models'
 
 const titleModal = 'Детали ингредиента'
 
-const BurgerIngredients = () => {
+const BurgerIngredients: React.FC = () => {
   const [currentTab, setCurrentTab] = React.useState(TabOptions.type.BUN)
   const buns = useSelector(getBun)
   const sauces = useSelector(getSauce)

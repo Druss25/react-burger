@@ -5,14 +5,16 @@ import {
   EmailInput,
   PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components'
-import { login } from '../../services/reducers/auth/actions'
-import { useDispatch, useSelector } from 'react-redux'
+import { AuthAction, login } from '../../services/reducers/auth/actions'
+import { useDispatch } from 'react-redux'
+import { useAppSelector } from '../../hook/useAppSelector'
 import { authSelector } from '../../services/reducers/auth/selectors'
 import Spinner from '../../components/Spinner/Spinner'
 import { checkRefreshToken } from '../../utils/api'
 import { useForm } from '../../hook/useForm'
 
 import styles from '../form.module.css'
+import { useSelector } from 'react-redux'
 
 export interface LoginForm {
   email: string
@@ -26,20 +28,16 @@ type LocationState = {
 }
 
 const LoginPage = () => {
-  const { isAuth, isLoading, hasError } = useSelector(authSelector)
+  const { isAuth, isLoading, hasError } = useAppSelector(authSelector)
   const dispatch = useDispatch()
   const location = useLocation<LocationState>()
   const { state } = location
-
-
   const { values, handleChange } = useForm({ email: '', password: '' })
-  const onSubmit = React.useCallback(
-    (e: React.ChangeEvent<HTMLFormElement>) => {
-      e.preventDefault()
-      dispatch<any>(login(values as LoginForm))
-    },
-    [dispatch, values],
-  )
+
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    await dispatch<any>(login(values as LoginForm))
+  }
 
   if (isLoading) return <Spinner />
 
@@ -55,7 +53,7 @@ const LoginPage = () => {
           placeholder={'Email'}
           isIcon={false}
           onChange={handleChange}
-          value={values.email}
+          value={String(values.email)}
           name={'email'}
           extraClass="mt-6 mb-6"
         />

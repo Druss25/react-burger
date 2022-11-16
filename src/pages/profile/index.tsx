@@ -51,7 +51,7 @@ const ProfilePage = () => {
   }
 
   const onSubmit = React.useCallback(
-    (e: React.ChangeEvent<HTMLFormElement>) => {
+    (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault()
       dispatch<any>(updateUser(values as IRequestRegister))
       setChange(false)
@@ -88,7 +88,7 @@ const ProfilePage = () => {
           />
           <EmailInput
             onChange={handleChange}
-            value={values.email}
+            value={String(values.email)}
             name={'email'}
             placeholder="Email"
             isIcon={true}
