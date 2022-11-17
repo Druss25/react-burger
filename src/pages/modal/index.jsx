@@ -1,7 +1,7 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
 import IngredientDetails from '../../components/IngredientDetails/IngredientDetails'
-import Modal, { IModalProps } from '../../components/Modal/Modal'
+import Modal from '../../components/Modal/Modal'
 import useModalControls from '../../hook/useModalControls'
 
 const titleModal = 'Детали ингредиента'

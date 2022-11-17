@@ -4,11 +4,12 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import useModalControls from '../../hook/useModalControls'
 import { getBun, getMain, getSauce } from '../../services/reducers/ingredients/selectors'
 import BurgerIngredientsCategory from '../BurgerIngredientsCategory/BurgerIngredientsCategory'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { TabOptions } from '../../utils/constants'
 import { ModalActionTypes } from '../../services/reducers/ingredient-modal/actions'
 import styles from './BurgerIngredients.module.css'
 import { IIngredients } from '../../models'
+import { useTypedDispatch } from '../../services/store'
 
 const titleModal = 'Детали ингредиента'
 
@@ -21,7 +22,7 @@ const BurgerIngredients: React.FC = () => {
   const [bunsRef, inBunsView] = useInView({ threshold: 0 })
   const [mainsRef, inMainsView] = useInView({ threshold: 0 })
   const [saucesRef, inSaucesView] = useInView({ threshold: 0 })
-  const dispatch = useDispatch()
+  const dispatch = useTypedDispatch()
 
   React.useEffect(() => {
     if (inBunsView) {

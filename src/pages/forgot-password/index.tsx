@@ -1,10 +1,10 @@
 import React from 'react'
 import { Link, Redirect, useLocation } from 'react-router-dom'
 import { useAppSelector } from '../../hook/useAppSelector'
-import { useAppDispatch } from '../../hook/useAppDispatch'
+import { useTypedDispatch } from '../../services/store'
 import { Button, EmailInput } from '@ya.praktikum/react-developer-burger-ui-components'
 import { authSelector } from '../../services/reducers/auth/selectors'
-import { AuthAction, resetPassword } from '../../services/reducers/auth/actions'
+import { resetPassword } from '../../services/reducers/auth/actions'
 import { checkRefreshToken } from '../../utils/api'
 import Spinner from '../../components/Spinner/Spinner'
 
@@ -12,7 +12,7 @@ import styles from '../form.module.css'
 
 const ForgotPasswordPage = () => {
   const { isAuth, isReset, isLoading } = useAppSelector(authSelector)
-  const dispatch = useAppDispatch()
+  const dispatch = useTypedDispatch()
   const location = useLocation()
   const [inputs, setInputs] = React.useState({
     email: '',
@@ -28,7 +28,7 @@ const ForgotPasswordPage = () => {
     (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault()
       if (inputs.email !== '') {
-        dispatch<any>(resetPassword(inputs.email))
+        dispatch(resetPassword(inputs.email))
       }
     },
     [inputs.email, dispatch],

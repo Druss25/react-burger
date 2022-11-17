@@ -1,4 +1,3 @@
-import { accessToken } from './../../../utils/api'
 import { Dispatch } from 'redux'
 import {
   IRequestLogin,

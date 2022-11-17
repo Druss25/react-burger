@@ -1,6 +1,6 @@
 import React from 'react'
 import { Switch, Route, useLocation } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useTypedDispatch } from '../../services/store'
 import { Location } from 'history'
 import { getIngredients } from '../../services/reducers/ingredients/actions'
 import Layout from '../Layouts/Layout'
@@ -22,11 +22,11 @@ import ProtectedRoute from '../../routes/ProtectedRoute'
 
 const App: React.FC = () => {
   const location = useLocation<{ background?: Location<{} | null | undefined> }>()
-  const dispatch = useDispatch()
+  const dispatch = useTypedDispatch()
   const background = location.state && location.state.background
 
   React.useEffect(() => {
-    dispatch<any>(getIngredients())
+    dispatch(getIngredients())
     // eslint-disable-next-line
   }, [])
 

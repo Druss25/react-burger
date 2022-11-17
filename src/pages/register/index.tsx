@@ -1,18 +1,19 @@
 import React from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { Link, Redirect } from 'react-router-dom'
+import { useTypedDispatch } from '../../services/store'
 import {
   Button,
   EmailInput,
   Input,
   PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components'
+import { useForm } from '../../hook/useForm'
 import { register } from '../../services/reducers/auth/actions'
 import { authSelector } from '../../services/reducers/auth/selectors'
 import { checkRefreshToken } from '../../utils/api'
 
 import styles from '../form.module.css'
-import { IValues, useForm } from '../../hook/useForm'
 
 interface Register {
   email: string
@@ -21,7 +22,7 @@ interface Register {
 }
 const RegisterPage = () => {
   const { isAuth, isLoading } = useSelector(authSelector)
-  const dispatch = useDispatch()
+  const dispatch = useTypedDispatch()
   const { values, handleChange } = useForm({
     email: '',
     password: '',
@@ -31,7 +32,7 @@ const RegisterPage = () => {
   const onSubmit = React.useCallback(
     (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault()
-      dispatch<any>(register(values as Register))
+      dispatch(register(values as Register))
     },
     [dispatch, values],
   )

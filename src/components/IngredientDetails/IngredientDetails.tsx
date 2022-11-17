@@ -4,10 +4,14 @@ import { ingredientsSelector } from '../../services/reducers/ingredients/selecto
 
 import styles from './IngredientDetails.module.css'
 
+interface ParamTypes {
+  id: string
+}
+
 const IngredientDetails = () => {
-  const params = useParams()
+  const { id } = useParams<ParamTypes>()
   const ingredients = useSelector(ingredientsSelector)
-  const ingredient = ingredients.filter(ingredient => ingredient._id === params.id)[0]
+  const ingredient = ingredients.filter(ingredient => ingredient._id === id)[0]
 
   return (
     <>

@@ -7,8 +7,9 @@ import {
 import useModalControls from '../../hook/useModalControls'
 import Modal from '../Modal/Modal'
 import OrderDetails from '../OrderDetails/OrderDetails'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { useDrop } from 'react-dnd'
+import { useTypedDispatch } from '../../services/store'
 import { addToBurger } from '../../services/reducers/burger/actions'
 import { getBurgerItems, totalBurgerPrice } from '../../services/reducers/burger/selectors'
 import {
@@ -20,13 +21,12 @@ import { getOrder, OrderActionTypes } from '../../services/reducers/order/action
 import { TargetDropType } from '../../utils/constants'
 import { authSelector } from '../../services/reducers/auth/selectors'
 import { useHistory } from 'react-router-dom'
-import { useAppDispatch } from '../../hook/useAppDispatch'
 import { IIngredients } from '../../models'
 
 import styles from './BurgerConstructor.module.css'
 
 const BurgerConstructor: React.FC = () => {
-  const dispatch = useAppDispatch()
+  const dispatch = useTypedDispatch()
   const { isAuth } = useSelector(authSelector)
   const burgerItems = useSelector(getBurgerItems)
   const totalPrice = useSelector(totalBurgerPrice)
@@ -35,27 +35,22 @@ const BurgerConstructor: React.FC = () => {
   const history = useHistory()
   const modalControls = useModalControls({})
 
-  // interface IProps {
-  //   type: BurgerAction
-  //   payload: IIngredients
-  // }
-
   const [, drop] = useDrop(() => ({
     accept: TargetDropType.ADD_INGREDIENT,
-    drop: ingredient => dispatch<any>(addToBurger(ingredient as IIngredients)),
+    drop: (ingredient: IIngredients) => dispatch(addToBurger(ingredient)),
     collect: monitor => ({
       isOver: monitor.isOver(),
     }),
   }))
 
-  const onClickOrder = () => {
+  const onClickOrder = async () => {
     if (!burgerItems.bun || burgerItems.ingredients.length === 0 || isLoadingOrder) return
 
     if (!isAuth) {
       history.replace({ pathname: '/login' })
     }
 
-    dispatch<any>(
+    dispatch(
       getOrder([
         burgerItems.bun._id,
         ...burgerItems.ingredients.map(ingredient => ingredient._id),

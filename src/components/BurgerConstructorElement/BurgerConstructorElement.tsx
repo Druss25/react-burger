@@ -1,22 +1,23 @@
 import React from 'react'
 import { DropTargetMonitor, useDrag, useDrop, XYCoord } from 'react-dnd'
-import { useAppDispatch } from '../../hook/useAppDispatch'
+// import { useAppDispatch } from '../../hook/useAppDispatch'
 import { TargetDropType } from '../../utils/constants'
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import { BurgerActionTypes } from '../../services/reducers/burger/actions'
 import { IIngredients } from '../../models'
 
 import styles from './BurgerConstructorElement.module.css'
+import { useTypedDispatch } from '../../services/store'
 
 interface BurgerConstructorElementProps {
   ingredient: IIngredients
-  index: number | undefined
+  index: number
 }
 const BurgerConstructorElement: React.FC<BurgerConstructorElementProps> = ({
   ingredient,
   index,
 }) => {
-  const dispatch = useAppDispatch()
+  const dispatch = useTypedDispatch()
   const dragRef = React.useRef<HTMLDivElement>(null)
   const [{ handlerId }, drop] = useDrop({
     accept: TargetDropType.SORTING_INGREDIENT,
@@ -25,9 +26,10 @@ const BurgerConstructorElement: React.FC<BurgerConstructorElementProps> = ({
         handlerId: monitor.getHandlerId(),
       }
     },
+
     // !!! Убрать any !!!
     hover(item: any, monitor: DropTargetMonitor) {
-      const dragIndex = Number(item.index)
+      const dragIndex = item.index
       const hoverIndex = Number(index)
 
       if (dragIndex === hoverIndex) {

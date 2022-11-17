@@ -1,5 +1,4 @@
 import React from 'react'
-import { IRequestLogin, IRequestRegister } from '../models/auth'
 
 export interface IValues {
   email?: string
@@ -9,8 +8,8 @@ export interface IValues {
 }
 
 export function useForm(inputValues: IValues) {
-  const [values, setValues] = React.useState(inputValues)
-  const [isChange, setChange] = React.useState(false)
+  const [values, setValues] = React.useState<IValues>(inputValues)
+  const [isChange, setChange] = React.useState<boolean>(false)
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value, name } = event.target
