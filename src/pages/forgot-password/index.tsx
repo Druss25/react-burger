@@ -1,7 +1,6 @@
 import React from 'react'
 import { Link, Redirect, useLocation } from 'react-router-dom'
-import { useAppSelector } from '../../hook/useAppSelector'
-import { useTypedDispatch } from '../../services/store'
+import { useAppDispatch, useAppSelector } from '../../services/store'
 import { Button, EmailInput } from '@ya.praktikum/react-developer-burger-ui-components'
 import { authSelector } from '../../services/reducers/auth/selectors'
 import { resetPassword } from '../../services/reducers/auth/actions'
@@ -9,32 +8,34 @@ import { checkRefreshToken } from '../../utils/api'
 import Spinner from '../../components/Spinner/Spinner'
 
 import styles from '../form.module.css'
+import useForm from '../../hook/useForm'
 
-const ForgotPasswordPage = () => {
+type TForgotPassword = {
+  email: string
+}
+
+const InitForm: TForgotPassword = {
+  email: ''
+}
+
+const ForgotPasswordPage: React.FC = () => {
   const { isAuth, isReset, isLoading } = useAppSelector(authSelector)
-  const dispatch = useTypedDispatch()
+  const dispatch = useAppDispatch()
   const location = useLocation()
-  const [inputs, setInputs] = React.useState({
-    email: '',
-  })
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const name = event.target.name
-    const value = event.target.value
-    setInputs(values => ({ ...values, [name]: value }))
-  }
+  const { values, handleChange } = useForm(InitForm)
 
   const handleSubmit = React.useCallback(
     (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault()
-      if (inputs.email !== '') {
-        dispatch(resetPassword(inputs.email))
+      if (values.email !== '') {
+        dispatch(resetPassword(values as TForgotPassword))
       }
     },
-    [inputs.email, dispatch],
+    [values, dispatch],
   )
 
   if (isLoading) return <Spinner />
+
   if (isAuth || checkRefreshToken) return <Redirect to="/" />
 
   if (isReset)
@@ -55,7 +56,7 @@ const ForgotPasswordPage = () => {
           placeholder={'Email'}
           isIcon={false}
           onChange={handleChange}
-          value={inputs.email}
+          value={String(values.email)}
           name={'email'}
           autoComplete="false"
           extraClass="mt-6 mb-6"

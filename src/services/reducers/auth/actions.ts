@@ -1,5 +1,6 @@
 import { Dispatch } from 'redux'
 import {
+  IRequestForgotPassword,
   IRequestLogin,
   IRequestRegister,
   IRequestResetPassword,
@@ -85,41 +86,39 @@ export type AuthAction =
 // }
 
 // *
-export const login = (form: IRequestLogin) => {
-  return async (dispatch: Dispatch<AuthAction>) => {
-    dispatch({
-      type: AuthActionTypes.AUTH_USER_REQUEST,
-    })
+export const login = (form: IRequestLogin) => async (dispatch: Dispatch<AuthAction>) => {
+  dispatch({
+    type: AuthActionTypes.AUTH_USER_REQUEST,
+  })
 
-    try {
-      const { user, success, accessToken, refreshToken } = await fetch.post<IResponse>(
-        '/auth/login',
-        {
-          mode: 'cors',
-          cache: 'no-cache',
-          credentials: 'same-origin',
-          headers: {
-            'Content-Type': 'application/json; charset=UTF-8',
-          },
-          redirect: 'follow',
-          referrerPolicy: 'no-referrer',
-          body: JSON.stringify(form),
+  try {
+    const { user, success, accessToken, refreshToken } = await fetch.post<IResponse>(
+      '/auth/login',
+      {
+        mode: 'cors',
+        cache: 'no-cache',
+        credentials: 'same-origin',
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
         },
-      )
+        redirect: 'follow',
+        referrerPolicy: 'no-referrer',
+        body: JSON.stringify(form),
+      },
+    )
 
-      if (success) {
-        dispatch({
-          type: AuthActionTypes.AUTH_USER_SUCCESS,
-          payload: user,
-        })
-        saveTokens(accessToken, refreshToken)
-      }
-    } catch (err) {
+    if (success) {
       dispatch({
-        type: AuthActionTypes.AUTH_USER_ERROR,
-        payload: '',
+        type: AuthActionTypes.AUTH_USER_SUCCESS,
+        payload: user,
       })
+      saveTokens(accessToken, refreshToken)
     }
+  } catch (err) {
+    dispatch({
+      type: AuthActionTypes.AUTH_USER_ERROR,
+      payload: 'Не верно введен email или пароль...',
+    })
   }
 }
 
@@ -289,29 +288,30 @@ export const updateUser = (form: IRequestRegister) => async (dispatch: Dispatch<
 }
 
 // *
-export const resetPassword = (email: string) => async (dispatch: Dispatch<AuthAction>) => {
-  dispatch({ type: AuthActionTypes.AUTH_USER_REQUEST })
-  await fetch
-    .post<IResponseReset>('/password-reset', {
-      mode: 'cors',
-      cache: 'no-cache',
-      credentials: 'same-origin',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      redirect: 'follow',
-      referrerPolicy: 'no-referrer',
-      body: JSON.stringify({ email: email }),
-    })
-    .then(data => {
-      if (data.success) {
-        dispatch({
-          type: AuthActionTypes.AUTH_RESER_PASSWORD,
-        })
-      }
-    })
-    .catch(err => err)
-}
+export const resetPassword =
+  (form: IRequestForgotPassword) => async (dispatch: Dispatch<AuthAction>) => {
+    dispatch({ type: AuthActionTypes.AUTH_USER_REQUEST })
+    await fetch
+      .post<IResponseReset>('/password-reset', {
+        mode: 'cors',
+        cache: 'no-cache',
+        credentials: 'same-origin',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        redirect: 'follow',
+        referrerPolicy: 'no-referrer',
+        body: JSON.stringify(form),
+      })
+      .then(data => {
+        if (data.success) {
+          dispatch({
+            type: AuthActionTypes.AUTH_RESER_PASSWORD,
+          })
+        }
+      })
+      .catch(err => err)
+  }
 
 // *
 export const forgotPassword =

@@ -1,9 +1,9 @@
 import React from 'react'
 import { Link, Redirect, useLocation } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'
+import { useAppSelector, useAppDispatch } from '../../services/store'
 import { Button, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components'
 import { authSelector } from '../../services/reducers/auth/selectors'
-import { useForm } from '../../hook/useForm'
+import useForm from '../../hook/useForm'
 import { checkRefreshToken } from '../../utils/api'
 import { forgotPassword } from '../../services/reducers/auth/actions'
 import Spinner from '../../components/Spinner/Spinner'
@@ -21,16 +21,18 @@ type LocationState = {
   }
 }
 
+const InitForm = {
+  password: '',
+  token: '',
+}
+
 const ResetPasswordPage: React.FC = () => {
-  const { isAuth, isReset, isLoading } = useSelector(authSelector)
+  const { isAuth, isReset, isLoading } = useAppSelector(authSelector)
   const location = useLocation<LocationState>()
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
   const checkPath = location.state?.from?.pathname
-  const { values, handleChange } = useForm({
-    password: '',
-    token: '',
-  })
+  const { values, handleChange } = useForm(InitForm)
 
   const onSubmit = React.useCallback(
     (e: React.FormEvent<HTMLFormElement>) => {

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link, useLocation, Redirect } from 'react-router-dom'
-import { useTypedDispatch, useTypedSelector } from '../../services/store'
+import { useAppDispatch, useAppSelector } from '../../services/store'
 import {
   Button,
   EmailInput,
@@ -10,7 +10,7 @@ import { login } from '../../services/reducers/auth/actions'
 import { authSelector } from '../../services/reducers/auth/selectors'
 import Spinner from '../../components/Spinner/Spinner'
 import { checkRefreshToken } from '../../utils/api'
-import { useForm } from '../../hook/useForm'
+import useForm from '../../hook/useForm'
 
 import styles from '../form.module.css'
 
@@ -25,17 +25,25 @@ type LocationState = {
   }
 }
 
-const LoginPage = () => {
-  const { isAuth, isLoading, hasError } = useTypedSelector(authSelector)
-  const dispatch = useTypedDispatch()
+const InitForm: LoginForm = {
+  email: '',
+  password: '',
+}
+
+const LoginPage: React.FC = () => {
+  const { isAuth, isLoading, hasError } = useAppSelector(authSelector)
+  const dispatch = useAppDispatch()
   const location = useLocation<LocationState>()
   const { state } = location
-  const { values, handleChange } = useForm({ email: '', password: '' })
+  const { values, handleChange } = useForm(InitForm)
 
-  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    await dispatch(login(values as LoginForm))
-  }
+  const onSubmit = React.useCallback(
+    (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault()
+      dispatch(login(values as LoginForm))
+    },
+    [dispatch, values],
+  )
 
   if (isLoading) return <Spinner />
 

@@ -1,5 +1,6 @@
-import { useSelector } from 'react-redux'
+import React from 'react'
 import { useParams } from 'react-router-dom'
+import { useAppSelector } from '../../services/store'
 import { ingredientsSelector } from '../../services/reducers/ingredients/selectors'
 
 import styles from './IngredientDetails.module.css'
@@ -8,9 +9,9 @@ interface ParamTypes {
   id: string
 }
 
-const IngredientDetails = () => {
+const IngredientDetails: React.FC = () => {
   const { id } = useParams<ParamTypes>()
-  const ingredients = useSelector(ingredientsSelector)
+  const ingredients = useAppSelector(ingredientsSelector)
   const ingredient = ingredients.filter(ingredient => ingredient._id === id)[0]
 
   return (

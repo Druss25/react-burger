@@ -1,33 +1,34 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
 import { Link, Redirect } from 'react-router-dom'
-import { useTypedDispatch } from '../../services/store'
+import { useAppSelector, useAppDispatch } from '../../services/store'
 import {
   Button,
   EmailInput,
   Input,
   PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components'
-import { useForm } from '../../hook/useForm'
+import useForm from '../../hook/useForm'
 import { register } from '../../services/reducers/auth/actions'
 import { authSelector } from '../../services/reducers/auth/selectors'
 import { checkRefreshToken } from '../../utils/api'
 
 import styles from '../form.module.css'
 
-interface Register {
+type Register = {
   email: string
   password: string
   name: string
 }
+const InitForm: Register = {
+  email: '',
+  password: '',
+  name: '',
+}
+
 const RegisterPage = () => {
-  const { isAuth, isLoading } = useSelector(authSelector)
-  const dispatch = useTypedDispatch()
-  const { values, handleChange } = useForm({
-    email: '',
-    password: '',
-    name: '',
-  })
+  const { isAuth, isLoading } = useAppSelector(authSelector)
+  const dispatch = useAppDispatch()
+  const { values, handleChange } = useForm(InitForm)
 
   const onSubmit = React.useCallback(
     (e: React.FormEvent<HTMLFormElement>) => {

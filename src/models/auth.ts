@@ -47,3 +47,7 @@ export interface IRequestResetPassword {
   password: string
   token: string
 }
+
+export interface IRequestForgotPassword {
+  email: string
+}

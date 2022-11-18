@@ -1,13 +1,12 @@
 import React from 'react'
 import { DropTargetMonitor, useDrag, useDrop, XYCoord } from 'react-dnd'
-// import { useAppDispatch } from '../../hook/useAppDispatch'
+import { useAppDispatch } from '../../services/store'
 import { TargetDropType } from '../../utils/constants'
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import { BurgerActionTypes } from '../../services/reducers/burger/actions'
 import { IIngredients } from '../../models'
 
 import styles from './BurgerConstructorElement.module.css'
-import { useTypedDispatch } from '../../services/store'
 
 interface BurgerConstructorElementProps {
   ingredient: IIngredients
@@ -17,7 +16,7 @@ const BurgerConstructorElement: React.FC<BurgerConstructorElementProps> = ({
   ingredient,
   index,
 }) => {
-  const dispatch = useTypedDispatch()
+  const dispatch = useAppDispatch()
   const dragRef = React.useRef<HTMLDivElement>(null)
   const [{ handlerId }, drop] = useDrop({
     accept: TargetDropType.SORTING_INGREDIENT,

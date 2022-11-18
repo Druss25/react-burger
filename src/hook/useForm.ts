@@ -7,7 +7,7 @@ export interface IValues {
   token?: string
 }
 
-export function useForm(inputValues: IValues) {
+const useForm = (inputValues: IValues) => {
   const [values, setValues] = React.useState<IValues>(inputValues)
   const [isChange, setChange] = React.useState<boolean>(false)
 
@@ -19,3 +19,5 @@ export function useForm(inputValues: IValues) {
 
   return { values, handleChange, setValues, isChange, setChange }
 }
+
+export default useForm

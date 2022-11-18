@@ -1,11 +1,12 @@
+import React from 'react'
 import ReactDOM from 'react-dom'
 
-interface IProps {
-  children: React.ReactNode
+type ReactPortalTypes = {
+  children?: React.ReactNode
   wrapperId: string
 }
 
-function ReactPortal({ children, wrapperId }: IProps) {
+const ReactPortal: React.FC<ReactPortalTypes> = ({ children, wrapperId }) => {
   const conteiner = document.getElementById(wrapperId) as DocumentFragment | Element
   return ReactDOM.createPortal(children, conteiner)
 }

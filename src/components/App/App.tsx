@@ -1,6 +1,6 @@
 import React from 'react'
 import { Switch, Route, useLocation } from 'react-router-dom'
-import { useTypedDispatch } from '../../services/store'
+import { useAppDispatch } from '../../services/store'
 import { Location } from 'history'
 import { getIngredients } from '../../services/reducers/ingredients/actions'
 import Layout from '../Layouts/Layout'
@@ -22,7 +22,7 @@ import ProtectedRoute from '../../routes/ProtectedRoute'
 
 const App: React.FC = () => {
   const location = useLocation<{ background?: Location<{} | null | undefined> }>()
-  const dispatch = useTypedDispatch()
+  const dispatch = useAppDispatch()
   const background = location.state && location.state.background
 
   React.useEffect(() => {

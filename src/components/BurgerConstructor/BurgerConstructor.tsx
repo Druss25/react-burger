@@ -7,9 +7,8 @@ import {
 import useModalControls from '../../hook/useModalControls'
 import Modal from '../Modal/Modal'
 import OrderDetails from '../OrderDetails/OrderDetails'
-import { useSelector } from 'react-redux'
 import { useDrop } from 'react-dnd'
-import { useTypedDispatch } from '../../services/store'
+import { useAppDispatch, useAppSelector } from '../../services/store'
 import { addToBurger } from '../../services/reducers/burger/actions'
 import { getBurgerItems, totalBurgerPrice } from '../../services/reducers/burger/selectors'
 import {
@@ -26,12 +25,12 @@ import { IIngredients } from '../../models'
 import styles from './BurgerConstructor.module.css'
 
 const BurgerConstructor: React.FC = () => {
-  const dispatch = useTypedDispatch()
-  const { isAuth } = useSelector(authSelector)
-  const burgerItems = useSelector(getBurgerItems)
-  const totalPrice = useSelector(totalBurgerPrice)
-  const isLoadingOrder = useSelector(isLoadingOrderSelector)
-  const numberOrder = useSelector(numberOrderSelector)
+  const dispatch = useAppDispatch()
+  const { isAuth } = useAppSelector(authSelector)
+  const burgerItems = useAppSelector(getBurgerItems)
+  const totalPrice = useAppSelector(totalBurgerPrice)
+  const isLoadingOrder = useAppSelector(isLoadingOrderSelector)
+  const numberOrder = useAppSelector(numberOrderSelector)
   const history = useHistory()
   const modalControls = useModalControls({})
 

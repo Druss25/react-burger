@@ -1,6 +1,7 @@
+import React from 'react'
 import styles from './order-history.module.css'
 
-const OrdersHistoryPage = () => {
+const OrdersHistoryPage: React.FC = () => {
   return (
     <>
       <div className={styles.subtitle}>

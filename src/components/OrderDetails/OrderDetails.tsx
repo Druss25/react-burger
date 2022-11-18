@@ -2,10 +2,10 @@ import Accept from '../../images/graphics.svg'
 import Spinner from '../Spinner/Spinner'
 
 interface OrderDetailsProps {
-  numberOrder: number | undefined
+  readonly numberOrder: number
 }
 
-const OrderDetails = ({ numberOrder }: OrderDetailsProps) => {
+const OrderDetails: React.FC<OrderDetailsProps> = ({ numberOrder }) => {
   return (
     <>
       {numberOrder === undefined ? (

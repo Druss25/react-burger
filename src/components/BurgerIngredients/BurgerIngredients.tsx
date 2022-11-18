@@ -1,28 +1,28 @@
 import React from 'react'
 import { useInView } from 'react-intersection-observer'
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
+import { IIngredients } from '../../models'
+import { useAppDispatch, useAppSelector } from '../../services/store'
 import useModalControls from '../../hook/useModalControls'
 import { getBun, getMain, getSauce } from '../../services/reducers/ingredients/selectors'
 import BurgerIngredientsCategory from '../BurgerIngredientsCategory/BurgerIngredientsCategory'
-import { useSelector } from 'react-redux'
 import { TabOptions } from '../../utils/constants'
 import { ModalActionTypes } from '../../services/reducers/ingredient-modal/actions'
+
 import styles from './BurgerIngredients.module.css'
-import { IIngredients } from '../../models'
-import { useTypedDispatch } from '../../services/store'
 
 const titleModal = 'Детали ингредиента'
 
 const BurgerIngredients: React.FC = () => {
   const [currentTab, setCurrentTab] = React.useState(TabOptions.type.BUN)
-  const buns = useSelector(getBun)
-  const sauces = useSelector(getSauce)
-  const mains = useSelector(getMain)
+  const buns = useAppSelector(getBun)
+  const sauces = useAppSelector(getSauce)
+  const mains = useAppSelector(getMain)
   const modalControls = useModalControls({ titleModal })
   const [bunsRef, inBunsView] = useInView({ threshold: 0 })
   const [mainsRef, inMainsView] = useInView({ threshold: 0 })
   const [saucesRef, inSaucesView] = useInView({ threshold: 0 })
-  const dispatch = useTypedDispatch()
+  const dispatch = useAppDispatch()
 
   React.useEffect(() => {
     if (inBunsView) {

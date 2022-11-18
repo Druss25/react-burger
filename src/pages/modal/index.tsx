@@ -7,25 +7,21 @@ import useModalControls from '../../hook/useModalControls'
 const titleModal = 'Детали ингредиента'
 const goBack = true
 
-// interface IModalPageProps {
-//   titleModal: string
-//   goBack: boolean
-// }
+type TParamsType = {
+  id: string
+}
 
-// type IParams = {
-//   id: string
-// }
-
-const ModalPage = () => {
-  const params = useParams()
+const ModalPage: React.FC = () => {
+  const params = useParams<TParamsType>()
   const modalControls = useModalControls({ titleModal, goBack })
+
   React.useEffect(() => {
     if (params.id) modalControls.open()
     // eslint-disable-next-line
   }, [])
 
   return (
-    <Modal>
+    <Modal {...modalControls.modalProps}>
       <IngredientDetails />
     </Modal>
   )

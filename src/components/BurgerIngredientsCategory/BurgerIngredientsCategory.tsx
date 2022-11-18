@@ -1,23 +1,24 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
 import { useLocation, Link } from 'react-router-dom'
+import { useAppSelector } from '../../services/store'
 import { IIngredients } from '../../models'
 import { getIngredientsCounters } from '../../services/reducers/burger/selectors'
 import IngredientElement from '../IngredientElement/IngredientElement'
+
 import styles from './BurgerIngredientsCategory.module.css'
 
-interface IProps {
-  title: string
-  titleId: string
-  ingredients: IIngredients[]
+interface IIngredientCategory {
+  readonly title: string
+  readonly titleId: string
+  ingredients: ReadonlyArray<IIngredients>
   onIngredientClick: (ingredient: IIngredients) => void
 }
 
 // as React.MutableRefObject<HTMLDivElement>
 
 const BurgerIngredientsCategory = React.forwardRef(
-  ({ title, titleId, ingredients, onIngredientClick }: IProps, ref: any) => {
-    const counters = useSelector(getIngredientsCounters)
+  ({ title, titleId, ingredients, onIngredientClick }: IIngredientCategory, ref: any) => {
+    const counters = useAppSelector(getIngredientsCounters)
     const location = useLocation()
 
     return (
