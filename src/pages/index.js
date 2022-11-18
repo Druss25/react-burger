@@ -8,5 +8,6 @@ import OrdersHistoryPage from './order-history'
 import IngredientPage from './ingredients'
 import NotFoundPage from './404'
 import ModalPage from './modal'
+import OrderFeedPage from './order-feed'
 
-export {HomePage, LoginPage, RegisterPage, ForgotPasswordPage, ResetPasswordPage, ProfilePage, OrdersHistoryPage, IngredientPage, NotFoundPage, ModalPage}
+export {HomePage, LoginPage, RegisterPage, ForgotPasswordPage, ResetPasswordPage, ProfilePage, OrdersHistoryPage, IngredientPage, NotFoundPage, ModalPage, OrderFeedPage}

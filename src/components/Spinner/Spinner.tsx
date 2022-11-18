@@ -6,7 +6,7 @@ const override: React.CSSProperties = {
   margin: '0 auto',
 }
 
-const Spinner = () => {
+const Spinner: React.FC = () => {
   return <BarLoader color="#ffffff" cssOverride={override} width={400} />
 }
 

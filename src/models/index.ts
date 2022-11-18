@@ -22,6 +22,7 @@ export interface IResponseOrder {
   order: {
     number?: number
   }
+  message: string
 }
 
 export interface IRelocatedBurger {

@@ -10,6 +10,7 @@
     "@types/jest": "^27.5.2",
     "@types/node": "^16.11.62",
     "@types/react": "^18.0.21",
+    "@types/react-dnd": "^3.0.2",
     "@types/react-dom": "^18.0.6",
     "@types/react-redux": "^7.1.24",
     "@ya.praktikum/react-developer-burger-ui-components": "^1.13.4",
@@ -55,7 +56,13 @@
     ]
   },
   "devDependencies": {
+    "@types/react-dnd-html5-backend": "^3.0.2",
     "@types/react-router-dom": "^5.3.3",
-    "@types/uuid": "^8.3.4"
+    "@types/uuid": "^8.3.4",
+    "eslint": "^8.27.0",
+    "eslint-plugin-react-redux": "^4.0.0"
+  },
+  "rules": {
+    "react-redux/connect-prefer-named-arguments": 2
   }
 }

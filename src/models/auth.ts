@@ -39,11 +39,15 @@ export interface IRequestLogin {
 
 export interface IRequestRegister {
   email: string
-  password: string
   name: string
+  password: string | undefined
 }
 
 export interface IRequestResetPassword {
   password: string
   token: string
+}
+
+export interface IRequestForgotPassword {
+  email: string
 }
