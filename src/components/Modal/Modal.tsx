@@ -14,7 +14,7 @@ export interface IModalProps {
   disableOverlayClick?: boolean
 }
 
-const Modal = ({
+const Modal: React.FC<React.PropsWithChildren<IModalProps>> = ({
   children,
   isOpen,
   requestClose,

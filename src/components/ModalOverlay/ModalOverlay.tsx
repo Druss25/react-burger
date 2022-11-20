@@ -1,10 +1,10 @@
 import ModalOverlayStyles from './ModalOverlay.module.css'
 
-interface IProps {
+type TModalOverlay = {
   onClick: () => void
 }
 
-const ModalOverlay = ({ onClick }: IProps) => {
+const ModalOverlay = ({ onClick }: TModalOverlay) => {
   return <div className={ModalOverlayStyles.overlay} onClick={onClick}></div>
 }
 

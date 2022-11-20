@@ -3,7 +3,7 @@ import React from 'react'
 export interface IValues {
   email?: string
   name?: string
-  password?: string | undefined
+  password?: string
   token?: string
 }
 

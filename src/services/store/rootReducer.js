@@ -10,7 +10,7 @@ const rootReducer = combineReducers({
   ingredients: ingredientsReducer,
   burger: burgerReducer,
   order: orderReducer,
-  ingradientDetailModal: ingredientModalReducer,
+  ingredientDetailModal: ingredientModalReducer,
 });
 
 export default rootReducer;
