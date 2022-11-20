@@ -1,6 +1,6 @@
 import { ModalState } from '../../../models'
 
-export const name = 'ingradientDetailModal'
+export const name = 'ingredientDetailModal'
 
 export enum ModalActionTypes {
   MODAL_SET = 'MODAL_SET',
