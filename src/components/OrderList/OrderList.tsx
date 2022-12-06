@@ -5,14 +5,10 @@ import OrderElement from '../OrderElement/OrderElement'
 import styles from './OrderList.module.css'
 
 const OrderList: React.FC<TMessageData> = ({ orders }) => {
-  React.useEffect(() => {
-    return console.log('orders:', orders)
-    //// eslint-disable-next-line
-  }, [orders])
-
+  const order = orders[0]
   return (
     <div className={`${styles.wrapper} custom-scroll`}>
-      <OrderElement />
+      <OrderElement {...order} />
     </div>
   )
 }

@@ -5,7 +5,7 @@ import OrderStatistic from '../../components/OrderStatistic/OrderStatistic'
 import styles from './order-feed.module.css'
 
 export type TMessageData = {
-  orders: TOrder[] | null
+  orders: ReadonlyArray<TOrder>
   success: Readonly<boolean>
   total: Readonly<number>
   totalToday: Readonly<number>
@@ -16,6 +16,7 @@ export type TOrder = {
   _id: Readonly<string>
   ingredients: Array<string>
   status: Readonly<string>
+  number: Readonly<number>
   name: Readonly<string>
   createdAt: Readonly<string>
 }
