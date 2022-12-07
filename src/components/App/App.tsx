@@ -19,6 +19,7 @@ import {
 } from '../../pages'
 import LayoutProfile from '../Layouts/LayoutProfile'
 import ProtectedRoute from '../../routes/ProtectedRoute'
+import OrderFeedId from '../../pages/order-feed-id'
 
 const App: React.FC = () => {
   const location = useLocation<{ background?: Location<{} | null | undefined> }>()
@@ -49,6 +50,7 @@ const App: React.FC = () => {
           </LayoutProfile>
         </ProtectedRoute>
         <Route path="/feed" children={<OrderFeedPage />} />
+        <Route path="/feed/:id" children={<OrderFeedId />} />
         <Route path="/ingredients/:id" children={<IngredientPage />} />
         <Route path="*" children={<NotFoundPage />} />
       </Switch>

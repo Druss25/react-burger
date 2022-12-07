@@ -2,7 +2,7 @@
   "autoimport.filesToScan": "**/*.{js,jsx,ts,tsx}",
   "autoimport.useSemiColon": false,
   "editor.wordWrap": "wordWrapColumn",
-  "editor.wordWrapColumn": 100,
+  "editor.wordWrapColumn": 120,
   "editor.minimap.enabled": true,
   "editor.tabSize": 2,
   "editor.detectIndentation": false,

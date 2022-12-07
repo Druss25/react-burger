@@ -5,10 +5,11 @@ import OrderElement from '../OrderElement/OrderElement'
 import styles from './OrderList.module.css'
 
 const OrderList: React.FC<TMessageData> = ({ orders }) => {
-  const order = orders[0]
   return (
-    <div className={`${styles.wrapper} custom-scroll`}>
-      <OrderElement {...order} />
+    <div className={`${styles.wrapper} custom-scroll pr-2`}>
+      {orders.map((order, index) => (
+        <OrderElement {...order} key={index} />
+      ))}
     </div>
   )
 }

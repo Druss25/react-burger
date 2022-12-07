@@ -19,6 +19,7 @@ export type TOrder = {
   number: Readonly<number>
   name: Readonly<string>
   createdAt: Readonly<string>
+  updatedAt: Readonly<string>
 }
 
 const OrderFeedPage: React.FC = () => {
@@ -53,7 +54,7 @@ const OrderFeedPage: React.FC = () => {
         {typeof ingredients !== 'undefined' && (
           <>
             <OrderList {...ingredients} />
-            <OrderStatistic />
+            <OrderStatistic {...ingredients}/>
           </>
         )}
       </div>
