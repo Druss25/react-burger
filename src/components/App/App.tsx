@@ -50,7 +50,7 @@ const App: React.FC = () => {
           </LayoutProfile>
         </ProtectedRoute>
         <Route path="/feed" exact children={<OrderFeedPage />} />
-        <Route path="/feed/:id" children={<OrderFeedId />} />
+        <Route path="/feed/:orderId" children={<OrderFeedId />} />
         <Route path="/ingredients/:id" children={<IngredientPage />} />
         <Route path="*" children={<NotFoundPage />} />
       </Switch>

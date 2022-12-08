@@ -1,6 +1,7 @@
 import React from 'react'
 import OrderList from '../../components/OrderList/OrderList'
 import OrderStatistic from '../../components/OrderStatistic/OrderStatistic'
+import { useSocket } from '../../hook/useSocket'
 
 import styles from './order-feed.module.css'
 
@@ -14,7 +15,7 @@ export type TMessageData = {
 
 export type TOrder = {
   _id: Readonly<string>
-  ingredients: Array<string>
+  ingredients: ReadonlyArray<string>
   status: Readonly<string>
   number: Readonly<number>
   name: Readonly<string>
@@ -24,28 +25,24 @@ export type TOrder = {
 
 const OrderFeedPage: React.FC = () => {
   const [ingredients, setIngredients] = React.useState<TMessageData>()
-
-  const ws = React.useRef<WebSocket | null>(null)
   const wsUrl = 'wss://norma.nomoreparties.space/orders/all'
 
-  const onMessage = React.useCallback(() => {
-    if (!ws.current) return
-    ws.current.onmessage = event => {
-      const message = JSON.parse(event.data)
-      if (message.success) {
-        setIngredients(message)
-        console.log(message)
-      }
+  const processEvent = React.useCallback((event: MessageEvent) => {
+    const normalizedMessage = JSON.parse(event.data)
+    if (normalizedMessage.success === true) {
+      setIngredients(normalizedMessage)
+      console.log(normalizedMessage)
     }
   }, [])
 
+  const { connect } = useSocket(wsUrl, {
+    onMessage: processEvent,
+  })
+
   React.useEffect(() => {
-    ws.current = new WebSocket(wsUrl)
-    ws.current.onopen = () => console.log('Соединение открыто')
-    ws.current.onclose = () => console.log('Соединение закрыто')
-    onMessage()
-    return () => ws.current?.close()
-  }, [ws, onMessage])
+    connect('')
+    // eslint-disable-next-line
+  }, [])
 
   return (
     <section className={styles.wrapper}>
@@ -54,7 +51,7 @@ const OrderFeedPage: React.FC = () => {
         {typeof ingredients !== 'undefined' && (
           <>
             <OrderList {...ingredients} />
-            <OrderStatistic {...ingredients}/>
+            <OrderStatistic {...ingredients} />
           </>
         )}
       </div>

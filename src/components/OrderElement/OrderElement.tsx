@@ -8,30 +8,30 @@ import { IIngredients } from '../../models'
 
 import styles from './OrderElement.module.css'
 
-const OrderElement: React.FC<TOrder> = props => {
+const OrderElement: React.FC<Readonly<TOrder>> = props => {
   const getIngredients = useAppSelector(ingredientsSelector)
   const { number, name, ingredients, updatedAt } = props
   const now = new Date(updatedAt)
 
   const fullIngredients = React.useCallback(
-    (ingredients: Array<string>) => {
-      return ingredients
-        .map(ingredient => getIngredients.filter(item => item._id === ingredient))
-        .flat()
-    },
+    (ingredients: ReadonlyArray<string>) =>
+      ingredients.map(ingredient => getIngredients.filter(item => item._id === ingredient)).flat(),
     [getIngredients],
   )
 
-  const orderIngredients = fullIngredients(ingredients)
+  // const orderIngredients = fullIngredients(ingredients)
 
-  const noDoubleIngredients = orderIngredients
-    .filter((item, index) => orderIngredients.indexOf(item) === index)
-    .reverse()
-
-  const summaIngredients = orderIngredients.reduce(
-    (total: number, value: IIngredients) => total + value.price,
-    0,
+  const totalPrice = React.useCallback(
+    (ingredients: ReadonlyArray<IIngredients>) =>
+      ingredients.reduce((total: number, value) => total + value.price, 0),
+    [],
   )
+
+  const summa = totalPrice(getIngredients)
+
+  const noDoubleIngredients = fullIngredients(ingredients)
+    .filter((item, index) => fullIngredients(ingredients).indexOf(item) === index)
+    .reverse()
 
   return (
     <div className={styles.wrapper}>
@@ -59,7 +59,7 @@ const OrderElement: React.FC<TOrder> = props => {
         </div>
         {/* ------------------------------------------------------ */}
         <div className={styles.currency}>
-          <span className="text text_type_digits-default ml-6 mr-2">{summaIngredients}</span>
+          <span className="text text_type_digits-default ml-6 mr-2">{summa}</span>
           <CurrencyIcon type="primary" />
         </div>
       </div>
