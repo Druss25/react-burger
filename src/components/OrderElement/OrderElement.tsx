@@ -1,10 +1,10 @@
 import React from 'react'
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import date from 'date-and-time'
-import { TOrder } from '../../pages/order-feed'
 import { useAppSelector } from '../../services/store'
 import { ingredientsSelector } from '../../services/reducers/ingredients/selectors'
 import { IIngredients } from '../../models'
+import { TOrder } from '../../services/reducers/ws-orders-all/types'
 
 import styles from './OrderElement.module.css'
 
@@ -18,8 +18,6 @@ const OrderElement: React.FC<Readonly<TOrder>> = props => {
       ingredients.map(ingredient => getIngredients.filter(item => item._id === ingredient)).flat(),
     [getIngredients],
   )
-
-  // const orderIngredients = fullIngredients(ingredients)
 
   const totalPrice = React.useCallback(
     (ingredients: ReadonlyArray<IIngredients>) =>

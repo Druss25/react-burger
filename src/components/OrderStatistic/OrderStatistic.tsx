@@ -1,10 +1,11 @@
 import React from 'react'
-import { TMessageData, TOrder } from '../../pages/order-feed'
+import { TOrder } from '../../services/reducers/ws-orders-all/types'
+import { useAppSelector } from '../../services/store'
 
 import styles from './OrderStatistic.module.css'
 
-const OrderStatistic: React.FC<TMessageData> = props => {
-  const { orders, total, totalToday } = props
+const OrderStatistic: React.FC = () => {
+  const { orders, total, totalToday } = useAppSelector(state => state.wsOrderAll)
 
   // eslint-disable-next-line array-callback-return
   const doneNumberOrders = orders.map((item: TOrder) => {

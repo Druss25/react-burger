@@ -1,6 +1,8 @@
+import React from 'react'
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import { useParams } from 'react-router-dom'
-import { TOrder } from '../order-feed'
+// import { useAppSelector } from '../../services/store'
+import { TOrder } from '../../services/reducers/ws-orders-all/types'
 
 import styles from './order-feed-id.module.css'
 
@@ -20,6 +22,13 @@ type TParams = {
 
 const OrderFeedId = () => {
   const { orderId } = useParams<TParams>()
+  // const orders = useAppSelector(state => state.wsOrderAll.orders)
+
+  // const getOrder = React.useCallback(() => {
+  //   return orders.filter(item => item.number === Number(orderId))
+  // }, [orders, orderId])
+
+  // const order = getOrder()
 
   return (
     <div className={styles.wrapper}>
