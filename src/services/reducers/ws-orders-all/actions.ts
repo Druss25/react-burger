@@ -47,9 +47,8 @@ export type wsOrderAllAction =
   | getOrderSuccess
   | getOrderFailed
 
-export const getWSOrderAll =
-  (message: TMessageData) => async (dispatch: Dispatch<wsOrderAllAction>) =>
-    dispatch({ type: wsOrderAllActionTypes.WS_GET_ALL_ORDERS_SUCCESS, payload: message })
+export const getWSOrderAll = (message: TMessageData) => (dispatch: Dispatch<wsOrderAllAction>) =>
+  dispatch({ type: wsOrderAllActionTypes.WS_GET_ALL_ORDERS_SUCCESS, payload: message })
 
 type TResponse = {
   success: boolean
