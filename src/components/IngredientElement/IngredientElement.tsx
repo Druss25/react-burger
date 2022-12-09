@@ -6,13 +6,13 @@ import { useDrag } from 'react-dnd'
 import styles from './IngredientElement.module.css'
 import { IIngredients } from '../../models'
 
-type IElementTypes = {
-  readonly ingredient: IIngredients
+type TElement = {
+  ingredient: Readonly<IIngredients>
   counter: number
   onClick: (ingredient: IIngredients) => void
 }
 
-const IngredientElement: React.FC<IElementTypes> = ({ ingredient, counter, onClick }) => {
+const IngredientElement: React.FC<TElement> = ({ ingredient, counter, onClick }) => {
   const { name, price, image } = ingredient
   const [{ opacity }, dragRef] = useDrag({
     type: TargetDropType.ADD_INGREDIENT,

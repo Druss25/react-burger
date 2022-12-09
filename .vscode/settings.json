@@ -40,5 +40,5 @@
     "editor.defaultFormatter": "sibiraj-s.vscode-scss-formatter"
   },
   "git.autofetch": true,
-  "cSpell.words": ["nomoreparties"]
+  "cSpell.words": ["ккалл", "nomoreparties"]
 }

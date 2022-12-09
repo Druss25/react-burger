@@ -23,19 +23,22 @@ const OrderFeedId = () => {
   const dispatch = useAppDispatch()
   const orders = useAppSelector(getOrdersSelector)
   const order = orders.filter(item => item.number === Number(id))[0]
-  const now = new Date(order.updatedAt)
   const { summa, noDoubleIngredients, counts } = useIngredients(order.ingredients)
 
-  const getOrder = React.useCallback(() => {
-    if (id) {
-      dispatch(getOrderByNumber(id))
-    }
-  }, [dispatch, id])
+  const getOrder = React.useCallback(
+    (orderId: string) => {
+      dispatch(getOrderByNumber(orderId))
+    },
+    [dispatch],
+  )
 
   React.useEffect(() => {
-    getOrder()
+    getOrder(id)
     // eslint-disable-next-line
   }, [])
+
+  const now = new Date(order.updatedAt)
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.content}>

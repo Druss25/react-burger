@@ -31,7 +31,7 @@ const OrderStatistic: React.FC = () => {
           <p className="text text_type_main-medium mb-6">Готовы:</p>
           <div className={`${styles.items} custom-scroll`}>
             {doneNumberOrders.map((done, index) => (
-              <p className={`text text_type_digits-default mb-2 ${styles.item_done}`} key={index}>
+              <p className={`text text_type_digits-default ${styles.item_done}`} key={index}>
                 {done}
               </p>
             ))}

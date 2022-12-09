@@ -1,5 +1,4 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import date from 'date-and-time'
 import { TOrder } from '../../services/reducers/ws-orders-all/types'
@@ -13,7 +12,6 @@ const OrderElement: React.FC<Readonly<TOrder>> = props => {
   const now = new Date(updatedAt)
 
   return (
-    <Link to={`feed/${number}`} className={styles.link}>
       <div className={styles.wrapper}>
         <div className={styles.subtitle}>
           <span className="text text_type_digits-default">#{number}</span>
@@ -44,7 +42,6 @@ const OrderElement: React.FC<Readonly<TOrder>> = props => {
           </div>
         </div>
       </div>
-    </Link>
   )
 }
 
