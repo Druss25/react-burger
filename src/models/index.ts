@@ -1,3 +1,4 @@
+import { TOrder } from '../services/reducers/ws-orders-all/types'
 import { IUser } from './auth'
 
 export interface IIngredients {
@@ -61,10 +62,19 @@ export interface AuthState {
   message?: string | null
 }
 
+export interface WSOrderAll {
+  orders: Array<TOrder>
+  success: boolean
+  total: number
+  totalToday: number
+  event: string
+}
+
 export interface RootStore {
   auth: AuthState
   ingredients: IngredientsState
   burger: BurgerState
   order: OrderState
   ingredientDetailModal: ModalState
+  wsOrderAll: WSOrderAll
 }

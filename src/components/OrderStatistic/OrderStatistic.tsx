@@ -1,11 +1,18 @@
 import React from 'react'
+import {
+  getOrdersSelector,
+  getTotalOrders,
+  getTotalTodayOrders,
+} from '../../services/reducers/ws-orders-all/selectors'
 import { TOrder } from '../../services/reducers/ws-orders-all/types'
 import { useAppSelector } from '../../services/store'
 
 import styles from './OrderStatistic.module.css'
 
 const OrderStatistic: React.FC = () => {
-  const { orders, total, totalToday } = useAppSelector(state => state.wsOrderAll)
+  const orders = useAppSelector(getOrdersSelector)
+  const total = useAppSelector(getTotalOrders)
+  const totalToday = useAppSelector(getTotalTodayOrders)
 
   // eslint-disable-next-line array-callback-return
   const doneNumberOrders = orders.map((item: TOrder) => {

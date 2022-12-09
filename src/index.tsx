@@ -8,7 +8,6 @@ import { store } from './services/store'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 
-// Включил React.StrictMode
 root.render(
   <React.StrictMode>
     <Provider store={store}>

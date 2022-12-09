@@ -11,6 +11,22 @@ const initialState: TMessageData = {
 
 export const wsOrdersAllReducer = (state = initialState, action: wsOrderAllAction) => {
   switch (action.type) {
+    case wsOrderAllActionTypes.GET_ORDER_REQUEST: {
+      return {
+        ...state,
+      }
+    }
+    case wsOrderAllActionTypes.GET_ORDER_SUCCESS: {
+      return {
+        ...state,
+        orders: action.payload,
+      }
+    }
+    case wsOrderAllActionTypes.GET_ORDER_FAILED: {
+      return {
+        state: initialState,
+      }
+    }
     case wsOrderAllActionTypes.WS_GET_ALL_ORDERS_SUCCESS: {
       return {
         ...state,

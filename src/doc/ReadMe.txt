@@ -55,3 +55,38 @@ export const getOrder = (requestData: any) => {
     }
   };
 };
+
+
+export const getOrderByNumber = (number: number) => {
+  return fetch('https://norma.nomoreparties.space/api/orders/${number}', {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).then((res) => checkResponse<TOrderResponse>(res));
+};
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+import { JOIN_CHAT, JOIN_CHAT_FAILED, JOIN_CHAT_SUCCESS } from '../action-types';
+
+export const joinChat = () => dispatch => {
+  dispatch({
+    type: JOIN_CHAT
+  });
+  fetch('https://chat.nomoreparties.space/join')
+    .then(res => res.json())
+    .then(data => {
+      const { success, ...userData } = data;
+      if (success) {
+        dispatch({
+          type: JOIN_CHAT_SUCCESS,
+          user: userData
+        });
+      } else {
+        dispatch({
+          type: JOIN_CHAT_FAILED
+        });
+      }
+    });
+};
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

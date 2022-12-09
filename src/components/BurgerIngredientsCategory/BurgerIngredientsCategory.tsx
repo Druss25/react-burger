@@ -14,8 +14,6 @@ interface IIngredientCategory {
   onIngredientClick: (ingredient: IIngredients) => void
 }
 
-// as React.MutableRefObject<HTMLDivElement>
-
 const BurgerIngredientsCategory = React.forwardRef(
   ({ title, titleId, ingredients, onIngredientClick }: IIngredientCategory, ref: any) => {
     const counters = useAppSelector(getIngredientsCounters)

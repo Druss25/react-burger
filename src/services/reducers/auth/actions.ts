@@ -24,7 +24,7 @@ export enum AuthActionTypes {
   AUTH_UPDATE_USER_REQUEST = 'AUTH_UPDATE_USER_REQUEST',
   AUTH_UPDATE_USER = 'AUTH_UPDATE_USER',
   AUTH_USER_LOGOUT = 'AUTH_USER_LOGOUT',
-  AUTH_RESER_PASSWORD = 'AUTH_RESER_PASSWORD',
+  AUTH_RESET_PASSWORD = 'AUTH_RESET_PASSWORD',
   AUTH_FORGOT_PASSWORD = 'AUTH_FORGOT_PASSWORD',
 }
 
@@ -61,7 +61,7 @@ interface userLogoutAction {
 }
 
 interface resetPasswordAction {
-  type: AuthActionTypes.AUTH_RESER_PASSWORD
+  type: AuthActionTypes.AUTH_RESET_PASSWORD
 }
 
 interface forgotPasswordAction {
@@ -306,7 +306,7 @@ export const resetPassword =
       .then(data => {
         if (data.success) {
           dispatch({
-            type: AuthActionTypes.AUTH_RESER_PASSWORD,
+            type: AuthActionTypes.AUTH_RESET_PASSWORD,
           })
         }
       })

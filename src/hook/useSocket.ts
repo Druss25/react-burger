@@ -16,9 +16,9 @@ export const useSocket = (url: string, options: any) => {
   const ws = useRef<WebSocket | null>(null)
 
   const connect = useCallback(
-    (token: string) => {
-      const fullUrl = token !== '' ? `${url}` : `${url}?token=${token}`
-      
+    (token: string | null) => {
+      const fullUrl = token === null ? `${url}` : `${url}?token=${token}`
+
       ws.current = new WebSocket(fullUrl)
 
       ws.current.onmessage = event => {

@@ -61,7 +61,7 @@ export const authReducer = (state = initialState, action: AuthAction): AuthState
         isLoading: false,
       }
 
-    case AuthActionTypes.AUTH_RESER_PASSWORD:
+    case AuthActionTypes.AUTH_RESET_PASSWORD:
       return {
         ...state,
         isReset: true,

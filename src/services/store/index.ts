@@ -4,10 +4,13 @@ import thunk, { ThunkAction, ThunkDispatch } from 'redux-thunk'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import rootReducer from './rootReducer'
 
-export const store = createStore(rootReducer, {}, composeWithDevTools(applyMiddleware(thunk)))
+const initialStore = {}
 
-// export type RootState = ReturnType<typeof store.getState>
-
+export const store = createStore(
+  rootReducer,
+  initialStore,
+  composeWithDevTools(applyMiddleware(thunk)),
+)
 export type AppDispatch = typeof store.dispatch
 export type ReduxState = ReturnType<typeof rootReducer>
 export type TypedDispatch = ThunkDispatch<ReduxState, any, AnyAction>

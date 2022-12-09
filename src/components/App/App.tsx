@@ -44,13 +44,13 @@ const App: React.FC = () => {
             <ProfilePage />
           </LayoutProfile>
         </ProtectedRoute>
-        <ProtectedRoute path="/profile/orders">
+        <ProtectedRoute exact path="/profile/orders">
           <LayoutProfile>
             <OrdersHistoryPage />
           </LayoutProfile>
         </ProtectedRoute>
         <Route path="/feed" exact children={<OrderFeedPage />} />
-        <Route path="/feed/:orderId" children={<OrderFeedId />} />
+        <Route path="/feed/:id" render={() => <OrderFeedId />} />
         <Route path="/ingredients/:id" children={<IngredientPage />} />
         <Route path="*" children={<NotFoundPage />} />
       </Switch>

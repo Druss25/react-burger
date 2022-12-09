@@ -1,72 +1,78 @@
 import React from 'react'
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import { useParams } from 'react-router-dom'
-// import { useAppSelector } from '../../services/store'
-import { TOrder } from '../../services/reducers/ws-orders-all/types'
+import { useAppDispatch, useAppSelector } from '../../services/store'
+import useIngredients from '../../hook/useIngredients'
+import { getOrdersSelector } from '../../services/reducers/ws-orders-all/selectors'
+import { getOrderByNumber } from '../../services/reducers/ws-orders-all/actions'
+import date from 'date-and-time'
 
 import styles from './order-feed-id.module.css'
 
-const data: TOrder = {
-  createdAt: '2022-12-07T11:43:08.764Z',
-  ingredients: ['60d3b41abdacab0026a733c7', '60d3b41abdacab0026a733cd', '60d3b41abdacab0026a733c7'],
-  name: 'Space флюоресцентный бургер',
-  number: 32652,
-  status: 'done',
-  updatedAt: '2022-12-07T11:43:09.239Z',
-  _id: '63907c4c99a25c001cd64d92',
+type TParams = {
+  id: string
 }
 
-type TParams = {
-  orderId: string
+type TStatusOrder = {
+  [key: string]: string
 }
+const statusOrder = { created: 'Отменен', pending: 'Готовиться', done: 'Выполнен' } as TStatusOrder
 
 const OrderFeedId = () => {
-  const { orderId } = useParams<TParams>()
-  // const orders = useAppSelector(state => state.wsOrderAll.orders)
+  const { id } = useParams<TParams>()
+  const dispatch = useAppDispatch()
+  const orders = useAppSelector(getOrdersSelector)
+  const order = orders.filter(item => item.number === Number(id))[0]
+  const now = new Date(order.updatedAt)
+  const { summa, noDoubleIngredients, counts } = useIngredients(order.ingredients)
 
-  // const getOrder = React.useCallback(() => {
-  //   return orders.filter(item => item.number === Number(orderId))
-  // }, [orders, orderId])
+  const getOrder = React.useCallback(() => {
+    if (id) {
+      dispatch(getOrderByNumber(id))
+    }
+  }, [dispatch, id])
 
-  // const order = getOrder()
-
+  React.useEffect(() => {
+    getOrder()
+    // eslint-disable-next-line
+  }, [])
   return (
     <div className={styles.wrapper}>
       <div className={styles.content}>
-        <span className={`${styles.text_center} text text_type_digits-default mb-10`}>
-          #{orderId}
-        </span>
-        <span className="text text_type_main-medium mb-3">{data.name}</span>
+        <span className={`${styles.text_center} text text_type_digits-default mb-10`}>#{id}</span>
+        <span className="text text_type_main-medium mb-3">{order.name}</span>
         <span className={`${styles.status} text text_type_main-default mb-15`}>
-          {data.status === 'done' ? 'Выполнен' : 'В работе'}
+          {statusOrder[`${order.status}`]}
         </span>
         <span className="text text_type_main-medium mb-6">Состав:</span>
-
         <div
           className={`${styles.list_items} custom-scroll ${
-            data.ingredients.length > 4 ? `${styles.scroll}` : `${styles.no_scroll}`
+            order.ingredients.length > 3 ? `${styles.scroll}` : `${styles.no_scroll}`
           }`}
         >
-          {/* ---- */}
-          <div className={styles.items}>
-            <div className={styles.images}>
-              <img src="https://code.s3.yandex.net/react/code/bun-01-mobile.png" alt="images" />
-            </div>
-            <span className="text text_type_main-default">Флюоресцентная булка R2-D3</span>
-            <div className={styles.price}>
-              <span className="text text_type_digits-default pr-2">2&nbsp;x&nbsp;988</span>
-              <div className={styles.df_center}>
-                <CurrencyIcon type="primary" />
+          {noDoubleIngredients.map((ingredient, index) => (
+            <div className={styles.items} key={index}>
+              <div className={styles.images}>
+                <img src={ingredient.image_mobile} alt={ingredient.name} />
+              </div>
+              <span className="text text_type_main-default">{ingredient.name}</span>
+              <div className={styles.price}>
+                <span className="text text_type_digits-default pr-2">
+                  {counts[`${ingredient._id}`]}&nbsp;x&nbsp;{ingredient.price}
+                </span>
+                <div className={styles.df_center}>
+                  <CurrencyIcon type="primary" />
+                </div>
               </div>
             </div>
-          </div>
-          {/* ---- */}
+          ))}
         </div>
-
         <div className={`${styles.footer} mt-10`}>
-          <span className="text text_type_main-default text_color_inactive">Вчера, 15:42</span>
+          <span className="text text_type_main-default text_color_inactive">
+            {date.format(now, 'DD.MM.YYYY HH:mm [i-GMT]ZZ')}
+          </span>
           <div className={styles.footer_image}>
-            <span className="text text_type_digits-default mr-2">510</span>
+            <span className="text text_type_digits-default mr-2">{summa}</span>
             <div className={styles.df_center}>
               <CurrencyIcon type="primary" />
             </div>
