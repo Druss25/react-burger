@@ -6,7 +6,7 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import useModalControls from '../../hook/useModalControls'
 import Modal from '../Modal/Modal'
-import OrderDetails from '../OrderDetails/OrderDetails'
+import OrderDetails from '../Order/Order'
 import { useDrop } from 'react-dnd'
 import { useAppDispatch, useAppSelector } from '../../services/store'
 import { addToBurger } from '../../services/reducers/burger/actions'
@@ -23,6 +23,9 @@ import { useHistory } from 'react-router-dom'
 import { IIngredients } from '../../models'
 
 import styles from './BurgerConstructor.module.css'
+
+const getToken = localStorage.getItem('accessToken') as string
+const token = getToken?.split(' ')[1]
 
 const BurgerConstructor: React.FC = () => {
   const dispatch = useAppDispatch()
@@ -43,18 +46,21 @@ const BurgerConstructor: React.FC = () => {
   }))
 
   const onClickOrder = async () => {
-    if (!burgerItems.bun || burgerItems.ingredients.length === 0 || isLoadingOrder) return
+    if (!burgerItems.bun || burgerItems.ingredients.length === 0 || isLoadingOrder || !token) return
 
     if (!isAuth) {
       history.replace({ pathname: '/login' })
     }
 
     dispatch(
-      getOrder([
-        burgerItems.bun._id,
-        ...burgerItems.ingredients.map(ingredient => ingredient._id),
-        burgerItems.bun._id,
-      ]),
+      getOrder(
+        [
+          burgerItems.bun._id,
+          ...burgerItems.ingredients.map(ingredient => ingredient._id),
+          burgerItems.bun._id,
+        ],
+        token,
+      ),
     )
     modalControls.open()
   }
@@ -136,7 +142,7 @@ const BurgerConstructor: React.FC = () => {
         </div>
       </section>
 
-      {modalControls.modalProps.isOpen && (
+      {modalControls.modalProps.isOpen && !!numberOrder && (
         <Modal {...modalControls.modalProps}>
           <OrderDetails numberOrder={Number(numberOrder)} />
         </Modal>

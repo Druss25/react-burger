@@ -2,7 +2,7 @@ import IngredientDetails from '../../components/IngredientDetails/IngredientDeta
 
 import styles from './ingredients.module.css'
 
-const IngredientPage = () => {
+const IngredientPage: React.FC = () => {
   return (
     <div className={styles.wrapper}>
       <div className={`${styles.content} pt-10 pl-10 pr-10`}>

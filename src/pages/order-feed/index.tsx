@@ -1,46 +1,33 @@
 import React from 'react'
+import { useDispatch } from 'react-redux'
 import OrderList from '../../components/OrderList/OrderList'
 import OrderStatistic from '../../components/OrderStatistic/OrderStatistic'
-import { useSocket } from '../../hook/useSocket'
-import { getWSOrderAll } from '../../services/reducers/ws-orders-all/actions'
-import { getTotalOrders } from '../../services/reducers/ws-orders-all/selectors'
-import { useAppDispatch, useAppSelector } from '../../services/store'
+import Spinner from '../../components/Spinner/Spinner'
+import { WS_CONNECTION_START } from '../../services/reducers/socket/orders/wsActionsTypes'
+import { getOrdersSelector, isConnected } from '../../services/reducers/socket/orders/wsSelectors'
+import { useAppSelector } from '../../services/store'
 
 import styles from './order-feed.module.css'
 
 const OrderFeedPage: React.FC = () => {
-  const wsUrl = 'wss://norma.nomoreparties.space/orders/all'
-  const dispatch = useAppDispatch()
-  const isLoading = useAppSelector(getTotalOrders)
-
-  const processEvent = React.useCallback(
-    (event: MessageEvent) => {
-      const json = JSON.parse(event.data)
-      if (json.success === true) {
-        dispatch(getWSOrderAll(json))
-      }
-    },
-    [dispatch],
-  )
-
-  const { connect } = useSocket(wsUrl, { onMessage: processEvent })
+  const dispatch = useDispatch()
+  const orders = useAppSelector(getOrdersSelector)
+  const wsConnected = useAppSelector(isConnected) || false
 
   React.useEffect(() => {
-    connect(null)
+    if (!wsConnected) dispatch({ type: WS_CONNECTION_START })
     // eslint-disable-next-line
-  }, [])
+  }, [wsConnected])
+
+  if (!orders) return <Spinner />
 
   return (
     <section className={styles.wrapper}>
-      {!!isLoading && (
-        <>
-          <h3 className="text text_type_main-large mt-10 mb-5">Лента заказов</h3>
-          <div className={styles.content}>
-            <OrderList />
-            <OrderStatistic />
-          </div>
-        </>
-      )}
+      <h3 className="text text_type_main-large mt-10 mb-5">Лента заказов</h3>
+      <div className={styles.content}>
+        <OrderList />
+        <OrderStatistic />
+      </div>
     </section>
   )
 }

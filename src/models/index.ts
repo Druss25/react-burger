@@ -70,11 +70,22 @@ export interface WSOrderAll {
   event: string
 }
 
+type TMessages = {
+  orders: TOrder[]
+  total: number
+  totalToday: number
+}
+export interface IOrders {
+  messages: TMessages
+  wsConnected: boolean
+}
+
 export interface RootStore {
   auth: AuthState
   ingredients: IngredientsState
   burger: BurgerState
   order: OrderState
   ingredientDetailModal: ModalState
-  wsOrderAll: WSOrderAll
+  // wsOrderAll: WSOrderAll
+  orders: IOrders
 }

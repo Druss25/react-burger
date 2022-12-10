@@ -22,7 +22,7 @@ const IngredientDetails: React.FC = () => {
       <p className={`${styles.wrapper__center} text text_type_main-medium mt-4 mb-8`}>
         {ingredient?.name}
       </p>
-      <div className={`${styles.items__list} mb-15`}>
+      <div className={`${styles.items__list}`}>
         <div className={`${styles.item} text text_type_main-default text_color_inactive`}>
           <p className="text-center">Калорий,&nbsp;ккалл</p>
           <p className="text text_type_main-medium text-center mt-2">{ingredient?.calories}</p>

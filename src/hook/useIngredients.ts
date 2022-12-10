@@ -24,8 +24,9 @@ const useIngredients = (ingredients: ReadonlyArray<string>) => {
 
   const summa = totalPrice(fullIngredients(ingredients))
 
-  const noDoubleIngredients = fullIngredients(ingredients)
-    .filter((item, index) => fullIngredients(ingredients).indexOf(item) === index)
+  const noDoubleIngredients = fullIngredients(ingredients).filter(
+    (item, index) => fullIngredients(ingredients).indexOf(item) === index,
+  )
 
   const countIngredients = (ingredients: ReadonlyArray<string>) => {
     let count = {} as TCount

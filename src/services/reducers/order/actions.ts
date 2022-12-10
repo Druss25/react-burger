@@ -32,7 +32,8 @@ interface OrderReset {
 export type OrderAction = getOrderAction | getOrderSuccess | getOrderFailed | OrderReset
 
 export const getOrder =
-  (ingredientsList: ReadonlyArray<string>) => async (dispatch: Dispatch<OrderAction>) => {
+  (ingredientsList: ReadonlyArray<string>, token: string) =>
+  async (dispatch: Dispatch<OrderAction>) => {
     dispatch({ type: OrderActionTypes.ORDER_REQUEST })
     return await fetch
       .post<IResponseOrder>('/orders', {
@@ -41,6 +42,7 @@ export const getOrder =
         credentials: 'same-origin',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: String(token),
         },
         redirect: 'follow',
         referrerPolicy: 'no-referrer',

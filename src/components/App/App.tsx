@@ -20,11 +20,11 @@ import {
 } from '../../pages'
 import LayoutProfile from '../Layouts/LayoutProfile'
 import ProtectedRoute from '../../routes/ProtectedRoute'
+import ModalOrderDetailsPage from '../../pages/modalOrderDetails'
 
 const App: React.FC = () => {
-  const location = useLocation<{
-    background?: Location<{} | null | undefined>
-  }>()
+  const location = useLocation<{ background?: Location<{} | null | undefined> }>()
+
   const dispatch = useAppDispatch()
   const background = location.state && location.state.background
 
@@ -56,7 +56,12 @@ const App: React.FC = () => {
         <Route path="/ingredients/:id" children={<IngredientPage />} />
         <Route path="*" children={<NotFoundPage />} />
       </Switch>
-      {background && <Route path="/ingredients/:id" children={<ModalPage />} />}
+      {background && (
+        <Switch>
+          <Route path="/ingredients/:id" children={<ModalPage />} />
+          <Route path="/feed/:id" children={<ModalOrderDetailsPage />} />
+        </Switch>
+      )}
     </Layout>
   )
 }

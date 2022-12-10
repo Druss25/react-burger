@@ -3,9 +3,10 @@ import {
   getOrdersSelector,
   getTotalOrders,
   getTotalTodayOrders,
-} from '../../services/reducers/ws-orders-all/selectors'
+} from '../../services/reducers/socket/orders/wsSelectors'
 import { TOrder } from '../../services/reducers/ws-orders-all/types'
 import { useAppSelector } from '../../services/store'
+import Spinner from '../Spinner/Spinner'
 
 import styles from './OrderStatistic.module.css'
 
@@ -23,6 +24,8 @@ const OrderStatistic: React.FC = () => {
   const workNumberOrders = orders.map((item: TOrder) => {
     if (item.status !== 'done') return item.number
   })
+
+  if (!orders) return <Spinner />
 
   return (
     <div className={styles.wrapper}>
