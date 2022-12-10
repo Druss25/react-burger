@@ -1,8 +1,5 @@
 import React from 'react'
-import { CurrencyIcon, FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components'
-import { useParams } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../../services/store'
-import useIngredients from '../../hook/useIngredients'
 import { getOrdersSelector, isConnected } from '../../services/reducers/socket/orders/wsSelectors'
 import { WS_CONNECTION_START } from '../../services/reducers/socket/orders/wsActionsTypes'
 

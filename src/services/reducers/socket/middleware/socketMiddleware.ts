@@ -9,7 +9,10 @@ export const socketMiddleware = (wsUrl: string, wsActions: TwsAction) => {
     let socket: WebSocket | null = null
 
     return (next: any) => (action: AnyAction) => {
-      const { dispatch, getState } = store
+      const {
+        dispatch,
+        // getState
+      } = store
       // const { isAuth } = getState().auth
       // console.log(isAuth)
       const { type } = action

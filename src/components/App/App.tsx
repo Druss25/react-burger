@@ -59,7 +59,7 @@ const App: React.FC = () => {
       {background && (
         <Switch>
           <Route path="/ingredients/:id" children={<ModalPage />} />
-          <Route path="/feed/:id" children={<ModalOrderDetailsPage />} />
+          <Route path="/feed/:id" render={() => <ModalOrderDetailsPage />} />
         </Switch>
       )}
     </Layout>

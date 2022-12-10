@@ -21,10 +21,10 @@ const statusOrder = { created: 'Отменен', pending: 'Готовиться'
 const OrderDetails: React.FC = () => {
   const { id } = useParams<TParams>()
   const orders = useAppSelector(getOrdersSelector)
-  const order = orders.filter(item => item.number === Number(id), 0)[0]
-  const { summa, noDoubleIngredients, counts } = useIngredients(order.ingredients)
+  const order = orders?.filter(item => item.number === Number(id), 0)[0]
+  const { summa, noDoubleIngredients, counts } = useIngredients(order?.ingredients)
 
-  if (!orders) return <Spinner />
+  if (!orders || !order || !summa) return <Spinner />
 
   return (
     <div className={styles.content}>
