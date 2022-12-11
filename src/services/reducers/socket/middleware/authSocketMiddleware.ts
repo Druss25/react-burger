@@ -7,6 +7,7 @@ type TwsAction = {
 export const authSocketMiddleware = (wsUrl: string, wsActions: TwsAction) => {
   return (store: MiddlewareAPI<Dispatch>) => {
     let socket: WebSocket | null = null
+    let isConnect = false
 
     return (next: Dispatch) => (action: AnyAction) => {
       const { dispatch, getState } = store
@@ -14,14 +15,16 @@ export const authSocketMiddleware = (wsUrl: string, wsActions: TwsAction) => {
 
       const { type } = action
       const { wsInit, wsClose, onOpen, onClose, onError, onMessage } = wsActions
-      if (type === wsInit && isAuth) {
+      if (type === wsInit && isAuth && !isConnect) {
         const getToken = localStorage.getItem('accessToken') as string
         const token = getToken.split(' ')[1].trim()
         socket = new WebSocket(`${wsUrl}?token=${token}`)
+        isConnect = true
       }
 
       if (type === wsClose) {
         socket?.close()
+        isConnect = false
       }
 
       if (socket) {
@@ -40,7 +43,8 @@ export const authSocketMiddleware = (wsUrl: string, wsActions: TwsAction) => {
           dispatch({ type: onMessage, payload: restParsedData })
         }
 
-        socket.onclose = event => {
+        socket.onclose = (event: Event) => {
+          if (isConnect) isConnect = false
           dispatch({ type: onClose, payload: event })
         }
       }

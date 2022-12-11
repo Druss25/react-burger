@@ -11,18 +11,21 @@ type IState = {
 export const socketMiddleware = (wsUrl: string, wsActions: TwsAction) => {
   return (store: IState) => {
     let socket: WebSocket | null = null
+    let isConnect = false
 
     return (next: Dispatch) => (action: AnyAction) => {
       const { dispatch } = store
       const { type } = action
       const { wsInit, wsClose, onOpen, onClose, onError, onMessage } = wsActions
 
-      if (type === wsInit) {
+      if (type === wsInit && !isConnect) {
+        isConnect = true
         socket = new WebSocket(wsUrl)
       }
 
       if (type === wsClose) {
         socket?.close()
+        isConnect = false
       }
 
       if (socket) {
@@ -42,7 +45,8 @@ export const socketMiddleware = (wsUrl: string, wsActions: TwsAction) => {
           dispatch({ type: onMessage, payload: restParsedData })
         }
 
-        socket.onclose = event => {
+        socket.onclose = (event: Event) => {
+          if (isConnect) isConnect = false
           dispatch({ type: onClose, payload: event })
         }
       }
