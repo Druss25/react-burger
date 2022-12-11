@@ -21,6 +21,8 @@ import {
 import LayoutProfile from '../Layouts/LayoutProfile'
 import ProtectedRoute from '../../routes/ProtectedRoute'
 import ModalOrderDetailsPage from '../../pages/modalOrderDetails'
+import ModalHistoryOrderDetailsPage from '../../pages/modalHistoryOrderDetail'
+import OrderHistoryById from '../../pages/order-history-id'
 
 const App: React.FC = () => {
   const location = useLocation<{ background?: Location<{} | null | undefined> }>()
@@ -51,11 +53,9 @@ const App: React.FC = () => {
             <OrdersHistoryPage />
           </LayoutProfile>
         </ProtectedRoute>
-        {/* <ProtectedRoute path="/profile/orders/:id">
-          <LayoutProfile>
-            <OrdersHistoryPage />
-          </LayoutProfile>
-        </ProtectedRoute> */}
+        <ProtectedRoute path="/profile/orders/:id">
+          <OrderHistoryById />
+        </ProtectedRoute>
         <Route path="/feed" exact children={<OrderFeedPage />} />
         <Route path="/feed/:id" children={<OrderFeedId />} />
         <Route path="/ingredients/:id" children={<IngredientPage />} />
@@ -65,6 +65,7 @@ const App: React.FC = () => {
         <Switch>
           <Route path="/ingredients/:id" children={<ModalPage />} />
           <Route path="/feed/:id" children={<ModalOrderDetailsPage />} />
+          <Route path="/profile/orders/:id" children={<ModalHistoryOrderDetailsPage />} />
         </Switch>
       )}
     </Layout>

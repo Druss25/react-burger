@@ -21,7 +21,7 @@ const OrderFeedId: React.FC = () => {
 
   return (
     <div className={styles.wrapper}>
-      <OrderDetails />
+      <OrderDetails orders={orders}/>
     </div>
   )
 }

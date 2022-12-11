@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types'
 
 export const baseUrl = 'https://norma.nomoreparties.space/api'
+export const wsOrderUrl = 'wss://norma.nomoreparties.space/orders/all'
+export const wsHistoryUrl = 'wss://norma.nomoreparties.space/orders'
 
 type TStatusOrder = {
   [key: string]: string

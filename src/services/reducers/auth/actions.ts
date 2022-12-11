@@ -79,12 +79,6 @@ export type AuthAction =
   | resetPasswordAction
   | forgotPasswordAction
 
-// TODO Не совсем понял как это применить !!!
-// TODO Нужно больше времени чтоб разобраться...
-// const initRequest = () => {
-//   return { type: AuthActionTypes.AUTH_USER_REQUEST }
-// }
-
 // *
 export const login = (form: IRequestLogin) => async (dispatch: Dispatch<AuthAction>) => {
   dispatch({

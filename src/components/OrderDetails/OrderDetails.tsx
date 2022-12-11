@@ -2,8 +2,7 @@ import { CurrencyIcon, FormattedDate } from '@ya.praktikum/react-developer-burge
 import React from 'react'
 import { useParams } from 'react-router-dom'
 import useIngredients from '../../hook/useIngredients'
-import { getOrdersSelector } from '../../services/reducers/socket/orders/wsSelectors'
-import { useAppSelector } from '../../services/store'
+import { TOrder } from '../../services/reducers/ws-orders-all/types'
 import { statusOrder } from '../../utils/constants'
 import Spinner from '../Spinner/Spinner'
 
@@ -13,9 +12,12 @@ type TParams = {
   id: string
 }
 
-const OrderDetails: React.FC = () => {
+type TProps = {
+  orders: TOrder[]
+}
+
+const OrderDetails: React.FC<TProps> = ({ orders }) => {
   const { id } = useParams<TParams>()
-  const orders = useAppSelector(getOrdersSelector)
   const order = orders?.filter(item => item.number === Number(id), 0)[0]
   const { summa, noDoubleIngredients, counts } = useIngredients(order?.ingredients)
 

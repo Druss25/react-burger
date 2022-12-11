@@ -11,7 +11,7 @@ type TProps = {
   isStatus: boolean
 }
 
-const OrderElement = ({ order, isStatus }: TProps) => {
+const OrderElement: React.FC<TProps> = ({ order, isStatus }) => {
   const { number, name, ingredients, updatedAt } = order
   const { summa, noDoubleIngredients } = useIngredients(ingredients)
 

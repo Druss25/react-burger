@@ -42,9 +42,10 @@ const BurgerIngredients: React.FC = () => {
   }
 
   // eslint-disable-next-line
-  const closeIngredientModal = () => {
-    dispatch({ type: ModalActionTypes.MODAL_RESET })
-  }
+  // const closeIngredientModal = () => {
+  //   dispatch({ type: ModalActionTypes.MODAL_RESET })
+  // }
+
   const onIngredientClick = (ingredient: IIngredients) => {
     dispatch({ type: ModalActionTypes.MODAL_SET, payload: { data: ingredient, isOpen: true } })
     modalControls.open()
