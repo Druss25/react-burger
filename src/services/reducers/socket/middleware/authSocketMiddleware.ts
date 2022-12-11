@@ -1,24 +1,29 @@
-import { AnyAction } from 'redux'
+import { AnyAction, Dispatch, MiddlewareAPI } from 'redux'
 
 type TwsAction = {
   [key: string]: string
 }
 
 export const authSocketMiddleware = (wsUrl: string, wsActions: TwsAction) => {
-  return (store: any) => {
+  return (store: MiddlewareAPI<Dispatch>) => {
     let socket: WebSocket | null = null
 
-    return (next: any) => (action: AnyAction) => {
+    return (next: Dispatch) => (action: AnyAction) => {
       const { dispatch, getState } = store
       const { isAuth } = getState().auth
 
       const { type } = action
-      const { wsInit, onOpen, onClose, onError, onMessage } = wsActions
+      const { wsInit, wsClose, onOpen, onClose, onError, onMessage } = wsActions
       if (type === wsInit && isAuth) {
         const getToken = localStorage.getItem('accessToken') as string
         const token = getToken.split(' ')[1].trim()
         socket = new WebSocket(`${wsUrl}?token=${token}`)
       }
+
+      if (type === wsClose) {
+        socket?.close()
+      }
+
       if (socket) {
         socket.onopen = (event: Event) => {
           dispatch({ type: onOpen, payload: event })

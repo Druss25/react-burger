@@ -1,26 +1,30 @@
-import { AnyAction } from 'redux'
+import { AnyAction, Dispatch } from 'redux'
 
 type TwsAction = {
   [key: string]: string
 }
 
+type IState = {
+  dispatch: Dispatch<AnyAction>
+}
+
 export const socketMiddleware = (wsUrl: string, wsActions: TwsAction) => {
-  return (store: any) => {
+  return (store: IState) => {
     let socket: WebSocket | null = null
 
-    return (next: any) => (action: AnyAction) => {
-      const {
-        dispatch,
-        // getState
-      } = store
-      // const { isAuth } = getState().auth
-      // console.log(isAuth)
+    return (next: Dispatch) => (action: AnyAction) => {
+      const { dispatch } = store
       const { type } = action
-      const { wsInit, onOpen, onClose, onError, onMessage } = wsActions
+      const { wsInit, wsClose, onOpen, onClose, onError, onMessage } = wsActions
+
       if (type === wsInit) {
-        // socket = new WebSocket(`${wsUrl}?token=${user.token}`)
         socket = new WebSocket(wsUrl)
       }
+
+      if (type === wsClose) {
+        socket?.close()
+      }
+
       if (socket) {
         socket.onopen = (event: Event) => {
           dispatch({ type: onOpen, payload: event })

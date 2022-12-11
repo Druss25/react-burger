@@ -2,7 +2,10 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import HistoryList from '../../components/HistoryList/HistoryList'
 import Spinner from '../../components/Spinner/Spinner'
-import { WS_AUTH_CONNECTION_START } from '../../services/reducers/socket/history/wsActionsTypes'
+import {
+  WS_AUTH_CONNECTION_START,
+  WS_AUTH_CONNECTION_STOP,
+} from '../../services/reducers/socket/history/wsActionsTypes'
 import { getOrdersSelector, isConnected } from '../../services/reducers/socket/history/wsSelectors'
 import { useAppSelector } from '../../services/store'
 
@@ -13,10 +16,15 @@ const OrdersHistoryPage: React.FC = () => {
   const orders = useAppSelector(getOrdersSelector)
   const wsConnected = useAppSelector(isConnected) || false
 
+  const wsClose = React.useCallback(() => {
+    if (!wsConnected) dispatch({ type: WS_AUTH_CONNECTION_STOP })
+  }, [dispatch, wsConnected])
+
   React.useEffect(() => {
     if (!wsConnected) dispatch({ type: WS_AUTH_CONNECTION_START })
+    return () => wsClose()
     // eslint-disable-next-line
-  }, [wsConnected])
+  }, [])
 
   if (!orders) return <Spinner />
 
