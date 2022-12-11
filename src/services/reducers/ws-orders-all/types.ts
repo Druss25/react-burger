@@ -14,4 +14,5 @@ export type TOrder = {
   name: Readonly<string>
   createdAt: Readonly<string>
   updatedAt: Readonly<string>
+  isStatus?: boolean
 }

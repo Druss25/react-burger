@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom'
 import useIngredients from '../../hook/useIngredients'
 import { getOrdersSelector } from '../../services/reducers/socket/orders/wsSelectors'
 import { useAppSelector } from '../../services/store'
+import { statusOrder } from '../../utils/constants'
 import Spinner from '../Spinner/Spinner'
 
 import styles from './OrderDetails.module.css'
@@ -11,12 +12,6 @@ import styles from './OrderDetails.module.css'
 type TParams = {
   id: string
 }
-
-type TStatusOrder = {
-  [key: string]: string
-}
-
-const statusOrder = { created: 'Отменен', pending: 'Готовиться', done: 'Выполнен' } as TStatusOrder
 
 const OrderDetails: React.FC = () => {
   const { id } = useParams<TParams>()

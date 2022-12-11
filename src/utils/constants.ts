@@ -2,6 +2,16 @@ import PropTypes from 'prop-types'
 
 export const baseUrl = 'https://norma.nomoreparties.space/api'
 
+type TStatusOrder = {
+  [key: string]: string
+}
+
+export const statusOrder = {
+  created: 'Создан',
+  pending: 'Готовиться',
+  done: 'Выполнен',
+} as TStatusOrder
+
 export const dataPropTypes = PropTypes.shape({
   _id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,

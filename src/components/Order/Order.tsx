@@ -1,15 +1,14 @@
 import Accept from '../../images/graphics.svg'
-import Spinner from '../Spinner/Spinner'
+import { numberOrderSelector } from '../../services/reducers/order/selectors'
+import { useAppSelector } from '../../services/store'
 
-type TOrderDetails = {
-  readonly numberOrder: number
-}
+const OrderDetails: React.FC = () => {
+  const numberOrder = useAppSelector(numberOrderSelector)
 
-const OrderDetails: React.FC<TOrderDetails> = ({ numberOrder }) => {
   return (
     <>
       {numberOrder === undefined ? (
-        <Spinner />
+        <p className="text text_type_main-large mt-4 mb-8">Идет обработка...</p>
       ) : (
         <p className="text text_type_digits-large mt-4 mb-8">{numberOrder}</p>
       )}

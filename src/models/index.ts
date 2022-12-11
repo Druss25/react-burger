@@ -62,20 +62,12 @@ export interface AuthState {
   message?: string | null
 }
 
-export interface WSOrderAll {
-  orders: Array<TOrder>
-  success: boolean
-  total: number
-  totalToday: number
-  event: string
-}
-
 type TMessages = {
   orders: TOrder[]
   total: number
   totalToday: number
 }
-export interface IOrders {
+export interface ISocketMessage {
   messages: TMessages
   wsConnected: boolean
 }
@@ -86,6 +78,6 @@ export interface RootStore {
   burger: BurgerState
   order: OrderState
   ingredientDetailModal: ModalState
-  // wsOrderAll: WSOrderAll
-  orders: IOrders
+  orders: ISocketMessage
+  history: ISocketMessage
 }

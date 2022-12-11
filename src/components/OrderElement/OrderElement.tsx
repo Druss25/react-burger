@@ -4,9 +4,15 @@ import { TOrder } from '../../services/reducers/ws-orders-all/types'
 import useIngredients from '../../hook/useIngredients'
 
 import styles from './OrderElement.module.css'
+import { statusOrder } from '../../utils/constants'
 
-const OrderElement: React.FC<TOrder> = props => {
-  const { number, name, ingredients, updatedAt } = props
+type TProps = {
+  order: TOrder
+  isStatus: boolean
+}
+
+const OrderElement = ({ order, isStatus }: TProps) => {
+  const { number, name, ingredients, updatedAt } = order
   const { summa, noDoubleIngredients } = useIngredients(ingredients)
 
   return (
@@ -17,10 +23,19 @@ const OrderElement: React.FC<TOrder> = props => {
           <FormattedDate date={new Date(updatedAt)} />
         </span>
       </div>
-      <h3 className="text text_type_main-medium">{name}</h3>
+      <h3 className="text text_type_main-medium pt-6">{name}</h3>
+      {isStatus && (
+        <p
+          className={`text text_type_main-default pt-2 ${
+            order.status === 'done' ? `${styles.activate}` : ``
+          }`}
+        >
+          {statusOrder[`${order.status}`]}
+        </p>
+      )}
       <div className={styles.content}>
         {/* -------------   !!! Переписать этот блок   -----------*/}
-        <div className={styles.image_list}>
+        <div className={`${styles.image_list} pt-6`}>
           {/* <div className={styles.image_item}>
             <p className="text text_type_digits-default">+3</p>
           </div> */}

@@ -1,9 +1,10 @@
+import { AnyAction } from 'redux'
 import { TOrder } from '../../ws-orders-all/types'
 import {
-  WS_CONNECTION_SUCCESS,
-  WS_CONNECTION_ERROR,
-  WS_CONNECTION_CLOSED,
-  WS_GET_MESSAGE,
+  WS_AUTH_CONNECTION_SUCCESS,
+  WS_AUTH_CONNECTION_ERROR,
+  WS_AUTH_CONNECTION_CLOSED,
+  WS_AUTH_GET_MESSAGE,
 } from './wsActionsTypes'
 
 type TMessages = {
@@ -22,27 +23,27 @@ const initialState: TInitState = {
   wsConnected: false,
 }
 
-export const wsReducer = (state = initialState, action: any) => {
+export const wsHistoryReducer = (state = initialState, action: AnyAction) => {
   switch (action.type) {
-    case WS_CONNECTION_SUCCESS:
+    case WS_AUTH_CONNECTION_SUCCESS:
       return {
         ...state,
         wsConnected: true,
       }
 
-    case WS_CONNECTION_ERROR:
+    case WS_AUTH_CONNECTION_ERROR:
       return {
         ...state,
         wsConnected: false,
       }
 
-    case WS_CONNECTION_CLOSED:
+    case WS_AUTH_CONNECTION_CLOSED:
       return {
         ...state,
         wsConnected: false,
       }
 
-    case WS_GET_MESSAGE: {
+    case WS_AUTH_GET_MESSAGE: {
       return {
         ...state,
         messages: action.payload,

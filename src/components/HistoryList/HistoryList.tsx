@@ -1,25 +1,25 @@
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { getOrdersSelector } from '../../services/reducers/socket/orders/wsSelectors'
+import { getOrdersSelector } from '../../services/reducers/socket/history/wsSelectors'
 import { useAppSelector } from '../../services/store'
 import OrderElement from '../OrderElement/OrderElement'
 import Spinner from '../Spinner/Spinner'
 
-import styles from './OrderList.module.css'
+import styles from './HistoryList.module.css'
 
-const OrderList: React.FC = () => {
-  const orders = useAppSelector(getOrdersSelector)
+const HistoryList: React.FC = () => {
+  const orders = useAppSelector(getOrdersSelector).sort((a, b) => (a.number < b.number ? 1 : -1))
   const location = useLocation()
-  const isStatus = false
+  const isStatus = true
 
   if (!orders) return <Spinner />
 
   return (
-    <div className={`${styles.wrapper} custom-scroll pr-2`}>
+    <>
       {orders.map(order => (
         <Link
           to={{
-            pathname: `/feed/${order.number}`,
+            pathname: `/profile/orders/${order.number}`,
             state: { background: location },
           }}
           key={order.number}
@@ -28,8 +28,8 @@ const OrderList: React.FC = () => {
           <OrderElement order={order} isStatus={isStatus} />
         </Link>
       ))}
-    </div>
+    </>
   )
 }
 
-export default OrderList
+export default HistoryList

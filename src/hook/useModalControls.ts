@@ -1,12 +1,21 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
 
+type TPropsModalControl = {
+  titleModal?: string
+  disableCloseButton?: boolean
+  disableOverlayClick?: boolean
+  goBack?: boolean
+  handleClose?: () => void
+}
+
 const useModalControls = ({
   titleModal = '',
   disableCloseButton = false,
   disableOverlayClick = false,
   goBack = false,
-}) => {
+  handleClose,
+}: TPropsModalControl) => {
   const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false)
   const history = useHistory()
 
@@ -14,9 +23,10 @@ const useModalControls = ({
     setIsModalOpen(true)
   }
 
-  function handleCloseModal() {
+  async function handleCloseModal() {
     setIsModalOpen(false)
     if (goBack) history.goBack()
+    if (typeof handleClose === 'function') handleClose()
   }
 
   return {
@@ -29,6 +39,7 @@ const useModalControls = ({
       titleModal,
       disableCloseButton,
       disableOverlayClick,
+      handleClose,
     },
   }
 }

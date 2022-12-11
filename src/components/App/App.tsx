@@ -51,6 +51,11 @@ const App: React.FC = () => {
             <OrdersHistoryPage />
           </LayoutProfile>
         </ProtectedRoute>
+        {/* <ProtectedRoute path="/profile/orders/:id">
+          <LayoutProfile>
+            <OrdersHistoryPage />
+          </LayoutProfile>
+        </ProtectedRoute> */}
         <Route path="/feed" exact children={<OrderFeedPage />} />
         <Route path="/feed/:id" children={<OrderFeedId />} />
         <Route path="/ingredients/:id" children={<IngredientPage />} />
@@ -59,7 +64,7 @@ const App: React.FC = () => {
       {background && (
         <Switch>
           <Route path="/ingredients/:id" children={<ModalPage />} />
-          <Route path="/feed/:id" render={() => <ModalOrderDetailsPage />} />
+          <Route path="/feed/:id" children={<ModalOrderDetailsPage />} />
         </Switch>
       )}
     </Layout>

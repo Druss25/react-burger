@@ -5,6 +5,7 @@ import { burgerReducer } from '../reducers/burger/reducer'
 import { orderReducer } from '../reducers/order/reducer'
 import { ingredientModalReducer } from '../reducers/ingredient-modal/reducer'
 import { wsReducer } from '../reducers/socket/orders/wsReducer'
+import { wsHistoryReducer } from '../reducers/socket/history/wsReducer'
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   order: orderReducer,
   ingredientDetailModal: ingredientModalReducer,
   orders: wsReducer,
+  history: wsHistoryReducer,
 })
 
 export default rootReducer

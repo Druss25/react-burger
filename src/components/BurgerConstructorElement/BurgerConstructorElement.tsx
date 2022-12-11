@@ -14,11 +14,6 @@ interface BurgerConstructorElementProps {
   index: number
 }
 
-// type DragObject = {
-//   index: number,
-//   handleId: any
-// }
-
 const BurgerConstructorElement: React.FC<BurgerConstructorElementProps> = ({
   ingredient,
   index,
