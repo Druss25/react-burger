@@ -17,7 +17,7 @@ const OrdersHistoryPage: React.FC = () => {
   const wsConnected = useAppSelector(isConnected) || false
 
   const wsClose = React.useCallback(() => {
-    if (!wsConnected) dispatch({ type: WS_AUTH_CONNECTION_STOP })
+    if (wsConnected) dispatch({ type: WS_AUTH_CONNECTION_STOP })
   }, [dispatch, wsConnected])
 
   React.useEffect(() => {
