@@ -31,33 +31,34 @@ interface OrderReset {
 
 export type OrderAction = getOrderAction | getOrderSuccess | getOrderFailed | OrderReset
 
-export const getOrder =
-  (ingredientsList: ReadonlyArray<string>) => async (dispatch: Dispatch<OrderAction>) => {
-    dispatch({ type: OrderActionTypes.ORDER_REQUEST })
-    return await fetch
-      .post<IResponseOrder>('/orders', {
-        mode: 'cors',
-        cache: 'no-cache',
-        credentials: 'same-origin',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        redirect: 'follow',
-        referrerPolicy: 'no-referrer',
-        body: JSON.stringify({ ingredients: ingredientsList }),
-      })
-      .then(res => {
-        if (res.success) {
-          return dispatch({
-            type: OrderActionTypes.ORDER_SUCCESS,
-            payload: res,
-          })
-        }
-      })
-      .catch(error => {
+export const getOrder = (ingredients: string[]) => async (dispatch: Dispatch<OrderAction>) => {
+  dispatch({ type: OrderActionTypes.ORDER_REQUEST })
+  const token = localStorage.getItem('accessToken') as string
+  return await fetch
+    .post<IResponseOrder>('/orders', {
+      mode: 'cors',
+      cache: 'no-cache',
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: token,
+      },
+      redirect: 'follow',
+      referrerPolicy: 'no-referrer',
+      body: JSON.stringify({ ingredients }),
+    })
+    .then(res => {
+      if (res.success) {
         return dispatch({
-          type: OrderActionTypes.ORDER_ERROR,
-          payload: error,
+          type: OrderActionTypes.ORDER_SUCCESS,
+          payload: res,
         })
+      }
+    })
+    .catch(error => {
+      return dispatch({
+        type: OrderActionTypes.ORDER_ERROR,
+        payload: error,
       })
-  }
+    })
+}

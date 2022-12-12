@@ -12,11 +12,11 @@ type TParamsType = {
 }
 
 const ModalPage: React.FC = () => {
-  const params = useParams<TParamsType>()
+  const { id } = useParams<TParamsType>()
   const modalControls = useModalControls({ titleModal, goBack })
 
   React.useEffect(() => {
-    if (params.id) modalControls.open()
+    if (id) modalControls.open()
     // eslint-disable-next-line
   }, [])
 

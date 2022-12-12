@@ -1,7 +1,13 @@
 .wrapper {
   display: flex;
   flex-direction: column;
-  /* width: 100%; */
   max-width: 600px;
   max-height: 812px;
+  gap: 16px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.link {
+  color: inherit;
+  text-decoration: none;
 }

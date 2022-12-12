@@ -1,31 +1,56 @@
 import React from 'react'
-import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
+import { CurrencyIcon, FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components'
+import { TOrder } from '../../services/reducers/ws-orders-all/types'
+import useIngredients from '../../hook/useIngredients'
 
 import styles from './OrderElement.module.css'
+import { statusOrder } from '../../utils/constants'
 
-const OrderElement: React.FC = () => {
+type TProps = {
+  order: TOrder
+  isStatus: boolean
+}
+
+const OrderElement: React.FC<TProps> = ({ order, isStatus }) => {
+  const { number, name, ingredients, updatedAt } = order
+  const { summa, noDoubleIngredients } = useIngredients(ingredients)
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.subtitle}>
-        <span className="text text_type_digits-default">#034535</span>
-        <span className="text text_type_main-default text_color_inactive">Сегодня, 16:20</span>
+        <span className="text text_type_digits-default">#{number}</span>
+        <span className="text text_type_main-default text_color_inactive">
+          <FormattedDate date={new Date(updatedAt)} />
+        </span>
       </div>
-      <h3 className="text text_type_main-medium">Death Star Starship Main бургер</h3>
+      <h3 className="text text_type_main-medium pt-6">{name}</h3>
+      {isStatus && (
+        <p
+          className={`text text_type_main-default pt-2 ${
+            order.status === 'done' ? `${styles.activate}` : ``
+          }`}
+        >
+          {statusOrder[`${order.status}`]}
+        </p>
+      )}
       <div className={styles.content}>
         {/* -------------   !!! Переписать этот блок   -----------*/}
-        <ul className={styles.image_list}>
-          <li className={styles.image_item}>
-            <img src="https://code.s3.yandex.net/react/code/bun-02-mobile.png" alt="" />
-          </li>
-          <li className={styles.image_item}>2</li>
-          <li className={styles.image_item}>3</li>
-          <li className={styles.image_item}>4</li>
-          <li className={styles.image_item}>5</li>
-          <li className={styles.image_item}>+3</li>
-        </ul>
+        <div className={`${styles.image_list} pt-6`}>
+          {/* <div className={styles.image_item}>
+            <p className="text text_type_digits-default">+3</p>
+          </div> */}
+          {noDoubleIngredients.reverse().map(
+            (ingredient, index) =>
+              index < 5 && (
+                <div className={styles.image_item} key={ingredient._id}>
+                  <img src={ingredient.image_mobile} alt={ingredient.name} />
+                </div>
+              ),
+          )}
+        </div>
         {/* ------------------------------------------------------ */}
         <div className={styles.currency}>
-          <span className="text text_type_digits-default ml-6 mr-2">480</span>
+          <span className="text text_type_digits-default ml-6 mr-2">{summa}</span>
           <CurrencyIcon type="primary" />
         </div>
       </div>

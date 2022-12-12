@@ -63,7 +63,8 @@ const ProfilePage = () => {
     if (!disabled) {
       nameRef.current?.focus()
     }
-  }, [disabled])
+    // eslint-disable-next-line
+  }, [])
 
   return (
     <>

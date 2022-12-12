@@ -1,25 +1,32 @@
 {
+  "autoimport.filesToScan": "**/*.{js,jsx,ts,tsx}",
+  "autoimport.useSemiColon": false,
   "editor.wordWrap": "wordWrapColumn",
-  "editor.wordWrapColumn": 100,
-  "editor.minimap.enabled": true,
+  "editor.wordWrapColumn": 120,
+  "editor.minimap.enabled": false,
   "editor.tabSize": 2,
   "editor.detectIndentation": false,
   "editor.fontSize": 16,
   "editor.mouseWheelZoom": true,
-  "workbench.startupEditor": "none",
+  "editor.formatOnSave": true,
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,
   "files.trimTrailingWhitespace": true,
   "files.autoSave": "afterDelay",
-  "files.autoSaveDelay": 60000,
-  "editor.formatOnSave": true,
-  // добавить это
+  "files.autoSaveDelay": 10000,
+  "files.associations": {
+    "*.css": "css",
+    "*.module.css": "css"
+  },
+  "window.autoDetectColorScheme": true,
+  "workbench.startupEditor": "none",
+  "workbench.iconTheme": "vscode-icons",
+  "workbench.preferredHighContrastLightColorTheme": "GitHub Light High Contrast",
+  "workbench.preferredLightColorTheme": "Monokai",
+  "workbench.colorTheme": "GitHub Dark Default",
   "[javascriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  // "[javascriptreact]": {
-  //   "editor.defaultFormatter": "dbaeumer.vscode-eslint"
-  // },
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
@@ -29,11 +36,9 @@
   "[jsonc]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "eslint.format.enable": true,
-  "eslint.alwaysShowStatus": true,
-  "workbench.iconTheme": "vscode-icons",
-  "window.autoDetectColorScheme": true,
-  "workbench.preferredHighContrastLightColorTheme": "GitHub Light High Contrast",
-  "workbench.preferredLightColorTheme": "Monokai",
-  "workbench.colorTheme": "GitHub Dark Default"
+  "[css]": {
+    "editor.defaultFormatter": "sibiraj-s.vscode-scss-formatter"
+  },
+  "git.autofetch": true,
+  "cSpell.words": ["ккалл", "nomoreparties"]
 }

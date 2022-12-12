@@ -8,16 +8,17 @@ import IngredientElement from '../IngredientElement/IngredientElement'
 import styles from './BurgerIngredientsCategory.module.css'
 
 interface IIngredientCategory {
-  readonly title: string
-  readonly titleId: string
+  title: Readonly<string>
+  titleId: Readonly<string>
   ingredients: ReadonlyArray<IIngredients>
   onIngredientClick: (ingredient: IIngredients) => void
 }
 
-// as React.MutableRefObject<HTMLDivElement>
-
 const BurgerIngredientsCategory = React.forwardRef(
-  ({ title, titleId, ingredients, onIngredientClick }: IIngredientCategory, ref: any) => {
+  (
+    { title, titleId, ingredients, onIngredientClick }: IIngredientCategory,
+    ref: React.ForwardedRef<null>,
+  ) => {
     const counters = useAppSelector(getIngredientsCounters)
     const location = useLocation()
 

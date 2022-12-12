@@ -5,4 +5,7 @@
 .wrapper {
   grid-area: content;
   margin-left: 60px;
+  gap: 16px;
+  display: grid;
+  overflow-y: auto;
 }

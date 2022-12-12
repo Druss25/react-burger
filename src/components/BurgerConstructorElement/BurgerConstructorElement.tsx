@@ -1,5 +1,6 @@
 import React from 'react'
 import { DropTargetMonitor, useDrag, useDrop, XYCoord } from 'react-dnd'
+import {} from 'dnd-core'
 import { useAppDispatch } from '../../services/store'
 import { TargetDropType } from '../../utils/constants'
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components'
@@ -12,6 +13,7 @@ interface BurgerConstructorElementProps {
   ingredient: IIngredients
   index: number
 }
+
 const BurgerConstructorElement: React.FC<BurgerConstructorElementProps> = ({
   ingredient,
   index,

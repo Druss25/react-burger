@@ -16,12 +16,17 @@ import {
   IngredientPage,
   ModalPage,
   OrderFeedPage,
+  OrderFeedId,
 } from '../../pages'
 import LayoutProfile from '../Layouts/LayoutProfile'
 import ProtectedRoute from '../../routes/ProtectedRoute'
+import ModalOrderDetailsPage from '../../pages/modalOrderDetails'
+import ModalHistoryOrderDetailsPage from '../../pages/modalHistoryOrderDetail'
+import OrderHistoryById from '../../pages/order-history-id'
 
 const App: React.FC = () => {
   const location = useLocation<{ background?: Location<{} | null | undefined> }>()
+
   const dispatch = useAppDispatch()
   const background = location.state && location.state.background
 
@@ -43,16 +48,26 @@ const App: React.FC = () => {
             <ProfilePage />
           </LayoutProfile>
         </ProtectedRoute>
-        <ProtectedRoute path="/profile/orders">
+        <ProtectedRoute exact path="/profile/orders">
           <LayoutProfile>
             <OrdersHistoryPage />
           </LayoutProfile>
         </ProtectedRoute>
-        <Route path="/feed" children={<OrderFeedPage />} />
+        <ProtectedRoute path="/profile/orders/:id">
+          <OrderHistoryById />
+        </ProtectedRoute>
+        <Route path="/feed" exact children={<OrderFeedPage />} />
+        <Route path="/feed/:id" children={<OrderFeedId />} />
         <Route path="/ingredients/:id" children={<IngredientPage />} />
         <Route path="*" children={<NotFoundPage />} />
       </Switch>
-      {background && <Route path="/ingredients/:id" children={<ModalPage />} />}
+      {background && (
+        <Switch>
+          <Route path="/ingredients/:id" children={<ModalPage />} />
+          <Route path="/feed/:id" children={<ModalOrderDetailsPage />} />
+          <Route path="/profile/orders/:id" children={<ModalHistoryOrderDetailsPage />} />
+        </Switch>
+      )}
     </Layout>
   )
 }

@@ -47,13 +47,13 @@ export const getIngredients = () => async (dispatch: Dispatch<IngredientsAction>
     })
     const { data, success } = res
     if (success) {
-      dispatch({
+      return dispatch({
         type: IngredientsActionTypes.GET_INGREDIENTS_SUCCESS,
         payload: data,
       })
     }
   } catch {
-    dispatch({
+    return dispatch({
       type: IngredientsActionTypes.GET_INGREDIENTS_ERROR,
     })
   }

@@ -15,7 +15,7 @@ type TForgotPassword = {
 }
 
 const InitForm: TForgotPassword = {
-  email: ''
+  email: '',
 }
 
 const ForgotPasswordPage: React.FC = () => {

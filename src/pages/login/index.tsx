@@ -45,11 +45,11 @@ const LoginPage: React.FC = () => {
     [dispatch, values],
   )
 
-  if (isLoading) return <Spinner />
-
   if (isAuth || (checkRefreshToken && !hasError)) {
     return <Redirect exact to={state?.from || { from: { pathname: '/' } }} />
   }
+
+  if (isLoading) return <Spinner />
 
   return (
     <section className={styles.section_form_container}>

@@ -1,3 +1,4 @@
+import { TOrder } from '../services/reducers/ws-orders-all/types'
 import { IUser } from './auth'
 
 export interface IIngredients {
@@ -61,10 +62,22 @@ export interface AuthState {
   message?: string | null
 }
 
+type TMessages = {
+  orders: TOrder[]
+  total: number
+  totalToday: number
+}
+export interface ISocketMessage {
+  messages: TMessages
+  wsConnected: boolean
+}
+
 export interface RootStore {
   auth: AuthState
   ingredients: IngredientsState
   burger: BurgerState
   order: OrderState
-  ingradientDetailModal: ModalState
+  ingredientDetailModal: ModalState
+  orders: ISocketMessage
+  history: ISocketMessage
 }

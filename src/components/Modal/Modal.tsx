@@ -14,7 +14,7 @@ export interface IModalProps {
   disableOverlayClick?: boolean
 }
 
-const Modal = ({
+const Modal: React.FC<React.PropsWithChildren<IModalProps>> = ({
   children,
   isOpen,
   requestClose,
@@ -46,7 +46,7 @@ const Modal = ({
         <ReactPortal wrapperId="modal">
           <div className={styles.modal}>
             <ModalOverlay onClick={handleCloseOverlay} />
-            <div className={`${styles.modal__content} pt-10 pl-10 pr-10`}>
+            <div className={`${styles.modal__content} p-10`}>
               {!disableCloseButton && (
                 <div
                   className={

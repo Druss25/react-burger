@@ -8,7 +8,7 @@
 .wrapper {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: 272px 100px 1fr;
+  grid-template-rows: 272px 425px 1fr;
   grid-template-areas:
     "menu content content content"
     "subtitle content content content";
