@@ -1,5 +1,5 @@
 import React from 'react'
-import { Switch, Route, useLocation } from 'react-router-dom'
+import { Switch, Route, useLocation, Redirect } from 'react-router-dom'
 import { useAppDispatch } from '../../services/store'
 import { Location } from 'history'
 import { getIngredients } from '../../services/reducers/ingredients/actions'
@@ -59,6 +59,7 @@ const App: React.FC = () => {
         <Route path="/feed" exact children={<OrderFeedPage />} />
         <Route path="/feed/:id" children={<OrderFeedId />} />
         <Route path="/ingredients/:id" children={<IngredientPage />} />
+        <Route path="/react-burger" children={<Redirect to="/" />} />
         <Route path="*" children={<NotFoundPage />} />
       </Switch>
       {background && (
