@@ -1,3 +1,7 @@
+How to Convert SVGs to React Components
+https://www.freecodecamp.org/news/how-to-import-svgs-in-react-and-vite/
+
+
 26-28 сентября – теория + тренажер (модули «Основы React» и «Инструментарий»)
 29 сентября - 1 октября – написание промежуточного проекта (вёрстка, заготовка CRA)
 2-4 октября – теория + тренажер (Продвинутый React, Хуки)
