@@ -65,7 +65,8 @@
     "@types/uuid": "^8.3.4",
     "eslint": "^8.27.0",
     "eslint-plugin-react-redux": "^4.0.0",
-    "gh-pages": "^4.0.0"
+    "gh-pages": "^4.0.0",
+    "jest": "^27.5.1"
   },
   "rules": {
     "react-redux/connect-prefer-named-arguments": 2

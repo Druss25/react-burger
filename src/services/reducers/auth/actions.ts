@@ -325,7 +325,7 @@ export const forgotPassword =
       })
       .then(data => {
         if (data.success) {
-          dispatch({
+          return dispatch({
             type: AuthActionTypes.AUTH_FORGOT_PASSWORD,
           })
         }

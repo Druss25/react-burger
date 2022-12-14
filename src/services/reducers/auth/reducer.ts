@@ -1,7 +1,7 @@
 import { AuthState } from '../../../models'
 import { AuthAction, AuthActionTypes } from './actions'
 
-const initialState: AuthState = {
+export const initialState: AuthState = {
   user: null,
   isLoading: false,
   isAuth: false,
