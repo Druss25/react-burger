@@ -1,3 +1,4 @@
+import { AnyAction } from 'redux'
 import { AuthState } from '../../../models'
 import { AuthAction, AuthActionTypes } from './actions'
 

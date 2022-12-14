@@ -1,3 +1,5 @@
+npx test -- --coverage
+
 How to Convert SVGs to React Components
 https://www.freecodecamp.org/news/how-to-import-svgs-in-react-and-vite/
 
