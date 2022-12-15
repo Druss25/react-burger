@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "./static/css/main.4b3c037e.css",
-    "main.js": "./static/js/main.0cd092bf.js",
-    "static/js/787.2b4cbca8.chunk.js": "./static/js/787.2b4cbca8.chunk.js",
-    "static/media/JetBrainsMono-Bold.woff": "./static/media/JetBrainsMono-Bold.3914674f1cb2335acf26.woff",
-    "static/media/JetBrainsMono-Regular.woff": "./static/media/JetBrainsMono-Regular.f52bee61d00ce995b89f.woff",
-    "static/media/JetBrainsMono-Bold.woff2": "./static/media/JetBrainsMono-Bold.c232d532ea5a5189a278.woff2",
-    "static/media/JetBrainsMono-Regular.woff2": "./static/media/JetBrainsMono-Regular.b60380891bcf2eb241ca.woff2",
-    "static/media/iceland.woff": "./static/media/iceland.77ad7fc2baffd9305538.woff",
-    "static/media/iceland.woff2": "./static/media/iceland.4ae67a017a5ff82bbbb7.woff2",
-    "static/media/graphics.svg": "./static/media/graphics.2022ce2b88cc7b71fc8b9023c521656c.svg",
-    "index.html": "./index.html",
-    "main.4b3c037e.css.map": "./static/css/main.4b3c037e.css.map",
-    "main.0cd092bf.js.map": "./static/js/main.0cd092bf.js.map",
-    "787.2b4cbca8.chunk.js.map": "./static/js/787.2b4cbca8.chunk.js.map"
+    "main.css": "https://druss25.github.io/react-burger/static/css/main.3ae1195a.css",
+    "main.js": "https://druss25.github.io/react-burger/static/js/main.66b74708.js",
+    "static/js/787.2b4cbca8.chunk.js": "https://druss25.github.io/react-burger/static/js/787.2b4cbca8.chunk.js",
+    "static/media/JetBrainsMono-Bold.woff": "https://druss25.github.io/react-burger/static/media/JetBrainsMono-Bold.3914674f1cb2335acf26.woff",
+    "static/media/JetBrainsMono-Regular.woff": "https://druss25.github.io/react-burger/static/media/JetBrainsMono-Regular.f52bee61d00ce995b89f.woff",
+    "static/media/JetBrainsMono-Bold.woff2": "https://druss25.github.io/react-burger/static/media/JetBrainsMono-Bold.c232d532ea5a5189a278.woff2",
+    "static/media/JetBrainsMono-Regular.woff2": "https://druss25.github.io/react-burger/static/media/JetBrainsMono-Regular.b60380891bcf2eb241ca.woff2",
+    "static/media/iceland.woff": "https://druss25.github.io/react-burger/static/media/iceland.77ad7fc2baffd9305538.woff",
+    "static/media/iceland.woff2": "https://druss25.github.io/react-burger/static/media/iceland.4ae67a017a5ff82bbbb7.woff2",
+    "static/media/graphics.svg": "https://druss25.github.io/react-burger/static/media/graphics.2022ce2b88cc7b71fc8b9023c521656c.svg",
+    "index.html": "https://druss25.github.io/react-burger/index.html",
+    "main.3ae1195a.css.map": "https://druss25.github.io/react-burger/static/css/main.3ae1195a.css.map",
+    "main.66b74708.js.map": "https://druss25.github.io/react-burger/static/js/main.66b74708.js.map",
+    "787.2b4cbca8.chunk.js.map": "https://druss25.github.io/react-burger/static/js/787.2b4cbca8.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.4b3c037e.css",
-    "static/js/main.0cd092bf.js"
+    "static/css/main.3ae1195a.css",
+    "static/js/main.66b74708.js"
   ]
 }
