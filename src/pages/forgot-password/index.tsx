@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link, Redirect, useLocation } from 'react-router-dom'
-import { useAppDispatch, useAppSelector } from '../../services/store'
+import { useAppDispatch, useAppSelector } from '../../hook/redux-hook'
 import { Button, EmailInput } from '@ya.praktikum/react-developer-burger-ui-components'
 import { authSelector } from '../../services/reducers/auth/selectors'
 import { resetPassword } from '../../services/reducers/auth/actions'
@@ -19,8 +19,8 @@ const InitForm: TForgotPassword = {
 }
 
 const ForgotPasswordPage: React.FC = () => {
-  const { isAuth, isReset, isLoading } = useAppSelector(authSelector)
   const dispatch = useAppDispatch()
+  const { isAuth, isReset, isLoading } = useAppSelector(authSelector)
   const location = useLocation()
   const { values, handleChange } = useForm(InitForm)
 

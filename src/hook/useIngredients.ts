@@ -1,7 +1,7 @@
 import React from 'react'
-import { useAppSelector } from './../services/store/index'
 import { ingredientsSelector } from '../services/reducers/ingredients/selectors'
 import { IIngredients } from '../models'
+import { useAppSelector } from './redux-hook'
 
 type TCount = {
   [key: string]: number

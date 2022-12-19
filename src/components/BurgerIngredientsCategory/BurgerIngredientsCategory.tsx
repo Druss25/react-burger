@@ -1,6 +1,6 @@
 import React from 'react'
 import { useLocation, Link } from 'react-router-dom'
-import { useAppSelector } from '../../services/store'
+import { useAppSelector } from '../../hook/redux-hook'
 import { IIngredients } from '../../models'
 import { getIngredientsCounters } from '../../services/reducers/burger/selectors'
 import IngredientElement from '../IngredientElement/IngredientElement'

@@ -79,47 +79,42 @@ export type AuthAction =
   | resetPasswordAction
   | forgotPasswordAction
 
-// *
 export const login = (form: IRequestLogin) => async (dispatch: Dispatch<AuthAction>) => {
   dispatch({
     type: AuthActionTypes.AUTH_USER_REQUEST,
   })
-
-  try {
-    const { user, success, accessToken, refreshToken } = await fetch.post<IResponse>(
-      '/auth/login',
-      {
-        mode: 'cors',
-        cache: 'no-cache',
-        credentials: 'same-origin',
-        headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        redirect: 'follow',
-        referrerPolicy: 'no-referrer',
-        body: JSON.stringify(form),
+  return await fetch
+    .post<IResponse>('/auth/login', {
+      mode: 'cors',
+      cache: 'no-cache',
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
       },
-    )
-
-    if (success) {
-      dispatch({
-        type: AuthActionTypes.AUTH_USER_SUCCESS,
-        payload: user,
-      })
-      saveTokens(accessToken, refreshToken)
-    }
-  } catch (err) {
-    dispatch({
-      type: AuthActionTypes.AUTH_USER_ERROR,
-      payload: 'Не верно введен email или пароль...',
+      redirect: 'follow',
+      referrerPolicy: 'no-referrer',
+      body: JSON.stringify(form),
     })
-  }
+    .then(res => {
+      if (res.success) {
+        saveTokens(res.accessToken, res.refreshToken)
+        dispatch({
+          type: AuthActionTypes.AUTH_USER_SUCCESS,
+          payload: res.user,
+        })
+      }
+    })
+    .catch(error => {
+      dispatch({
+        type: AuthActionTypes.AUTH_USER_ERROR,
+        payload: 'Ошибка',
+      })
+    })
 }
 
-// *
 export const register = (form: IRequestRegister) => async (dispatch: Dispatch<AuthAction>) => {
   dispatch({ type: AuthActionTypes.AUTH_USER_REQUEST })
-  await fetch
+  return await fetch
     .post<IResponse>('/auth/register', {
       mode: 'cors',
       cache: 'no-cache',
@@ -131,21 +126,20 @@ export const register = (form: IRequestRegister) => async (dispatch: Dispatch<Au
       referrerPolicy: 'no-referrer',
       body: JSON.stringify(form),
     })
-    .then(data => {
-      if (data.success) {
+    .then(res => {
+      if (res.success && res !== undefined) {
+        saveTokens(res.accessToken, res.refreshToken)
         dispatch({
           type: AuthActionTypes.AUTH_USER_SUCCESS,
-          payload: data.user,
+          payload: res.user,
         })
-        saveTokens(data.accessToken, data.refreshToken)
       }
     })
     .catch(error => {
       dispatch({
         type: AuthActionTypes.AUTH_USER_ERROR,
-        payload: 'Регистрация не прошла !!!',
+        payload: 'Ошибка',
       })
-      console.log(error)
     })
 }
 
@@ -226,7 +220,7 @@ export const getUser = () => async (dispatch: Dispatch<AuthAction>) => {
 
   if (request !== undefined) {
     if (!!localStorage.getItem('refreshToken')) {
-      const token = await postNewTokens()
+      const token = (await postNewTokens()) as string
       await fetch
         .get<IResponseUser>('/auth/user', {
           mode: 'cors',
@@ -257,7 +251,7 @@ export const getUser = () => async (dispatch: Dispatch<AuthAction>) => {
 // *
 export const updateUser = (form: IRequestRegister) => async (dispatch: Dispatch<AuthAction>) => {
   dispatch({ type: AuthActionTypes.AUTH_UPDATE_USER_REQUEST })
-  await fetch
+  return await fetch
     .patch<IRequestRegister, IResponseUser>('/auth/user', form, {
       mode: 'cors',
       cache: 'no-cache',

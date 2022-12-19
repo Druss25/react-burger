@@ -2,9 +2,9 @@ import React from 'react'
 import { useParams } from 'react-router-dom'
 import Modal from '../../components/Modal/Modal'
 import OrderDetails from '../../components/OrderDetails/OrderDetails'
+import { useAppSelector } from '../../hook/redux-hook'
 import useModalControls from '../../hook/useModalControls'
 import { getOrdersSelector } from '../../services/reducers/socket/orders/wsSelectors'
-import { useAppSelector } from '../../services/store'
 
 const titleModal = 'Детали заказа'
 const goBack = true

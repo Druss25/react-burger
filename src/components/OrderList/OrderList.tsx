@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
+import { useAppSelector } from '../../hook/redux-hook'
 import { getOrdersSelector } from '../../services/reducers/socket/orders/wsSelectors'
-import { useAppSelector } from '../../services/store'
 import OrderElement from '../OrderElement/OrderElement'
 import Spinner from '../Spinner/Spinner'
 

@@ -45,6 +45,7 @@ export const getIngredients = () => async (dispatch: Dispatch<IngredientsAction>
       redirect: 'follow',
       referrerPolicy: 'no-referrer',
     })
+
     const { data, success } = res
     if (success) {
       return dispatch({
@@ -53,7 +54,7 @@ export const getIngredients = () => async (dispatch: Dispatch<IngredientsAction>
       })
     }
   } catch {
-    return dispatch({
+    dispatch({
       type: IngredientsActionTypes.GET_INGREDIENTS_ERROR,
     })
   }

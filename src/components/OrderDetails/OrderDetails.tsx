@@ -1,6 +1,6 @@
-import { CurrencyIcon, FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components'
 import React from 'react'
 import { useParams } from 'react-router-dom'
+import { CurrencyIcon, FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components'
 import useIngredients from '../../hook/useIngredients'
 import { TOrder } from '../../services/reducers/ws-orders-all/types'
 import { statusOrder } from '../../utils/constants'
@@ -8,17 +8,23 @@ import Spinner from '../Spinner/Spinner'
 
 import styles from './OrderDetails.module.css'
 
-type TParams = {
+interface TParams {
   id: string
 }
 
-type TProps = {
+interface TProps {
   orders: TOrder[]
 }
 
 const OrderDetails: React.FC<TProps> = ({ orders }) => {
   const { id } = useParams<TParams>()
-  const order = orders?.filter(item => item.number === Number(id), 0)[0]
+
+  const order = React.useMemo(
+    () => orders?.filter(item => item.number === Number(id), 0)[0],
+    [orders, id],
+  )
+
+  // const order = orders?.filter(item => item.number === Number(id), 0)[0]
   const { summa, noDoubleIngredients, counts } = useIngredients(order?.ingredients)
 
   if (!orders || !order || !summa) return <Spinner />
@@ -55,7 +61,7 @@ const OrderDetails: React.FC<TProps> = ({ orders }) => {
       </div>
       <div className={`${styles.footer} mt-10`}>
         <span className="text text_type_main-default text_color_inactive">
-          <FormattedDate date={new Date(order.updatedAt)} />
+          <FormattedDate date={new Date(order.createdAt)} />
         </span>
         <div className={styles.footer_image}>
           <span className="text text_type_digits-default mr-2">{summa}</span>

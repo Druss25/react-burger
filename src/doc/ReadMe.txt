@@ -1,3 +1,9 @@
+Тестирование React приложения
+https://www.youtube.com/watch?v=sjdMBJ72M4s
+
+Автотесты с помощью Cypress - Анатолий Буренков
+https://www.youtube.com/watch?v=rZ_DIDNnlfs
+
 npx test -- --coverage
 
 How to Convert SVGs to React Components

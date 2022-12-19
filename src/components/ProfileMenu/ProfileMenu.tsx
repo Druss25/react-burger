@@ -1,13 +1,13 @@
 import React from 'react'
 import { NavLink, useHistory } from 'react-router-dom'
-import { useAppDispatch } from '../../services/store'
+import { useAppDispatch } from '../../hook/redux-hook'
 import { logout } from '../../services/reducers/auth/actions'
 
 import styles from './ProfileMenu.module.css'
 
 const ProfileNavigate: React.FC = () => {
-  const history = useHistory()
   const dispatch = useAppDispatch()
+  const history = useHistory()
 
   const onClick = React.useCallback(() => {
     dispatch(logout())

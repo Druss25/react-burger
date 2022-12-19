@@ -60,13 +60,19 @@
     ]
   },
   "devDependencies": {
+    "@types/fetch-mock": "^7.3.5",
     "@types/react-dnd-html5-backend": "^3.0.2",
     "@types/react-router-dom": "^5.3.3",
+    "@types/redux-api-middleware": "^3.2.3",
+    "@types/redux-mock-store": "^1.0.3",
     "@types/uuid": "^8.3.4",
     "eslint": "^8.27.0",
     "eslint-plugin-react-redux": "^4.0.0",
+    "fetch-mock": "^9.11.0",
     "gh-pages": "^4.0.0",
-    "jest": "^27.5.1"
+    "react-test-renderer": "^18.2.0",
+    "redux-api-middleware": "^3.2.1",
+    "redux-mock-store": "^1.5.4"
   },
   "rules": {
     "react-redux/connect-prefer-named-arguments": 2

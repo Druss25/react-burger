@@ -22,7 +22,8 @@ const IngredientElement: React.FC<TProps> = ({ ingredient, counter, onClick }) =
     }),
   })
 
-  const handleClick = () => {
+  const handleClick = (e: Event) => {
+    e.preventDefault()
     onClick(ingredient)
   }
 
@@ -31,7 +32,7 @@ const IngredientElement: React.FC<TProps> = ({ ingredient, counter, onClick }) =
       <div
         ref={dragRef}
         className={`${styles.wrapper} constructor-element__row`}
-        onClick={handleClick}
+        onClick={() => handleClick}
         style={{ opacity }}
       >
         <div className="constructor-element__row">

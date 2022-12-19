@@ -1,6 +1,6 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
-import { useAppSelector } from '../../services/store'
+import { useAppSelector } from '../../hook/redux-hook'
 import { ingredientsSelector } from '../../services/reducers/ingredients/selectors'
 
 import styles from './IngredientDetails.module.css'

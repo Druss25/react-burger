@@ -1,6 +1,10 @@
 import React from 'react'
-import { Switch, Route, useLocation, Redirect } from 'react-router-dom'
-import { useAppDispatch } from '../../services/store'
+import {
+  Switch,
+  Route,
+  useLocation,
+  // Redirect
+} from 'react-router-dom'
 import { Location } from 'history'
 import { getIngredients } from '../../services/reducers/ingredients/actions'
 import Layout from '../Layouts/Layout'
@@ -23,6 +27,7 @@ import ProtectedRoute from '../../routes/ProtectedRoute'
 import ModalOrderDetailsPage from '../../pages/modalOrderDetails'
 import ModalHistoryOrderDetailsPage from '../../pages/modalHistoryOrderDetail'
 import OrderHistoryById from '../../pages/order-history-id'
+import { useAppDispatch } from '../../hook/redux-hook'
 
 const App: React.FC = () => {
   const location = useLocation<{ background?: Location<{} | null | undefined> }>()
@@ -59,7 +64,7 @@ const App: React.FC = () => {
         <Route path="/feed" exact children={<OrderFeedPage />} />
         <Route path="/feed/:id" children={<OrderFeedId />} />
         <Route path="/ingredients/:id" children={<IngredientPage />} />
-        <Route path="/react-burger" children={<Redirect to="/" />} />
+        {/* <Route path="/react-burger" children={<Redirect to="/" />} /> */}
         <Route path="*" children={<NotFoundPage />} />
       </Switch>
       {background && (

@@ -7,7 +7,7 @@ import { ingredientModalReducer } from '../reducers/ingredient-modal/reducer'
 import { wsReducer } from '../reducers/socket/orders/wsReducer'
 import { wsHistoryReducer } from '../reducers/socket/history/wsReducer'
 
-const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
   auth: authReducer,
   ingredients: ingredientsReducer,
   burger: burgerReducer,
@@ -17,4 +17,4 @@ const rootReducer = combineReducers({
   history: wsHistoryReducer,
 })
 
-export default rootReducer
+export type ReduxState = ReturnType<typeof rootReducer>

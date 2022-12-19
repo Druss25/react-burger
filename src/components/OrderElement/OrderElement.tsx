@@ -12,7 +12,7 @@ type TProps = {
 }
 
 const OrderElement: React.FC<TProps> = ({ order, isStatus }) => {
-  const { number, name, ingredients, updatedAt } = order
+  const { number, name, ingredients, createdAt } = order
   const { summa, noDoubleIngredients } = useIngredients(ingredients)
 
   return (
@@ -20,7 +20,7 @@ const OrderElement: React.FC<TProps> = ({ order, isStatus }) => {
       <div className={styles.subtitle}>
         <span className="text text_type_digits-default">#{number}</span>
         <span className="text text_type_main-default text_color_inactive">
-          <FormattedDate date={new Date(updatedAt)} />
+          <FormattedDate date={new Date(createdAt)} />
         </span>
       </div>
       <h3 className="text text_type_main-medium pt-6">{name}</h3>

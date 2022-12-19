@@ -1,4 +1,3 @@
-import { AnyAction } from 'redux'
 import { AuthState } from '../../../models'
 import { AuthAction, AuthActionTypes } from './actions'
 
@@ -79,6 +78,7 @@ export const authReducer = (state = initialState, action: AuthAction): AuthState
     case AuthActionTypes.AUTH_USER_LOGOUT: {
       return initialState
     }
+
     default:
       return state
   }

@@ -1,13 +1,13 @@
 import React from 'react'
 import { DropTargetMonitor, useDrag, useDrop, XYCoord } from 'react-dnd'
 import {} from 'dnd-core'
-import { useAppDispatch } from '../../services/store'
 import { TargetDropType } from '../../utils/constants'
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import { BurgerActionTypes } from '../../services/reducers/burger/actions'
 import { IIngredients } from '../../models'
 
 import styles from './BurgerConstructorElement.module.css'
+import { useAppDispatch } from '../../hook/redux-hook'
 
 interface BurgerConstructorElementProps {
   ingredient: IIngredients

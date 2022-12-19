@@ -1,11 +1,11 @@
 import React from 'react'
+import { useAppSelector } from '../../hook/redux-hook'
 import {
   getOrdersSelector,
   getTotalOrders,
   getTotalTodayOrders,
 } from '../../services/reducers/socket/orders/wsSelectors'
 import { TOrder } from '../../services/reducers/ws-orders-all/types'
-import { useAppSelector } from '../../services/store'
 import Spinner from '../Spinner/Spinner'
 
 import styles from './OrderStatistic.module.css'

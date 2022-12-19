@@ -1,11 +1,11 @@
 import React from 'react'
+import { useAppDispatch, useAppSelector } from '../../hook/redux-hook'
 import {
   Input,
   EmailInput,
   PasswordInput,
   Button,
 } from '@ya.praktikum/react-developer-burger-ui-components'
-import { useAppSelector, useAppDispatch } from '../../services/store'
 import { userSelector } from '../../services/reducers/auth/selectors'
 import { updateUser } from '../../services/reducers/auth/actions'
 import { IRequestRegister, IUser } from '../../models/auth'
@@ -21,6 +21,7 @@ export interface IProfileForm {
 
 const ProfilePage = () => {
   const nameRef = React.useRef<HTMLInputElement>(null)
+  const dispatch = useAppDispatch()
   const { email, name } = useAppSelector(userSelector) as IUser
   const { values, handleChange, setValues, isChange, setChange } = useForm({
     name,
@@ -28,7 +29,6 @@ const ProfilePage = () => {
     password: '',
   } as IProfileForm)
   const [disabled, setDisabled] = React.useState<boolean>(true)
-  const dispatch = useAppDispatch()
 
   const onIconClick = React.useCallback(
     (e: React.MouseEvent) => {

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Redirect, Route, RouteProps } from 'react-router-dom'
-import { useAppDispatch, useAppSelector } from '../services/store'
+import { useAppDispatch, useAppSelector } from '../hook/redux-hook'
 import { authSelector } from '../services/reducers/auth/selectors'
 import { getUser } from '../services/reducers/auth/actions'
 import Spinner from '../components/Spinner/Spinner'
@@ -8,8 +8,8 @@ import Spinner from '../components/Spinner/Spinner'
 type ProtectRouteTypes = RouteProps & { children?: React.ReactNode }
 
 const ProtectedRoute: React.FC<ProtectRouteTypes> = ({ children, ...rest }) => {
-  const { isAuth, isLoading } = useAppSelector(authSelector)
   const dispatch = useAppDispatch()
+  const { isAuth, isLoading } = useAppSelector(authSelector)
 
   const checkAuth = React.useCallback(() => {
     if (localStorage.getItem('refreshToken')) dispatch(getUser())

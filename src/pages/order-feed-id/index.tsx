@@ -1,11 +1,11 @@
 import React from 'react'
-import { useAppDispatch, useAppSelector } from '../../services/store'
+import { useAppDispatch, useAppSelector } from '../../hook/redux-hook'
 import { getOrdersSelector, isConnected } from '../../services/reducers/socket/orders/wsSelectors'
 import { WS_CONNECTION_START } from '../../services/reducers/socket/orders/wsActionsTypes'
-
-import styles from './order-feed-id.module.css'
 import Spinner from '../../components/Spinner/Spinner'
 import OrderDetails from '../../components/OrderDetails/OrderDetails'
+
+import styles from './order-feed-id.module.css'
 
 const OrderFeedId: React.FC = () => {
   const dispatch = useAppDispatch()
@@ -21,7 +21,7 @@ const OrderFeedId: React.FC = () => {
 
   return (
     <div className={styles.wrapper}>
-      <OrderDetails orders={orders}/>
+      <OrderDetails orders={orders} />
     </div>
   )
 }

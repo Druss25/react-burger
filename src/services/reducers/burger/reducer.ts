@@ -1,27 +1,23 @@
-import { BurgerState } from "../../../models/index";
-import {
-  BurgerActionTypes, BurgerAction
-} from "./actions";
+import { BurgerState } from '../../../models/index'
+import { BurgerActionTypes, BurgerAction } from './actions'
 
-const initialState: BurgerState = {
+export const initialState: BurgerState = {
   bun: null,
   ingredients: [],
-};
+}
 
-export const burgerReducer = (
-  state = initialState,
-  action: BurgerAction
-): BurgerState => {
+export const burgerReducer = (state = initialState, action: BurgerAction): BurgerState => {
   switch (action.type) {
     case BurgerActionTypes.BURGER_ADD: {
-      if (action.payload.type === "bun") {
-        return { ...state, bun: action.payload };
+      if (action.payload.type === 'bun') {
+        return { ...state, bun: action.payload }
       }
       return {
         ...state,
         ingredients: [...state.ingredients, action.payload],
-      };
+      }
     }
+
     case BurgerActionTypes.BURGER_DELETE: {
       return {
         ...state,
@@ -29,24 +25,22 @@ export const burgerReducer = (
           ...state.ingredients.slice(0, action.payload),
           ...state.ingredients.slice(action.payload + 1),
         ],
-      };
+      }
     }
+
     case BurgerActionTypes.BURGER_RELOCATION: {
-      const ingredients = [...state.ingredients];
-      ingredients.splice(
-        action.payload.to,
-        0,
-        ingredients.splice(action.payload.from, 1)[0]
-      );
+      const ingredients = [...state.ingredients]
+      ingredients.splice(action.payload.to, 0, ingredients.splice(action.payload.from, 1)[0])
       return {
         ...state,
         ingredients,
-      };
+      }
     }
     case BurgerActionTypes.BURGER_RESET: {
-      return initialState;
+      return initialState
     }
+
     default:
-      return state;
+      return state
   }
-};
+}

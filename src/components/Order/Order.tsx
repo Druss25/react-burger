@@ -1,7 +1,7 @@
-import { useAppSelector } from '../../services/store'
 import { numberOrderSelector } from '../../services/reducers/order/selectors'
 
 import ImageOrderAcceptSVG from '../../images/graphics.svg'
+import { useAppSelector } from '../../hook/redux-hook'
 
 const OrderDetails: React.FC = () => {
   const numberOrder = useAppSelector(numberOrderSelector)
@@ -16,7 +16,7 @@ const OrderDetails: React.FC = () => {
       <p className="text text_type_main-medium">идентификатор заказа</p>
       <img
         src={ImageOrderAcceptSVG}
-        alt={'Images'}
+        alt="AcceptOrder"
         className="mt-15 mb-15"
         width={120}
         height={120}

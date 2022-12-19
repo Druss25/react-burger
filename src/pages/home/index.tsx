@@ -1,6 +1,6 @@
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
-import { useSelector } from 'react-redux'
+import { useAppSelector } from '../../hook/redux-hook'
 import BurgerConstructor from '../../components/BurgerConstructor/BurgerConstructor'
 import BurgerIngredients from '../../components/BurgerIngredients/BurgerIngredients'
 import Spinner from '../../components/Spinner/Spinner'
@@ -9,7 +9,7 @@ import { authSelector } from '../../services/reducers/auth/selectors'
 import styles from './home.module.css'
 
 const HomePage = () => {
-  const { isLoading, hasError } = useSelector(authSelector)
+  const { isLoading, hasError } = useAppSelector(authSelector)
 
   if (isLoading) return <Spinner />
 

@@ -3,12 +3,12 @@ import { useDispatch } from 'react-redux'
 import OrderList from '../../components/OrderList/OrderList'
 import OrderStatistic from '../../components/OrderStatistic/OrderStatistic'
 import Spinner from '../../components/Spinner/Spinner'
+import { useAppSelector } from '../../hook/redux-hook'
 import {
   WS_CONNECTION_START,
   WS_CONNECTION_STOP,
 } from '../../services/reducers/socket/orders/wsActionsTypes'
 import { getOrdersSelector, isConnected } from '../../services/reducers/socket/orders/wsSelectors'
-import { useAppSelector } from '../../services/store'
 
 import styles from './order-feed.module.css'
 

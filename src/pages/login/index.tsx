@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link, useLocation, Redirect } from 'react-router-dom'
-import { useAppDispatch, useAppSelector } from '../../services/store'
+import { useAppDispatch, useAppSelector } from '../../hook/redux-hook'
 import {
   Button,
   EmailInput,
@@ -31,8 +31,8 @@ const InitForm: LoginForm = {
 }
 
 const LoginPage: React.FC = () => {
-  const { isAuth, isLoading, hasError } = useAppSelector(authSelector)
   const dispatch = useAppDispatch()
+  const { isAuth, isLoading, hasError } = useAppSelector(authSelector)
   const location = useLocation<LocationState>()
   const { state } = location
   const { values, handleChange } = useForm(InitForm)

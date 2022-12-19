@@ -6,7 +6,7 @@ async function _api<T>(path: string, config: RequestInit): Promise<T> {
   const response = await fetch(request)
 
   if (!response.ok) {
-    throw new Error(`Что-то пошло не так - ${response}`)
+    throw new Error(`${response.status}`)
   }
 
   return response.json()

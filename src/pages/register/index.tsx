@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link, Redirect } from 'react-router-dom'
-import { useAppSelector, useAppDispatch } from '../../services/store'
+import { useAppDispatch, useAppSelector } from '../../hook/redux-hook'
 import {
   Button,
   EmailInput,
@@ -26,8 +26,8 @@ const InitForm: Register = {
 }
 
 const RegisterPage = () => {
-  const { isAuth, isLoading } = useAppSelector(authSelector)
   const dispatch = useAppDispatch()
+  const { isAuth, isLoading } = useAppSelector(authSelector)
   const { values, handleChange } = useForm(InitForm)
 
   const onSubmit = React.useCallback(

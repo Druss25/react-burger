@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link, Redirect, useLocation } from 'react-router-dom'
-import { useAppSelector, useAppDispatch } from '../../services/store'
+import { useAppDispatch, useAppSelector } from '../../hook/redux-hook'
 import { Button, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components'
 import { authSelector } from '../../services/reducers/auth/selectors'
 import useForm from '../../hook/useForm'
@@ -27,9 +27,9 @@ const InitForm = {
 }
 
 const ResetPasswordPage: React.FC = () => {
+  const dispatch = useAppDispatch()
   const { isAuth, isReset, isLoading } = useAppSelector(authSelector)
   const location = useLocation<LocationState>()
-  const dispatch = useAppDispatch()
 
   const checkPath = location.state?.from?.pathname
   const { values, handleChange } = useForm(InitForm)
