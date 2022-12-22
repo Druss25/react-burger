@@ -5,7 +5,7 @@ import {
   getTotalOrders,
   getTotalTodayOrders,
 } from '../../services/reducers/socket/orders/wsSelectors'
-import { TOrder } from '../../services/reducers/ws-orders-all/types'
+import { TOrder } from '../../services/reducers/socket/orders/types'
 import Spinner from '../Spinner/Spinner'
 
 import styles from './OrderStatistic.module.css'

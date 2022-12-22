@@ -31,11 +31,11 @@ interface IResponseGetIngredient {
 }
 
 export const getIngredients = () => async (dispatch: Dispatch<IngredientsAction>) => {
-  try {
-    dispatch({
-      type: IngredientsActionTypes.GET_INGREDIENTS_REQUEST,
-    })
-    const res = await fetch.get<IResponseGetIngredient>('/ingredients', {
+  dispatch({
+    type: IngredientsActionTypes.GET_INGREDIENTS_REQUEST,
+  })
+  return await fetch
+    .get<IResponseGetIngredient>('/ingredients', {
       mode: 'cors',
       cache: 'no-cache',
       credentials: 'same-origin',
@@ -45,17 +45,17 @@ export const getIngredients = () => async (dispatch: Dispatch<IngredientsAction>
       redirect: 'follow',
       referrerPolicy: 'no-referrer',
     })
-
-    const { data, success } = res
-    if (success) {
-      return dispatch({
-        type: IngredientsActionTypes.GET_INGREDIENTS_SUCCESS,
-        payload: data,
-      })
-    }
-  } catch {
-    dispatch({
-      type: IngredientsActionTypes.GET_INGREDIENTS_ERROR,
+    .then(res => {
+      if (res.success) {
+        dispatch({
+          type: IngredientsActionTypes.GET_INGREDIENTS_SUCCESS,
+          payload: res.data,
+        })
+      }
     })
-  }
+    .catch(error => {
+      dispatch({
+        type: IngredientsActionTypes.GET_INGREDIENTS_ERROR,
+      })
+    })
 }

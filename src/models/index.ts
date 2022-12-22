@@ -1,4 +1,4 @@
-import { TOrder } from '../services/reducers/ws-orders-all/types'
+import { TOrder } from '../services/reducers/socket/orders/types'
 import { IUser } from './auth'
 
 export interface IIngredients {

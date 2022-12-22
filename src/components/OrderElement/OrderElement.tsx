@@ -1,6 +1,6 @@
 import React from 'react'
 import { CurrencyIcon, FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components'
-import { TOrder } from '../../services/reducers/ws-orders-all/types'
+import { TOrder } from '../../services/reducers/socket/orders/types'
 import useIngredients from '../../hook/useIngredients'
 
 import styles from './OrderElement.module.css'

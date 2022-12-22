@@ -2,7 +2,7 @@ import React from 'react'
 import { useParams } from 'react-router-dom'
 import { CurrencyIcon, FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components'
 import useIngredients from '../../hook/useIngredients'
-import { TOrder } from '../../services/reducers/ws-orders-all/types'
+import { TOrder } from '../../services/reducers/socket/orders/types'
 import { statusOrder } from '../../utils/constants'
 import Spinner from '../Spinner/Spinner'
 

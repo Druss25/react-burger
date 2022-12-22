@@ -4,6 +4,16 @@ export const baseUrl = 'https://norma.nomoreparties.space/api'
 export const wsOrderUrl = 'wss://norma.nomoreparties.space/orders/all'
 export const wsHistoryUrl = 'wss://norma.nomoreparties.space/orders'
 
+
+// export const getProducts = () => {
+//   let arr = []
+//   for (const name in typeProducts) {
+//     arr.push(name)
+//   }
+//   arr.pop(arr.length - 1)
+//   return arr
+// }
+
 type TStatusOrder = {
   [key: string]: string
 }
