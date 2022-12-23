@@ -2,18 +2,18 @@ import React from 'react'
 import { useParams } from 'react-router-dom'
 import { CurrencyIcon, FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components'
 import useIngredients from '../../hook/useIngredients'
-import { TOrder } from '../../services/reducers/socket/orders/types'
 import { statusOrder } from '../../utils/constants'
 import Spinner from '../Spinner/Spinner'
 
 import styles from './OrderDetails.module.css'
+import { IOrder } from '../../models'
 
 interface TParams {
   id: string
 }
 
 interface TProps {
-  orders: TOrder[]
+  orders: IOrder[]
 }
 
 const OrderDetails: React.FC<TProps> = ({ orders }) => {

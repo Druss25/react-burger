@@ -3,7 +3,7 @@ import configureStore from 'redux-mock-store'
 import fetchMock from 'jest-fetch-mock'
 import { initialState } from './reducer'
 import { getOrder, OrderAction, OrderActionTypes } from './actions'
-import { IIngredients, OrderState } from '../../../models'
+import { IIngredients, IOrderResponse, OrderState } from '../../../models'
 
 fetchMock.enableMocks()
 
@@ -11,34 +11,13 @@ type DispatchExts = ThunkDispatch<OrderState, void, OrderAction>
 const mockStore = configureStore<OrderState, DispatchExts>([thunk])
 const store = mockStore(initialState)
 
-interface IOrderResponse {
-  success: Readonly<boolean>
-  name: Readonly<string>
-  order: {
-    ingredients: ReadonlyArray<IIngredients>
-    _id: Readonly<string>
-    owner: {
-      name: Readonly<string>
-      email: Readonly<string>
-      createdAt: Readonly<string>
-      updatedAt: Readonly<string>
-    }
-    status: Readonly<string>
-    name: Readonly<string>
-    createdAt: Readonly<string>
-    updatedAt: Readonly<string>
-    number: Readonly<number>
-    price: Readonly<number>
-  }
-}
-
 const ingredients: string[] = [
   '60d3b41abdacab0026a733c7',
   '60d3b41abdacab0026a733c9',
   '60d3b41abdacab0026a733d4',
 ]
 
-const orderResponse: IOrderResponse = {
+export const orderResponse: IOrderResponse = {
   success: true,
   name: 'Астероидный бессмертный флюоресцентный бургер',
   order: {
@@ -87,12 +66,6 @@ const orderResponse: IOrderResponse = {
       },
     ],
     _id: '63a4397f99a25c001cd6bfbe',
-    owner: {
-      name: 'Druss25',
-      email: 'druss25@yandex.ru',
-      createdAt: '2022-11-06T08:45:05.900Z',
-      updatedAt: '2022-12-19T11:13:01.977Z',
-    },
     status: 'done',
     name: 'Астероидный бессмертный флюоресцентный бургер',
     createdAt: '2022-12-22T11:03:27.963Z',

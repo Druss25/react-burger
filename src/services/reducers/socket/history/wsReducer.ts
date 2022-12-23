@@ -1,5 +1,5 @@
 import { AnyAction } from 'redux'
-import { TOrder } from '../../socket/orders/types'
+import { wsMessageOrders } from '../../../../models'
 import {
   WS_AUTH_CONNECTION_SUCCESS,
   WS_AUTH_CONNECTION_ERROR,
@@ -7,19 +7,13 @@ import {
   WS_AUTH_GET_MESSAGE,
 } from './wsActionsTypes'
 
-export type TMessages = {
-  orders: TOrder[]
-  total: number
-  totalToday: number
-}
-
-type TInitState = {
-  messages: TMessages
+export type TInitState = {
+  messages: wsMessageOrders
   wsConnected: boolean
 }
 
 export const initialState: TInitState = {
-  messages: {} as TMessages,
+  messages: {} as wsMessageOrders,
   wsConnected: false,
 }
 

@@ -1,13 +1,13 @@
 import React from 'react'
 import { CurrencyIcon, FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components'
-import { TOrder } from '../../services/reducers/socket/orders/types'
 import useIngredients from '../../hook/useIngredients'
 
 import styles from './OrderElement.module.css'
 import { statusOrder } from '../../utils/constants'
+import { IOrder } from '../../models'
 
 type TProps = {
-  order: TOrder
+  order: IOrder
   isStatus: boolean
 }
 

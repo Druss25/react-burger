@@ -1,10 +1,11 @@
+import { mockDataOrders } from '../orders/data'
 import {
   WS_AUTH_CONNECTION_CLOSED,
   WS_AUTH_CONNECTION_ERROR,
   WS_AUTH_CONNECTION_SUCCESS,
   WS_AUTH_GET_MESSAGE,
 } from './wsActionsTypes'
-import { initialState, TMessages, wsHistoryReducer } from './wsReducer'
+import { initialState, wsHistoryReducer } from './wsReducer'
 
 describe('testing Redux wsHistoryReducer', () => {
   it('should return the initial state', () => {
@@ -42,7 +43,7 @@ describe('testing Redux wsHistoryReducer', () => {
   })
 
   it('should return the action WS_AUTH_GET_MESSAGE', () => {
-    const mockData: TMessages = { orders: [], total: 0, totalToday: 0 }
+    const mockData = mockDataOrders
 
     const action = {
       type: WS_AUTH_GET_MESSAGE,

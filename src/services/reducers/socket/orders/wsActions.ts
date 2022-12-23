@@ -1,3 +1,4 @@
+import { wsMessageOrders } from '../../../../models'
 import {
   WS_CONNECTION_SUCCESS,
   WS_CONNECTION_ERROR,
@@ -25,7 +26,7 @@ export const wsConnectionClosed = () => {
   }
 }
 
-export const wsGetMessage = (message: any) => {
+export const wsGetMessage = (message: wsMessageOrders) => {
   return {
     type: WS_GET_MESSAGE,
     payload: message,

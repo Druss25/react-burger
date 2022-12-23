@@ -1,11 +1,11 @@
 import React from 'react'
 import { useAppSelector } from '../../hook/redux-hook'
+import { IOrder } from '../../models'
 import {
   getOrdersSelector,
   getTotalOrders,
   getTotalTodayOrders,
 } from '../../services/reducers/socket/orders/wsSelectors'
-import { TOrder } from '../../services/reducers/socket/orders/types'
 import Spinner from '../Spinner/Spinner'
 
 import styles from './OrderStatistic.module.css'
@@ -16,12 +16,12 @@ const OrderStatistic: React.FC = () => {
   const totalToday = useAppSelector(getTotalTodayOrders)
 
   // eslint-disable-next-line array-callback-return
-  const doneNumberOrders = orders.map((item: TOrder) => {
+  const doneNumberOrders = orders.map((item: IOrder) => {
     if (item.status === 'done') return item.number
   })
 
   // eslint-disable-next-line array-callback-return
-  const workNumberOrders = orders.map((item: TOrder) => {
+  const workNumberOrders = orders.map((item: IOrder) => {
     if (item.status !== 'done') return item.number
   })
 
