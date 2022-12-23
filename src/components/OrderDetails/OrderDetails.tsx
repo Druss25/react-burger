@@ -3,10 +3,10 @@ import { useParams } from 'react-router-dom'
 import { CurrencyIcon, FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components'
 import useIngredients from '../../hook/useIngredients'
 import { statusOrder } from '../../utils/constants'
+import { IOrder } from '../../models'
 import Spinner from '../Spinner/Spinner'
 
 import styles from './OrderDetails.module.css'
-import { IOrder } from '../../models'
 
 interface TParams {
   id: string

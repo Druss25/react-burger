@@ -1,5 +1,6 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
+import { useDrop } from 'react-dnd'
 import {
   Button,
   ConstructorElement,
@@ -8,7 +9,6 @@ import {
 import useModalControls from '../../hook/useModalControls'
 import Modal from '../Modal/Modal'
 import OrderDetails from '../Order/Order'
-import { useDrop } from 'react-dnd'
 import { useAppDispatch, useAppSelector } from '../../hook/redux-hook'
 import { addToBurger, BurgerActionTypes } from '../../services/reducers/burger/actions'
 import { getBurgerItems, totalBurgerPrice } from '../../services/reducers/burger/selectors'
@@ -18,9 +18,9 @@ import { getOrder, OrderActionTypes } from '../../services/reducers/order/action
 import { TargetDropType } from '../../utils/constants'
 import { authSelector, isLoadingSelector } from '../../services/reducers/auth/selectors'
 import { IIngredients } from '../../models'
+import Spinner from '../Spinner/Spinner'
 
 import styles from './BurgerConstructor.module.css'
-import Spinner from '../Spinner/Spinner'
 
 const BurgerConstructor: React.FC = () => {
   const dispatch = useAppDispatch()
@@ -150,11 +150,9 @@ const BurgerConstructor: React.FC = () => {
         </div>
       </section>
 
-      {/* {modalControls.modalProps.isOpen && ( */}
       <Modal {...modalControls.modalProps}>
         <OrderDetails />
       </Modal>
-      {/* )} */}
     </>
   )
 }

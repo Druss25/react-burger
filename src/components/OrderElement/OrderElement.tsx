@@ -1,14 +1,14 @@
 import React from 'react'
 import { CurrencyIcon, FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components'
 import useIngredients from '../../hook/useIngredients'
+import { IOrder } from '../../models'
+import { statusOrder } from '../../utils/constants'
 
 import styles from './OrderElement.module.css'
-import { statusOrder } from '../../utils/constants'
-import { IOrder } from '../../models'
 
 type TProps = {
-  order: IOrder
-  isStatus: boolean
+  order: Readonly<IOrder>
+  isStatus: Readonly<boolean>
 }
 
 const OrderElement: React.FC<TProps> = ({ order, isStatus }) => {

@@ -2,9 +2,9 @@ import React from 'react'
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import { TargetDropType } from '../../utils/constants'
 import { useDrag } from 'react-dnd'
+import { IIngredients } from '../../models'
 
 import styles from './IngredientElement.module.css'
-import { IIngredients } from '../../models'
 
 type TProps = {
   ingredient: Readonly<IIngredients>

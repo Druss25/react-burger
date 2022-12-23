@@ -1,5 +1,4 @@
 import { numberOrderSelector } from '../../services/reducers/order/selectors'
-
 import ImageOrderAcceptSVG from '../../images/graphics.svg'
 import { useAppSelector } from '../../hook/redux-hook'
 

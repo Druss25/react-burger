@@ -1,12 +1,6 @@
 import { burgerReducer, initialState } from './reducer'
 import { addToBurger, BurgerAction, BurgerActionTypes } from './actions'
-import {
-  dataBun,
-  dataIngredient,
-  resultDeleteState,
-  resultState,
-  testState,
-} from './test-data'
+import { dataBun, dataIngredient, resultDeleteState, resultState, testState } from './test-data'
 
 describe('testing Redux burgerReducer', () => {
   it('should return the initial state', () => {

@@ -1,22 +1,19 @@
 import React from 'react'
 import { useInView } from 'react-intersection-observer'
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
-import { IIngredients } from '../../models'
+import { useAppSelector } from '../../hook/redux-hook'
 import useModalControls from '../../hook/useModalControls'
 import { getBun, getMain, getSauce } from '../../services/reducers/ingredients/selectors'
 import BurgerIngredientsCategory from '../BurgerIngredientsCategory/BurgerIngredientsCategory'
 import { TabOptions } from '../../utils/constants'
-import { ModalActionTypes } from '../../services/reducers/ingredient-modal/actions'
 import Spinner from '../Spinner/Spinner'
 
 import styles from './BurgerIngredients.module.css'
-import { useAppDispatch, useAppSelector } from '../../hook/redux-hook'
 
 const titleModal = 'Детали ингредиента'
 
 const BurgerIngredients: React.FC = () => {
   const [currentTab, setCurrentTab] = React.useState(TabOptions.type.BUN)
-  const dispatch = useAppDispatch()
   const buns = useAppSelector(getBun)
   const sauces = useAppSelector(getSauce)
   const mains = useAppSelector(getMain)
@@ -41,15 +38,7 @@ const BurgerIngredients: React.FC = () => {
     if (selectTab) selectTab.scrollIntoView({ behavior: 'smooth' })
   }
 
-  // eslint-disable-next-line
-  // const closeIngredientModal = () => {
-  //   dispatch({ type: ModalActionTypes.MODAL_RESET })
-  // }
-
-  const onIngredientClick = (ingredient: IIngredients) => {
-    dispatch({ type: ModalActionTypes.MODAL_SET, payload: { data: ingredient, isOpen: true } })
-    modalControls.open()
-  }
+  const onIngredientClick = () => modalControls.open()
 
   if (!buns || !sauces || !mains) return <Spinner />
 

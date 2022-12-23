@@ -1,4 +1,5 @@
 import ProfileNavigate from '../../ProfileMenu/ProfileMenu'
+
 import styles from './LayoutProfile.module.css'
 
 const LayoutProfile: React.FC<React.PropsWithChildren> = ({ children }) => {
