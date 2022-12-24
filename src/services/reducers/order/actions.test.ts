@@ -100,11 +100,11 @@ describe('actions getOrder', () => {
   })
 
   it('should dispatch getIngredients failed', async () => {
-    fetchMock.mockReject(() => Promise.reject())
+    fetchMock.mockResponseOnce(JSON.stringify({ success: false }))
 
     const expectedActions = [
       { type: OrderActionTypes.ORDER_REQUEST },
-      { type: OrderActionTypes.ORDER_ERROR },
+      { type: OrderActionTypes.ORDER_ERROR, payload: 'Что-то пошло не так' },
     ]
 
     return await store.dispatch(getOrder(ingredients)).then(() => {

@@ -8,8 +8,8 @@ export const removeTokens = () => {
   localStorage.removeItem('refreshToken')
 }
 
-export const accessToken = localStorage.getItem('accessToken')
-export const refreshToken = localStorage.getItem('refreshToken')
+export const accessToken = localStorage.getItem('accessToken') as string
+export const refreshToken = localStorage.getItem('refreshToken') as string
 
-export const checkAccessToken = !!accessToken
-export const checkRefreshToken = !!refreshToken
+export const checkAccessToken = !!accessToken as boolean
+export const checkRefreshToken = !!refreshToken as boolean

@@ -5,6 +5,7 @@ export const initialState: IngredientsState = {
   data: [],
   isLoading: false,
   hasError: false,
+  message: null,
 }
 
 export const ingredientsReducer = (
@@ -15,9 +16,9 @@ export const ingredientsReducer = (
     case IngredientsActionTypes.GET_INGREDIENTS_REQUEST:
       return { ...state, isLoading: true }
     case IngredientsActionTypes.GET_INGREDIENTS_SUCCESS:
-      return { ...state, data: action.payload, isLoading: false }
+      return { ...state, data: action.payload.data, isLoading: false }
     case IngredientsActionTypes.GET_INGREDIENTS_ERROR:
-      return { ...state, isLoading: false, hasError: true }
+      return { ...state, isLoading: false, hasError: true, message: action.payload }
     default:
       return state
   }

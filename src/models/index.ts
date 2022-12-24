@@ -15,6 +15,10 @@ export interface IIngredients {
   __v: number
   id?: string
 }
+export interface IResponseIngredients {
+  success: boolean
+  data: IIngredients[]
+}
 
 export interface IResponseOrder {
   success: boolean
@@ -56,6 +60,7 @@ export interface IngredientsState {
   data: IIngredients[]
   isLoading: boolean
   hasError: boolean
+  message?: string | null
 }
 
 export interface BurgerState {

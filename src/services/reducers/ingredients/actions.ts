@@ -16,18 +16,19 @@ interface getIngredientsAction {
 
 interface getIngredientsSuccess {
   type: IngredientsActionTypes.GET_INGREDIENTS_SUCCESS
-  payload: IIngredients[]
+  payload: IResponseGetIngredient
 }
 
 interface getIngredientsError {
   type: IngredientsActionTypes.GET_INGREDIENTS_ERROR
+  payload: string
 }
 
 export type IngredientsAction = getIngredientsAction | getIngredientsSuccess | getIngredientsError
 
 interface IResponseGetIngredient {
-  data: [data: IIngredients]
-  success: boolean
+  data: IIngredients[]
+  success?: boolean
 }
 
 export const getIngredients = () => async (dispatch: Dispatch<IngredientsAction>) => {
@@ -49,13 +50,16 @@ export const getIngredients = () => async (dispatch: Dispatch<IngredientsAction>
       if (res.success) {
         dispatch({
           type: IngredientsActionTypes.GET_INGREDIENTS_SUCCESS,
-          payload: res.data,
+          payload: res,
         })
+      } else {
+        throw Error('Что-то пошло не так')
       }
     })
-    .catch(error => {
+    .catch((error: Error) => {
       dispatch({
         type: IngredientsActionTypes.GET_INGREDIENTS_ERROR,
+        payload: error.message,
       })
     })
 }

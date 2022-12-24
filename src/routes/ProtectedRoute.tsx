@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from '../hook/redux-hook'
 import { authSelector } from '../services/reducers/auth/selectors'
 import { getUser } from '../services/reducers/auth/actions'
 import Spinner from '../components/Spinner/Spinner'
+import { checkRefreshToken } from '../utils/api'
 
 type ProtectRouteTypes = RouteProps & { children?: React.ReactNode }
 
@@ -12,11 +13,12 @@ const ProtectedRoute: React.FC<ProtectRouteTypes> = ({ children, ...rest }) => {
   const { isAuth, isLoading } = useAppSelector(authSelector)
 
   const checkAuth = React.useCallback(() => {
-    if (localStorage.getItem('refreshToken')) dispatch(getUser())
+    if (checkRefreshToken) dispatch(getUser())
   }, [dispatch])
 
   React.useEffect(() => {
     checkAuth()
+    // eslint-disable-next-line
   }, [checkAuth])
 
   if (isLoading) {

@@ -53,12 +53,14 @@ export const getOrder = (ingredients: string[]) => async (dispatch: Dispatch<Ord
           type: OrderActionTypes.ORDER_SUCCESS,
           payload: res,
         })
+      } else {
+        throw Error('Что-то пошло не так')
       }
     })
-    .catch(error => {
+    .catch((error: Error) => {
       dispatch({
         type: OrderActionTypes.ORDER_ERROR,
-        payload: error,
+        payload: error.message,
       })
     })
 }

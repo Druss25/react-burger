@@ -12,6 +12,10 @@ type DispatchExts = ThunkDispatch<IngredientsState, void, IngredientsAction>
 const mockStore = configureStore<IngredientsState, DispatchExts>([thunk])
 const store = mockStore(initialState)
 
+const badData = {
+  success: false,
+}
+
 describe('actions getIngredients', () => {
   beforeEach(() => {
     fetchMock.resetMocks()
@@ -26,21 +30,24 @@ describe('actions getIngredients', () => {
 
     const expectedActions = [
       { type: IngredientsActionTypes.GET_INGREDIENTS_REQUEST },
-      { type: IngredientsActionTypes.GET_INGREDIENTS_SUCCESS, payload: dataFake.data },
+      { type: IngredientsActionTypes.GET_INGREDIENTS_SUCCESS, payload: dataFake },
     ]
 
-    return await store.dispatch(getIngredients()).then(() => {
+    await store.dispatch(getIngredients()).then(() => {
       expect(store.getActions()).toEqual(expectedActions)
-      expect(dataFake.success).toEqual(true)
     })
+    expect(fetchMock).toHaveBeenCalledTimes(1)
+    const action = store.getActions()
+    expect(action[1].payload.success).toBe(true)
   })
 
   it('should dispatch getIngredients failed', async () => {
-    fetchMock.mockReject(() => Promise.reject('Server is down'))
+    fetchMock.mockResponseOnce(JSON.stringify(badData))
+    // fetchMock.mockReject(() => Promise.reject('Что-то пошло не так'))
 
     const expectedActions = [
       { type: IngredientsActionTypes.GET_INGREDIENTS_REQUEST },
-      { type: IngredientsActionTypes.GET_INGREDIENTS_ERROR },
+      { type: IngredientsActionTypes.GET_INGREDIENTS_ERROR, payload: 'Что-то пошло не так' },
     ]
 
     return await store.dispatch(getIngredients()).then(() => {

@@ -7,21 +7,23 @@ describe('testing ingredientsReducer', () => {
     expect(ingredientsReducer(undefined, {} as IngredientsAction)).toEqual(initialState)
   })
 
-  it('should return the action AUTH_USER_REQUEST', () => {
+  it('should return the action GET_INGREDIENTS_REQUEST', () => {
     const action: IngredientsAction = {
       type: IngredientsActionTypes.GET_INGREDIENTS_REQUEST,
     }
+
     expect(ingredientsReducer(initialState, action)).toEqual({
       ...initialState,
       isLoading: true,
     })
   })
 
-  it('should return the action AUTH_USER_SUCCESS', () => {
+  it('should return the action GET_INGREDIENTS_SUCCESS', () => {
     const action: IngredientsAction = {
       type: IngredientsActionTypes.GET_INGREDIENTS_SUCCESS,
-      payload: dataFake.data,
+      payload: dataFake,
     }
+
     expect(ingredientsReducer(initialState, action)).toEqual({
       ...initialState,
       data: dataFake.data,
@@ -29,14 +31,17 @@ describe('testing ingredientsReducer', () => {
     })
   })
 
-  it('should return the action AUTH_USER_ERROR', () => {
+  it('should return the action GET_INGREDIENTS_ERROR', () => {
     const action: IngredientsAction = {
       type: IngredientsActionTypes.GET_INGREDIENTS_ERROR,
+      payload: 'Что-то пошло не так',
     }
+
     expect(ingredientsReducer(initialState, action)).toEqual({
       ...initialState,
       isLoading: false,
       hasError: true,
+      message: 'Что-то пошло не так',
     })
   })
 })

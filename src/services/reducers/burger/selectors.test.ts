@@ -40,6 +40,7 @@ describe('testing Redux burgerReducer selectors', () => {
 
   it('should return getIngredientsCounters', () => {
     const result = getIngredientsCounters({ burger } as RootStore)
+
     expect(result).toEqual({
       '60d3b41abdacab0026a733c6': 2,
       '60d3b41abdacab0026a733c9': 1,
