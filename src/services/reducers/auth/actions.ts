@@ -11,7 +11,7 @@ import {
   IResponseUser,
   IUser,
 } from '../../../models/auth'
-import { removeTokens, saveTokens, accessToken, refreshToken } from '../../../utils/api'
+import { removeTokens, saveTokens } from '../../../utils/api'
 import * as fetch from '../../../utils/fetch'
 
 export const name = 'auth'
@@ -161,7 +161,7 @@ export const logout = () => async (dispatch: Dispatch<AuthAction>) => {
       },
       redirect: 'follow',
       referrerPolicy: 'no-referrer',
-      body: JSON.stringify({ token: String(refreshToken) }),
+      body: JSON.stringify({ token: String(localStorage.getItem('refreshToken')) }),
     })
     .then(data => {
       if (data.success) {
@@ -177,7 +177,7 @@ export const logout = () => async (dispatch: Dispatch<AuthAction>) => {
 }
 
 // *
-const postNewTokens = async () => {
+export const postNewTokens = async () => {
   return await fetch
     .post<IResponseToken>('/auth/token', {
       mode: 'cors',
@@ -188,12 +188,14 @@ const postNewTokens = async () => {
       },
       redirect: 'follow',
       referrerPolicy: 'no-referrer',
-      body: JSON.stringify({ token: String(refreshToken) }),
+      body: JSON.stringify({ token: String(localStorage.getItem('refreshToken')) }),
     })
     .then(data => {
       if (data.success) {
         saveTokens(data.accessToken, data.refreshToken)
-        return getUser()
+        return data.accessToken
+      } else {
+        throw Error('Что-то пошло не так')
       }
     })
     .catch((error: Error) => console.log(`Ошибка: ${error.message}`))
@@ -202,14 +204,14 @@ const postNewTokens = async () => {
 // *
 export const getUser = () => async (dispatch: Dispatch<AuthAction>) => {
   dispatch({ type: AuthActionTypes.AUTH_USER_REQUEST })
-  return await fetch
+  let request = await fetch
     .get<IResponseUser>('/auth/user', {
       mode: 'cors',
       cache: 'no-cache',
       credentials: 'same-origin',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: String(accessToken),
+        Authorization: String(localStorage.getItem('accessToken')),
       },
       redirect: 'follow',
       referrerPolicy: 'no-referrer',
@@ -221,13 +223,39 @@ export const getUser = () => async (dispatch: Dispatch<AuthAction>) => {
           payload: data.user,
         })
       } else {
-        throw Error('401')
+        throw Error('Что-то пошло не так')
       }
     })
-    .catch((error: Error) => {
-      if (error.message === '403') postNewTokens()
-      console.log(`Ошибка в getUser: ${error.message}`)
-    })
+    .catch((error: Error) => console.log(error.message))
+
+  if (request !== undefined) {
+    if (!!localStorage.getItem('refreshToken')) {
+      const token = await postNewTokens()
+      await fetch
+        .get<IResponseUser>('/auth/user', {
+          mode: 'cors',
+          cache: 'no-cache',
+          credentials: 'same-origin',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: String(token),
+          },
+          redirect: 'follow',
+          referrerPolicy: 'no-referrer',
+        })
+        .then(data => {
+          if (data.success) {
+            dispatch({
+              type: AuthActionTypes.AUTH_GET_USER,
+              payload: data.user,
+            })
+          }
+          request = undefined
+          return data
+        })
+        .catch(err => err)
+    }
+  } else return
 }
 
 // *
@@ -240,7 +268,7 @@ export const updateUser = (form: IRequestRegister) => async (dispatch: Dispatch<
       credentials: 'same-origin',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: String(accessToken),
+        Authorization: String(localStorage.getItem('accessToken')),
       },
       redirect: 'follow',
       referrerPolicy: 'no-referrer',

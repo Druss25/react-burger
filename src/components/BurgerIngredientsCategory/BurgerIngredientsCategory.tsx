@@ -38,6 +38,7 @@ const BurgerIngredientsCategory = React.forwardRef(
               }}
             >
               <IngredientElement
+                id={ingredient._id}
                 ingredient={ingredient}
                 onClick={onIngredientClick}
                 counter={counters ? counters[ingredient._id] : 0}

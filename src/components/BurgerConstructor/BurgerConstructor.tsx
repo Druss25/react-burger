@@ -68,7 +68,7 @@ const BurgerConstructor: React.FC = () => {
 
   return (
     <>
-      <section className={`${styles.wrapper} constructor-element__row mt-25`} ref={drop}>
+      <section className={`${styles.wrapper} constructor-element__row mt-25`} ref={drop} id="drop">
         {burgerItems.bun ? (
           <div className="mb-4">
             <ConstructorElement

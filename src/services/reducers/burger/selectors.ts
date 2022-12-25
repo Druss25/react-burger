@@ -29,6 +29,6 @@ export const getIngredientsCounters = createSelector(getBurgerItems, ({ bun, ing
     counters[ingredient._id]++
   })
 
-  if (bun) counters[bun._id] = 2 
+  if (bun) counters[bun._id] = 2
   return counters
 })

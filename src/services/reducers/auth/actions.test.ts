@@ -7,8 +7,10 @@ import {
   AuthAction,
   AuthActionTypes,
   forgotPassword,
+  getUser,
   login,
   logout,
+  postNewTokens,
   register,
   resetPassword,
   updateUser,
@@ -218,6 +220,59 @@ describe('actions Auth', () => {
       fetchMock.mockResponseOnce(JSON.stringify({ success: false }))
 
       return await store.dispatch(forgotPassword(fakeData)).then(() => {
+        expect(store.getActions()).toEqual(expectedActions)
+      })
+    })
+  })
+
+  describe('testing postNewTokens', () => {
+    it('should dispatch postNewTokens success', async () => {
+      const fakeData = { success: true, accessToken: '', refreshToken: '' }
+      const accessToken = responseData.accessToken
+      const refreshToken = responseData.refreshToken
+      const savedTokens = jest.fn((accessToken: string, refreshToken: string) =>
+        saveTokens(accessToken, refreshToken),
+      )
+
+      fetchMock.mockResponseOnce(JSON.stringify(fakeData))
+
+      await postNewTokens().then(() => {
+        savedTokens(accessToken, refreshToken)
+      })
+    })
+
+    it('should dispatch postNewTokens failed', async () => {
+      fetchMock.mockResponseOnce(
+        JSON.stringify({ success: false, accessToken: '', refreshToken: '' }),
+      )
+
+      expect(await postNewTokens()).toBeUndefined()
+    })
+  })
+
+  describe('testing getUser', () => {
+    it('should dispatch getUser success', async () => {
+      const request = { success: true, user: { email: '', name: '' } }
+      const response = { email: '', name: '' }
+      const expectedActions = [
+        { type: AuthActionTypes.AUTH_USER_REQUEST },
+        { type: AuthActionTypes.AUTH_GET_USER, payload: response },
+      ]
+
+      fetchMock.mockResponseOnce(JSON.stringify(request))
+
+      return await store.dispatch(getUser()).then(() => {
+        expect(store.getActions()).toEqual(expectedActions)
+      })
+    })
+
+    it('should dispatch getUser failed', async () => {
+      const request = { success: false, user: { email: '', name: '' } }
+      const expectedActions = [{ type: AuthActionTypes.AUTH_USER_REQUEST }]
+
+      fetchMock.mockResponseOnce(JSON.stringify(request))
+
+      await store.dispatch(getUser()).then(() => {
         expect(store.getActions()).toEqual(expectedActions)
       })
     })

@@ -10,7 +10,9 @@ const OrderDetails: React.FC = () => {
       {numberOrder === undefined ? (
         <p className="text text_type_main-large mt-4 mb-8">Идет обработка...</p>
       ) : (
-        <p className="text text_type_digits-large mt-4 mb-8">{numberOrder}</p>
+        <p className="text text_type_digits-large mt-4 mb-8" id="order_id">
+          {numberOrder}
+        </p>
       )}
       <p className="text text_type_main-medium">идентификатор заказа</p>
       <img

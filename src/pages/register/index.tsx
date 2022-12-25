@@ -10,7 +10,6 @@ import {
 import useForm from '../../hook/useForm'
 import { register } from '../../services/reducers/auth/actions'
 import { authSelector } from '../../services/reducers/auth/selectors'
-import { checkRefreshToken } from '../../utils/api'
 
 import styles from '../form.module.css'
 
@@ -42,7 +41,7 @@ const RegisterPage = () => {
     return null
   }
 
-  if (isAuth || checkRefreshToken) {
+  if (isAuth || localStorage.getItem('refreshToken')) {
     return <Redirect to={'/'} />
   }
 

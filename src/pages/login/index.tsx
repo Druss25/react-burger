@@ -9,7 +9,6 @@ import {
 import { login } from '../../services/reducers/auth/actions'
 import { authSelector } from '../../services/reducers/auth/selectors'
 import Spinner from '../../components/Spinner/Spinner'
-import { checkRefreshToken } from '../../utils/api'
 import useForm from '../../hook/useForm'
 
 import styles from '../form.module.css'
@@ -45,7 +44,7 @@ const LoginPage: React.FC = () => {
     [dispatch, values],
   )
 
-  if (isAuth || (checkRefreshToken && !hasError)) {
+  if (isAuth || (localStorage.getItem('refreshToken') && !hasError)) {
     return <Redirect exact to={state?.from || { from: { pathname: '/' } }} />
   }
 
