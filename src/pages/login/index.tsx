@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link, useLocation, Redirect } from 'react-router-dom'
-import { useAppDispatch, useAppSelector } from '../../services/store'
+import { useAppDispatch, useAppSelector } from '../../hook/redux-hook'
 import {
   Button,
   EmailInput,
@@ -9,7 +9,6 @@ import {
 import { login } from '../../services/reducers/auth/actions'
 import { authSelector } from '../../services/reducers/auth/selectors'
 import Spinner from '../../components/Spinner/Spinner'
-import { checkRefreshToken } from '../../utils/api'
 import useForm from '../../hook/useForm'
 
 import styles from '../form.module.css'
@@ -31,8 +30,8 @@ const InitForm: LoginForm = {
 }
 
 const LoginPage: React.FC = () => {
-  const { isAuth, isLoading, hasError } = useAppSelector(authSelector)
   const dispatch = useAppDispatch()
+  const { isAuth, isLoading, hasError } = useAppSelector(authSelector)
   const location = useLocation<LocationState>()
   const { state } = location
   const { values, handleChange } = useForm(InitForm)
@@ -45,7 +44,7 @@ const LoginPage: React.FC = () => {
     [dispatch, values],
   )
 
-  if (isAuth || (checkRefreshToken && !hasError)) {
+  if (isAuth || (localStorage.getItem('refreshToken') && !hasError)) {
     return <Redirect exact to={state?.from || { from: { pathname: '/' } }} />
   }
 

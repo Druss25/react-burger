@@ -2,12 +2,12 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import HistoryList from '../../components/HistoryList/HistoryList'
 import Spinner from '../../components/Spinner/Spinner'
+import { useAppSelector } from '../../hook/redux-hook'
 import {
   WS_AUTH_CONNECTION_START,
   WS_AUTH_CONNECTION_STOP,
 } from '../../services/reducers/socket/history/wsActionsTypes'
 import { getOrdersSelector, isConnected } from '../../services/reducers/socket/history/wsSelectors'
-import { useAppSelector } from '../../services/store'
 
 import styles from './order-history.module.css'
 

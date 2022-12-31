@@ -1,14 +1,4 @@
-import { typeProducts } from "./constants"
-
-// При вызове getProducts получаем ['bun', 'saunce', 'main']
-export const getProducts = () => {
-	let arr = []
-	for (const name in typeProducts) {
-		arr.push(name)
-	}
-	arr.pop(arr.length - 1)
-	return arr
-}
+// import { typeProducts } from "./constants"
 
 export const dataFake = {
 	"success": true,

@@ -56,7 +56,7 @@ const Modal: React.FC<React.PropsWithChildren<IModalProps>> = ({
                   }
                 >
                   {titleModal}
-                  <div className={styles.modal__close} onClick={handleCloseModal}>
+                  <div className={styles.modal__close} onClick={handleCloseModal} id="close_btn">
                     <CloseIcon type="primary" />
                   </div>
                 </div>

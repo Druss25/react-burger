@@ -1,10 +1,9 @@
 import React from 'react'
 import { Link, Redirect, useLocation } from 'react-router-dom'
-import { useAppSelector, useAppDispatch } from '../../services/store'
+import { useAppDispatch, useAppSelector } from '../../hook/redux-hook'
 import { Button, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components'
 import { authSelector } from '../../services/reducers/auth/selectors'
 import useForm from '../../hook/useForm'
-import { checkRefreshToken } from '../../utils/api'
 import { forgotPassword } from '../../services/reducers/auth/actions'
 import Spinner from '../../components/Spinner/Spinner'
 
@@ -27,9 +26,9 @@ const InitForm = {
 }
 
 const ResetPasswordPage: React.FC = () => {
+  const dispatch = useAppDispatch()
   const { isAuth, isReset, isLoading } = useAppSelector(authSelector)
   const location = useLocation<LocationState>()
-  const dispatch = useAppDispatch()
 
   const checkPath = location.state?.from?.pathname
   const { values, handleChange } = useForm(InitForm)
@@ -45,7 +44,7 @@ const ResetPasswordPage: React.FC = () => {
   if (isLoading) return <Spinner />
 
   if (checkPath === undefined || !isReset) return <Redirect to="/" />
-  if (isAuth || checkRefreshToken) return <Redirect to="/" />
+  if (isAuth || localStorage.getItem('refreshToken')) return <Redirect to="/" />
 
   return (
     <section className={styles.section_form_container}>

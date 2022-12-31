@@ -40,6 +40,7 @@ export const authSocketMiddleware = (wsUrl: string, wsActions: TwsAction) => {
           const { data } = event
           const parsedData = JSON.parse(data)
           const { success, ...restParsedData } = parsedData
+
           dispatch({ type: onMessage, payload: restParsedData })
         }
 

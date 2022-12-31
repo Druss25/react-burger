@@ -40,5 +40,14 @@
     "editor.defaultFormatter": "sibiraj-s.vscode-scss-formatter"
   },
   "git.autofetch": true,
-  "cSpell.words": ["ккалл", "nomoreparties"]
+  "cSpell.words": [
+    "ккалл",
+    "Краторная",
+    "Druss",
+    "middlewares",
+    "nomoreparties",
+    "predeploy",
+    "Protostomia",
+    "RSAA"
+  ]
 }

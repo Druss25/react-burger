@@ -2,6 +2,7 @@
   "name": "react-burger",
   "version": "0.1.0",
   "private": true,
+  "homepage": "./",
   "dependencies": {
     "@redux-devtools/extension": "^3.2.3",
     "@testing-library/jest-dom": "^5.16.5",
@@ -36,7 +37,11 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
+    "cypress:open": "./node_modules/.bin/cypress open",
+    "cypress": "npx cypress open"
   },
   "eslintConfig": {
     "extends": [
@@ -57,11 +62,28 @@
     ]
   },
   "devDependencies": {
+    "@4tw/cypress-drag-drop": "^2.2.3",
+    "@types/fetch-mock": "^7.3.5",
+    "@types/nock": "^11.1.0",
+    "@types/node-fetch": "^2.6.2",
     "@types/react-dnd-html5-backend": "^3.0.2",
     "@types/react-router-dom": "^5.3.3",
+    "@types/react-test-renderer": "^18.0.0",
+    "@types/redux-api-middleware": "^3.2.3",
+    "@types/redux-mock-store": "^1.0.3",
     "@types/uuid": "^8.3.4",
+    "cypress": "^12.2.0",
     "eslint": "^8.27.0",
-    "eslint-plugin-react-redux": "^4.0.0"
+    "eslint-plugin-cypress": "^2.12.1",
+    "eslint-plugin-react-redux": "^4.0.0",
+    "fetch-mock": "^9.11.0",
+    "gh-pages": "^4.0.0",
+    "jest-fetch-mock": "^3.0.3",
+    "nock": "^13.2.9",
+    "node-fetch": "^2.6.6",
+    "react-test-renderer": "^18.2.0",
+    "redux-api-middleware": "^3.2.1",
+    "redux-mock-store": "^1.5.4"
   },
   "rules": {
     "react-redux/connect-prefer-named-arguments": 2

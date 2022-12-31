@@ -40,7 +40,7 @@ export interface IRequestLogin {
 export interface IRequestRegister {
   email: string
   name: string
-  password: string | undefined
+  password?: string
 }
 
 export interface IRequestResetPassword {

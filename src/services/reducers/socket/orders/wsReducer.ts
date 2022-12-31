@@ -1,4 +1,4 @@
-import { TOrder } from '../../ws-orders-all/types'
+import { ISocketMessage, wsMessageOrders } from '../../../../models'
 import {
   WS_CONNECTION_SUCCESS,
   WS_CONNECTION_ERROR,
@@ -6,19 +6,8 @@ import {
   WS_GET_MESSAGE,
 } from './wsActionsTypes'
 
-type TMessages = {
-  orders: TOrder[]
-  total: number
-  totalToday: number
-}
-
-type TInitState = {
-  messages: TMessages
-  wsConnected: boolean
-}
-
-const initialState: TInitState = {
-  messages: {} as TMessages,
+export const initialState: ISocketMessage = {
+  messages: {} as wsMessageOrders,
   wsConnected: false,
 }
 

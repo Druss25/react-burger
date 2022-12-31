@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link, Redirect } from 'react-router-dom'
-import { useAppSelector, useAppDispatch } from '../../services/store'
+import { useAppDispatch, useAppSelector } from '../../hook/redux-hook'
 import {
   Button,
   EmailInput,
@@ -10,7 +10,6 @@ import {
 import useForm from '../../hook/useForm'
 import { register } from '../../services/reducers/auth/actions'
 import { authSelector } from '../../services/reducers/auth/selectors'
-import { checkRefreshToken } from '../../utils/api'
 
 import styles from '../form.module.css'
 
@@ -26,8 +25,8 @@ const InitForm: Register = {
 }
 
 const RegisterPage = () => {
-  const { isAuth, isLoading } = useAppSelector(authSelector)
   const dispatch = useAppDispatch()
+  const { isAuth, isLoading } = useAppSelector(authSelector)
   const { values, handleChange } = useForm(InitForm)
 
   const onSubmit = React.useCallback(
@@ -42,7 +41,7 @@ const RegisterPage = () => {
     return null
   }
 
-  if (isAuth || checkRefreshToken) {
+  if (isAuth || localStorage.getItem('refreshToken')) {
     return <Redirect to={'/'} />
   }
 

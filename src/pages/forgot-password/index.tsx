@@ -1,10 +1,9 @@
 import React from 'react'
 import { Link, Redirect, useLocation } from 'react-router-dom'
-import { useAppDispatch, useAppSelector } from '../../services/store'
+import { useAppDispatch, useAppSelector } from '../../hook/redux-hook'
 import { Button, EmailInput } from '@ya.praktikum/react-developer-burger-ui-components'
 import { authSelector } from '../../services/reducers/auth/selectors'
 import { resetPassword } from '../../services/reducers/auth/actions'
-import { checkRefreshToken } from '../../utils/api'
 import Spinner from '../../components/Spinner/Spinner'
 
 import styles from '../form.module.css'
@@ -19,8 +18,8 @@ const InitForm: TForgotPassword = {
 }
 
 const ForgotPasswordPage: React.FC = () => {
-  const { isAuth, isReset, isLoading } = useAppSelector(authSelector)
   const dispatch = useAppDispatch()
+  const { isAuth, isReset, isLoading } = useAppSelector(authSelector)
   const location = useLocation()
   const { values, handleChange } = useForm(InitForm)
 
@@ -36,7 +35,7 @@ const ForgotPasswordPage: React.FC = () => {
 
   if (isLoading) return <Spinner />
 
-  if (isAuth || checkRefreshToken) return <Redirect to="/" />
+  if (isAuth || localStorage.getItem('refreshToken')) return <Redirect to="/" />
 
   if (isReset)
     return (

@@ -1,6 +1,6 @@
 import React from 'react'
 import { useLocation, Link } from 'react-router-dom'
-import { useAppSelector } from '../../services/store'
+import { useAppSelector } from '../../hook/redux-hook'
 import { IIngredients } from '../../models'
 import { getIngredientsCounters } from '../../services/reducers/burger/selectors'
 import IngredientElement from '../IngredientElement/IngredientElement'
@@ -38,6 +38,7 @@ const BurgerIngredientsCategory = React.forwardRef(
               }}
             >
               <IngredientElement
+                id={ingredient._id}
                 ingredient={ingredient}
                 onClick={onIngredientClick}
                 counter={counters ? counters[ingredient._id] : 0}

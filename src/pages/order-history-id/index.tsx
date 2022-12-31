@@ -1,10 +1,10 @@
 import React from 'react'
 import OrderDetails from '../../components/OrderDetails/OrderDetails'
 import Spinner from '../../components/Spinner/Spinner'
+import { useAppDispatch, useAppSelector } from '../../hook/redux-hook'
 import { WS_AUTH_CONNECTION_START } from '../../services/reducers/socket/history/wsActionsTypes'
 import { getOrdersSelector } from '../../services/reducers/socket/history/wsSelectors'
 import { isConnected } from '../../services/reducers/socket/history/wsSelectors'
-import { useAppDispatch, useAppSelector } from '../../services/store'
 
 import styles from './order-history-id.module.css'
 

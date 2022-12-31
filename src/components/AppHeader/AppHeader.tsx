@@ -17,6 +17,7 @@ const AppHeader: React.FC = () => {
           <li>
             <NavLink
               exact
+              id="home"
               to="/"
               className={`${styles.menu_items} text text_type_main-default text_color_inactive`}
               activeClassName={styles.active}
@@ -31,6 +32,7 @@ const AppHeader: React.FC = () => {
               to="/feed"
               className={`${styles.menu_items} text text_type_main-default text_color_inactive`}
               activeClassName={styles.active}
+              id="feed"
             >
               <ListIcon type="secondary" />
               <p className="text text_type_main-default">Лента заказов</p>
@@ -41,6 +43,7 @@ const AppHeader: React.FC = () => {
           <Logo />
         </Link>
         <NavLink
+          id="profile"
           to="/profile"
           className={`${styles.profile} text text_type_main-default text_color_inactive`}
           activeClassName={styles.active}

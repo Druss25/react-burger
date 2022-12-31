@@ -2,17 +2,18 @@ import React from 'react'
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import { TargetDropType } from '../../utils/constants'
 import { useDrag } from 'react-dnd'
-
-import styles from './IngredientElement.module.css'
 import { IIngredients } from '../../models'
 
+import styles from './IngredientElement.module.css'
+
 type TProps = {
+  id: string
   ingredient: Readonly<IIngredients>
   counter: number
   onClick: (ingredient: IIngredients) => void
 }
 
-const IngredientElement: React.FC<TProps> = ({ ingredient, counter, onClick }) => {
+const IngredientElement: React.FC<TProps> = ({ id, ingredient, counter, onClick }) => {
   const { name, price, image } = ingredient
   const [{ opacity }, dragRef] = useDrag({
     type: TargetDropType.ADD_INGREDIENT,
@@ -22,16 +23,18 @@ const IngredientElement: React.FC<TProps> = ({ ingredient, counter, onClick }) =
     }),
   })
 
-  const handleClick = () => {
+  const handleClick = (e: Event) => {
+    e.preventDefault()
     onClick(ingredient)
   }
 
   return (
     <>
       <div
+        id={id}
         ref={dragRef}
         className={`${styles.wrapper} constructor-element__row`}
-        onClick={handleClick}
+        onClick={() => handleClick}
         style={{ opacity }}
       >
         <div className="constructor-element__row">

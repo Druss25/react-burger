@@ -49,16 +49,18 @@ export const getOrder = (ingredients: string[]) => async (dispatch: Dispatch<Ord
     })
     .then(res => {
       if (res.success) {
-        return dispatch({
+        dispatch({
           type: OrderActionTypes.ORDER_SUCCESS,
           payload: res,
         })
+      } else {
+        throw Error('Что-то пошло не так')
       }
     })
-    .catch(error => {
-      return dispatch({
+    .catch((error: Error) => {
+      dispatch({
         type: OrderActionTypes.ORDER_ERROR,
-        payload: error,
+        payload: error.message,
       })
     })
 }

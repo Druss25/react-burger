@@ -1,7 +1,6 @@
 import React from 'react'
 import { DropTargetMonitor, useDrag, useDrop, XYCoord } from 'react-dnd'
-import {} from 'dnd-core'
-import { useAppDispatch } from '../../services/store'
+import { useAppDispatch } from '../../hook/redux-hook'
 import { TargetDropType } from '../../utils/constants'
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import { BurgerActionTypes } from '../../services/reducers/burger/actions'
